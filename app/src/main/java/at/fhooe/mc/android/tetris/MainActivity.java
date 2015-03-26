@@ -60,6 +60,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         bar.hide();
 
         //some Changes!!!
+        //hahahaha Sven Sven Sven was here
 
         setContentView(R.layout.activity_main);
 
