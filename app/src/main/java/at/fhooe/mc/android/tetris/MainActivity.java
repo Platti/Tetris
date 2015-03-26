@@ -59,6 +59,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         ActionBar bar = getActionBar();
         bar.hide();
 
+        //some Changes!!!
+
         setContentView(R.layout.activity_main);
 
         mFrame = (FrameLayout) findViewById(R.id.frame);
