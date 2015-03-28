@@ -2,6 +2,7 @@ package at.fhooe.mc.android.tetris;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,7 +27,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     private SurfaceHolder mHolder;
     SurfaceView background;
     FrameLayout mFrame;
-    Timer timer = new Timer();
+    Timer timer;
     Pixel[][] pixels = new Pixel[20][10];
     boolean timerRunning = false;
     int tetrominoID;
@@ -58,11 +59,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         win.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ActionBar bar = getActionBar();
         bar.hide();
-
-        //some Changes!!!
-        //hahahaha Sven Sven Sven was here
-        //blablablab passwort?
-        //lkjasdf
 
         setContentView(R.layout.activity_main);
 
@@ -149,11 +145,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             }
             break;
         }
-
     }
 
     public void startGame() {
         initDisplay();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -161,7 +157,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 refreshDisplay();
                 moveDown();
             }
-        }, 1000, 500);
+        }, 1000, 100);
 
         newTetromino();
         timerRunning = true;
@@ -214,9 +210,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     }
                 }
             }
-            newTetromino();
+            clearFullLines();
+            if (newTetromino()) {
+                // game Over
+                gameOverTasks();
+            }
         }
     }
+
 
     private boolean moveLeftPossible() {
         for (int col = 0; col < pixels[0].length; col++) {
@@ -285,7 +286,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 }
             }
         }
-        return null;
+        return new int[]{Integer.MIN_VALUE, Integer.MIN_VALUE};
     }
 
     private void setTetromino(int[][] t, int color) {
@@ -295,10 +296,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     }
 
     /**
+     * Check if the new tetromino can be placed successfully. Has to be inside the surface and
+     * the pixels might not be used be other tetrominos.
+     *
      * @param t pixels of new tetromino
-     * @return 0...spin posible, 1...impossible (left), 2...impossible (right), 3...impossible
+     * @return 0...possible, 1...impossible (left), 2...impossible (right), 3...impossible
      */
-    private int spinPossible(int[][] t) {
+    private int checkIfPositionAvailable(int[][] t) {
         int code = 0;
         for (int i = 0; i < 4; i++) {
             if (code < 1 && t[i][1] < 0) code = 1;
@@ -336,7 +340,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] + 2;
                     newT[3][1] = pos[1] + 2;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_I);
                         spinned = 1;
@@ -364,7 +368,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 2;
                     newT[3][1] = pos[1] + 1;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_I);
                         spinned = 0;
@@ -395,7 +399,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 1;
                     newT[3][1] = pos[1] + 1;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_L);
                         spinned = 1;
@@ -421,7 +425,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 2;
                     newT[3][1] = pos[1];
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_L);
                         spinned = 2;
@@ -447,7 +451,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 2;
                     newT[3][1] = pos[1] + 1;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_L);
                         spinned = 3;
@@ -473,7 +477,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] + 1;
                     newT[3][1] = pos[1] + 2;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_L);
                         spinned = 0;
@@ -504,7 +508,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 1;
                     newT[3][1] = pos[1] + 2;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_J);
                         spinned = 1;
@@ -530,7 +534,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 1;
                     newT[3][1] = pos[1] + 2;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_J);
                         spinned = 2;
@@ -556,7 +560,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0];
                     newT[3][1] = pos[1] + 1;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_J);
                         spinned = 3;
@@ -582,7 +586,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 2;
                     newT[3][1] = pos[1] - 1;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_J);
                         spinned = 0;
@@ -611,7 +615,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[2] = oldT[2];
                     newT[3] = oldT[1];
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_S);
                         spinned = 1;
@@ -636,7 +640,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 1;
                     newT[3][1] = pos[1] + 1;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_S);
                         spinned = 0;
@@ -666,7 +670,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 2;
                     newT[3][1] = pos[1] + 1;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_Z);
                         spinned = 1;
@@ -691,7 +695,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 1;
                     newT[3][1] = pos[1] - 1;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_Z);
                         spinned = 0;
@@ -720,7 +724,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] + 1;
                     newT[3][1] = pos[1] + 1;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_T);
                         spinned = 1;
@@ -744,7 +748,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 1;
                     newT[3][1] = pos[1] - 1;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_T);
                         spinned = 2;
@@ -768,7 +772,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 2;
                     newT[3][1] = pos[1];
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_T);
                         spinned = 3;
@@ -792,7 +796,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][0] = pos[0] - 1;
                     newT[3][1] = pos[1] + 1;
 
-                    if (spinPossible(newT) == 0) {
+                    if (checkIfPositionAvailable(newT) == 0) {
                         setTetromino(oldT, Pixel.COLOR_CLEAR);
                         setTetromino(newT, COLOR_T);
                         spinned = 0;
@@ -819,63 +823,144 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         }
     }
 
-    public void newTetromino() {
+    private void clearFullLines() {
+        boolean fullLine;
+
+        for (int row = 0; row < pixels.length; row++) {
+            fullLine = true;
+            for (int col = 0; col < pixels[row].length; col++) {
+                if (!pixels[row][col].fixed) {
+                    fullLine = false;
+                }
+            }
+
+            if (fullLine) {
+                clearLineNumber(row);
+                // TODO count score
+            }
+        }
+
+    }
+
+    private void clearLineNumber(int row) {
+        // move down lines above
+        for (; row > 0; row--) {
+            for (int col = 0; col < pixels[row].length; col++) {
+                pixels[row][col].color = pixels[row - 1][col].color;
+                pixels[row][col].fixed = pixels[row - 1][col].fixed;
+            }
+        }
+        // clear line number 0
+        for (int col = 0; col < pixels[0].length; col++) {
+            pixels[0][col].color = Pixel.COLOR_CLEAR;
+        }
+
+    }
+
+    public boolean newTetromino() {
         tetrominoID = (int) (Math.random() * 7);
         spinned = 0;
-
-        // TODO schaun obs no passt
+        int[][] newT = new int[4][];
+        boolean gameOver = true;
 
         switch (tetrominoID) {
             case TETROMINO_O: {
-                pixels[0][4].color = COLOR_O;
-                pixels[0][5].color = COLOR_O;
-                pixels[1][4].color = COLOR_O;
-                pixels[1][5].color = COLOR_O;
+                newT[0] = new int[]{0, 4};
+                newT[1] = new int[]{0, 5};
+                newT[2] = new int[]{1, 4};
+                newT[3] = new int[]{1, 5};
+
+                if (checkIfPositionAvailable(newT) == 0) {
+                    setTetromino(newT, COLOR_O);
+                    gameOver = false;
+                }
             }
             break;
             case TETROMINO_I: {
-                pixels[0][3].color = COLOR_I;
-                pixels[0][4].color = COLOR_I;
-                pixels[0][5].color = COLOR_I;
-                pixels[0][6].color = COLOR_I;
+                newT[0] = new int[]{0, 3};
+                newT[1] = new int[]{0, 4};
+                newT[2] = new int[]{0, 5};
+                newT[3] = new int[]{0, 6};
+
+                if (checkIfPositionAvailable(newT) == 0) {
+                    setTetromino(newT, COLOR_I);
+                    gameOver = false;
+                }
             }
             break;
             case TETROMINO_L: {
-                pixels[0][4].color = COLOR_L;
-                pixels[1][4].color = COLOR_L;
-                pixels[2][4].color = COLOR_L;
-                pixels[2][5].color = COLOR_L;
+                newT[0] = new int[]{0, 4};
+                newT[1] = new int[]{1, 4};
+                newT[2] = new int[]{2, 4};
+                newT[3] = new int[]{2, 5};
+
+                if (checkIfPositionAvailable(newT) == 0) {
+                    setTetromino(newT, COLOR_L);
+                    gameOver = false;
+                }
             }
             break;
             case TETROMINO_J: {
-                pixels[0][5].color = COLOR_J;
-                pixels[1][5].color = COLOR_J;
-                pixels[2][5].color = COLOR_J;
-                pixels[2][4].color = COLOR_J;
+                newT[0] = new int[]{0, 5};
+                newT[1] = new int[]{1, 5};
+                newT[2] = new int[]{2, 5};
+                newT[3] = new int[]{2, 4};
+
+                if (checkIfPositionAvailable(newT) == 0) {
+                    setTetromino(newT, COLOR_J);
+                    gameOver = false;
+                }
             }
             break;
             case TETROMINO_S: {
-                pixels[1][4].color = COLOR_S;
-                pixels[1][5].color = COLOR_S;
-                pixels[0][5].color = COLOR_S;
-                pixels[0][6].color = COLOR_S;
+                newT[0] = new int[]{1, 4};
+                newT[1] = new int[]{1, 5};
+                newT[2] = new int[]{0, 5};
+                newT[3] = new int[]{0, 6};
+
+                if (checkIfPositionAvailable(newT) == 0) {
+                    setTetromino(newT, COLOR_S);
+                    gameOver = false;
+                }
             }
             break;
             case TETROMINO_Z: {
-                pixels[0][4].color = COLOR_Z;
-                pixels[0][5].color = COLOR_Z;
-                pixels[1][5].color = COLOR_Z;
-                pixels[1][6].color = COLOR_Z;
+                newT[0] = new int[]{0, 4};
+                newT[1] = new int[]{0, 5};
+                newT[2] = new int[]{1, 5};
+                newT[3] = new int[]{1, 6};
+
+                if (checkIfPositionAvailable(newT) == 0) {
+                    setTetromino(newT, COLOR_Z);
+                    gameOver = false;
+                }
             }
             break;
             case TETROMINO_T: {
-                pixels[1][4].color = COLOR_T;
-                pixels[1][5].color = COLOR_T;
-                pixels[1][6].color = COLOR_T;
-                pixels[0][5].color = COLOR_T;
+                newT[0] = new int[]{1, 4};
+                newT[1] = new int[]{1, 5};
+                newT[2] = new int[]{1, 6};
+                newT[3] = new int[]{0, 5};
+
+                if (checkIfPositionAvailable(newT) == 0) {
+                    setTetromino(newT, COLOR_T);
+                    gameOver = false;
+                }
             }
             break;
         }
 
+        return gameOver;
+
+    }
+
+    public void gameOverTasks() {
+        timer.cancel();
+        timerRunning = false;
+
+        // TODO save score in highscore table
+
+        DialogFragment dialog = new RestartDialog();
+        dialog.show(getFragmentManager(), "restart_dialog");
     }
 }
