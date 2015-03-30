@@ -9,7 +9,9 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -21,15 +23,17 @@ import android.widget.FrameLayout;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends Activity implements View.OnClickListener, SurfaceHolder.Callback {
+public class MainActivity extends Activity implements View.OnClickListener, SurfaceHolder.Callback, View.OnTouchListener {
 
     private static final String TAG = "Tetris";
+    GestureDetector mDetector;
     private SurfaceHolder mHolder;
     SurfaceView background;
     FrameLayout mFrame;
     Timer timer;
+    TimerTask timerTask;
     Pixel[][] pixels = new Pixel[20][10];
-    boolean timerRunning = false;
+    int timerRunning = 0;
     int tetrominoID;
     int spinned = 0;
 
@@ -69,6 +73,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         sh.addCallback(this);
 
         background.setOnClickListener(this);
+        background.setOnTouchListener(this);
 
         Button b = (Button) findViewById(R.id.button_left);
         b.setOnClickListener(this);
@@ -77,15 +82,59 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         b = (Button) findViewById(R.id.button_spin);
         b.setOnClickListener(this);
 
+        mDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) {return false;}
+
+            @Override
+            public void onShowPress(MotionEvent e) {}
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {return false;}
+
+            @Override
+            public void onLongPress(MotionEvent e) {}
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                Log.i(TAG, "FLIIIIIIIINGGGGGGG " );
+
+                timer.cancel();
+                timer.purge();
+
+                initTimerTask();
+
+                timer = new Timer();
+
+                timer.schedule(timerTask, 1000, 50);
+                timerRunning = 2;
+
+                return true;
+            }
+        });
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (timerRunning) {
+        if (timerRunning == 1 || timerRunning == 2) {
             timer.cancel();
-            timerRunning = false;
+            timerRunning = 0;
         }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        Log.i(TAG, "on touch event!!");
+
+        mDetector.onTouchEvent(event);
+        return true;
     }
 
     @Override
@@ -109,13 +158,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.background: {
-                if (!timerRunning) {
+                if (timerRunning == 0) {
                     startGame();
                 }
             }
             break;
             case R.id.button_left: {
-                if (timerRunning) {
+                if (timerRunning == 1) {
                     Log.i(TAG, "Move left...");
                     moveLeft();
                     refreshDisplay();
@@ -125,7 +174,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             }
             break;
             case R.id.button_right: {
-                if (timerRunning) {
+                if (timerRunning == 1) {
                     Log.i(TAG, "Move right...");
                     moveRight();
                     refreshDisplay();
@@ -135,7 +184,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             }
             break;
             case R.id.button_spin: {
-                if (timerRunning) {
+                if (timerRunning == 1) {
                     Log.i(TAG, "Spin Tetromino...");
                     spin();
                     refreshDisplay();
@@ -149,18 +198,33 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     public void startGame() {
         initDisplay();
+        initTimerTask();
         timer = new Timer();
-        timer.schedule(new TimerTask() {
+        timer.schedule(timerTask, 1000, 500);
+        timerRunning = 1;
+
+//                new TimerTask() {
+//            @Override
+//            public void run() {
+//                Log.i(TAG, "TimerTask started...");
+//                refreshDisplay();
+//                moveDown();
+//            }
+//        }, 1000, 500);
+
+        newTetromino();
+
+    }
+
+    public void initTimerTask() {
+        timerTask = new TimerTask() {
             @Override
             public void run() {
                 Log.i(TAG, "TimerTask started...");
                 refreshDisplay();
                 moveDown();
             }
-        }, 1000, 100);
-
-        newTetromino();
-        timerRunning = true;
+        };
     }
 
     public void initDisplay() {
@@ -863,6 +927,19 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         int[][] newT = new int[4][];
         boolean gameOver = true;
 
+        if (timerRunning == 2) {
+            timer.cancel();
+            timer.purge();
+
+            initTimerTask();
+
+            timer = new Timer();
+
+            timer.schedule(timerTask, 1000, 500);
+            timerRunning = 1;
+
+        }
+
         switch (tetrominoID) {
             case TETROMINO_O: {
                 newT[0] = new int[]{0, 4};
@@ -956,7 +1033,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     public void gameOverTasks() {
         timer.cancel();
-        timerRunning = false;
+        timerRunning = 0;
 
         // TODO save score in highscore table
 
