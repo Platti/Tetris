@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -48,6 +49,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     int numberOfLinesCleared = 0; //lines cleared overall
     int clearedLinesInARow = 0; //lines cleared at once
     Canvas canvasPre;
+    TextView textLevel;
+    TextView textLines;
+    TextView textScore;
 
     private static final int TETROMINO_O = 0;
     private static final int TETROMINO_I = 1;
@@ -110,6 +114,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         b.setOnClickListener(this);
         b = (Button) findViewById(R.id.button_spin);
         b.setOnClickListener(this);
+
+        textLevel = (TextView) findViewById(R.id.text_level);
+        textLines = (TextView) findViewById(R.id.text_lines);
+        textScore = (TextView) findViewById(R.id.text_score);
+
 
         mDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
             @Override
@@ -1083,7 +1092,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             for (int row = preview.length - 1; row >= 0; row--) {
                 for (int col = 0; col < preview[row].length; col++) {
                     p.setColor(preview[row][col].color);
-                    canvasPre.drawRoundRect(preview[row][col].rect, 8, 8, p);
+                    canvasPre.drawRoundRect(preview[row][col].rect, 4, 4, p);
                 }
             }
 //            previewSurface.draw(canvasPre);
@@ -1144,6 +1153,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
         Log.i(TAG, "score newTetromino: " + score);
         Log.i(TAG, "level: " + level);
+
+//        textLevel.setText("Level:\n" + level + "\n");
+//        textScore.setText("Score:\n" + score + "\n");
+//        textLines.setText("Lines:\n" + numberOfLinesCleared + "\n");
 
         switch (tetrominoID) {
             case TETROMINO_O: {
@@ -1233,6 +1246,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         }
 
         nextTetromino();
+//        textLevel.setText("Level:\n" + level + "\n");
         return gameOver;
     }
 

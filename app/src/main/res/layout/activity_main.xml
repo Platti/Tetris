@@ -51,39 +51,66 @@
 
         </FrameLayout>
 
-        <FrameLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/frame_preview">
+            android:layout_height="wrap_content"
+            android:id="@+id/linear_layout"
+            android:layout_gravity="top"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Level:"
+                android:id="@+id/text_level"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Lines:"
+                android:id="@+id/text_lines"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Score:"
+                android:id="@+id/text_score"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Next:"
+            android:id="@+id/text_next"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp" />
+
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:id="@+id/linear_layout">
+                android:id="@+id/frame_preview"
+                android:layout_gravity="center_horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Level"
-                android:id="@+id/text_level" />
+                <SurfaceView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/surface_next"
+                    android:focusable="false" />
+            </FrameLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Next:"
-                android:id="@+id/text_next" />
+        </LinearLayout>
 
-            <SurfaceView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/surface_next"
-                android:focusable="false" />
-
-    </LinearLayout>
-    </FrameLayout>
     </LinearLayout>
 
 </FrameLayout>
