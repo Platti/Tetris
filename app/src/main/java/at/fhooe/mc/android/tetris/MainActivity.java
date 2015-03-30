@@ -19,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,19 +29,25 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     private static final String TAG = "Tetris";
     GestureDetector mDetector;
     private SurfaceHolder mHolder;
+    private SurfaceHolder mHolder2;
     SurfaceView background;
+    SurfaceView previewSurface;
     FrameLayout mFrame;
+    FrameLayout mFramePreview;
     Timer timer;
     TimerTask timerTask;
     Pixel[][] pixels = new Pixel[20][10];
+    Pixel[][] preview = new Pixel[4][3];
     int timerRunning = 0;
     int tetrominoID;
+    int nextTetrominoID;
     int spinned = 0;
     int score = 0;
     int level = 0;
     int interScore = 0;
     int numberOfLinesCleared = 0; //lines cleared overall
     int clearedLinesInARow = 0; //lines cleared at once
+    Canvas canvasPre;
 
     private static final int TETROMINO_O = 0;
     private static final int TETROMINO_I = 1;
@@ -72,13 +79,30 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         setContentView(R.layout.activity_main);
 
         mFrame = (FrameLayout) findViewById(R.id.frame);
+        mFramePreview = (FrameLayout) findViewById(R.id.frame_preview);
         background = (SurfaceView) findViewById(R.id.background);
+        previewSurface = (SurfaceView) findViewById(R.id.surface_next);
 
         SurfaceHolder sh = background.getHolder();
         sh.addCallback(this);
 
         background.setOnClickListener(this);
         background.setOnTouchListener(this);
+
+        SurfaceHolder shPre = previewSurface.getHolder();
+        shPre.addCallback(new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {mHolder2 = holder;}
+
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mFramePreview.getWidth(), (int)((mFramePreview.getWidth()/3.0)*4));
+                mFramePreview.setLayoutParams(params);
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {mHolder2 = null;}
+        });
 
         Button b = (Button) findViewById(R.id.button_left);
         b.setOnClickListener(this);
@@ -173,8 +197,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(height / 2, height);
-        params.gravity = Gravity.CENTER;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(height / 2, height);
+        params.gravity = Gravity.LEFT;
         mFrame.setLayoutParams(params);
     }
 
@@ -233,7 +257,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         Log.i(TAG, "new Timer 1 (startGame)");
         timerRunning = 1;
 
-<<<<<<< HEAD
 //                new TimerTask() {
 //            @Override
 //            public void run() {
@@ -243,8 +266,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 //            }
 //        }, 1000, 500);
 //        nextTetromino();
-=======
->>>>>>> origin/master
+        nextTetrominoID = (int) (Math.random() * 7);
         newTetromino();
     }
 
@@ -270,7 +292,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         }
 
         refreshDisplay();
-<<<<<<< HEAD
+
 
         pixelWidth = previewSurface.getWidth() / 3;
         pixelHeight = previewSurface.getHeight() / 4;
@@ -281,8 +303,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             }
         }
         drawPreview();
-=======
->>>>>>> origin/master
+
     }
 
     private boolean moveDownPossible() {
@@ -974,8 +995,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         }
     }
 
-<<<<<<< HEAD
-
     public void nextTetromino() {
         Log.i(TAG, "surfacePreview nextTetromino....");
         nextTetrominoID = (int) (Math.random() * 7);
@@ -986,7 +1005,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             }
         }
 
-        switch (tetrominoID) {
+        switch (nextTetrominoID) {
             case TETROMINO_O: {
                 preview[1][1].color = COLOR_O;
                 preview[1][2].color = COLOR_O;
@@ -1073,12 +1092,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         }
     }
 
-
-=======
->>>>>>> origin/master
     public boolean newTetromino() {
         //tetrominoID = (int) (Math.random() * 7);
-        tetrominoID = TETROMINO_O;
+        tetrominoID = nextTetrominoID;
         spinned = 0;
         int[][] newT = new int[4][];
         boolean gameOver = true;
@@ -1216,6 +1232,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             break;
         }
 
+        nextTetromino();
         return gameOver;
     }
 
