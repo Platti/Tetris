@@ -96,26 +96,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             public void surfaceDestroyed(SurfaceHolder holder) {mHolder2 = null;}
         });
 
-        float pixelWidth = previewSurface.getWidth() / 3;
-        float pixelHeight = previewSurface.getHeight() / 4;
-
-        for (int row = 0; row < preview.length; row++) {
-            for (int col = 0; col < preview[row].length; col++) {
-                preview[row][col] = new Pixel(new RectF(col * pixelWidth + 1, row * pixelHeight + 1, (col + 1) * pixelWidth - 1, (row + 1) * pixelHeight - 1));
-            }
-        }
-
         background.setOnClickListener(this);
         background.setOnTouchListener(this);
-
-        previewSurface.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.i(TAG, "surfacePreview on touch....");
-                nextTetromino();
-                return true;
-            }
-        });
 
         Button b = (Button) findViewById(R.id.button_left);
         b.setOnClickListener(this);
@@ -301,6 +283,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         }
 
         refreshDisplay();
+
+        pixelWidth = previewSurface.getWidth() / 3;
+        pixelHeight = previewSurface.getHeight() / 4;
+
+        for (int row = 0; row < preview.length; row++) {
+            for (int col = 0; col < preview[row].length; col++) {
+                preview[row][col] = new Pixel(new RectF(col * pixelWidth + 1, row * pixelHeight + 1, (col + 1) * pixelWidth - 1, (row + 1) * pixelHeight - 1));
+            }
+        }
     }
 
     private boolean moveDownPossible() {
@@ -1061,7 +1052,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         Log.i(TAG, "surfacePreview draw Preview....");
         if (mHolder2 != null) {
             canvasPre = mHolder2.lockCanvas();
-            canvasPre.drawColor(Pixel.COLOR_CLEAR);
+            canvasPre.drawColor(Color.LTGRAY);
             Paint p = new Paint();
 
             for (int row = preview.length - 1; row >= 0; row--) {
@@ -1070,8 +1061,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     canvasPre.drawRoundRect(preview[row][col].rect, 8, 8, p);
                 }
             }
-            previewSurface.draw(canvasPre);
-            previewSurface.setVisibility(View.VISIBLE);
+//            previewSurface.draw(canvasPre);
+//            previewSurface.setVisibility(View.VISIBLE);
             mHolder2.unlockCanvasAndPost(canvasPre);
         }
     }
