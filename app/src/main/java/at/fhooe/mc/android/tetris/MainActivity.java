@@ -104,15 +104,18 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 Log.i(TAG, "FLIIIIIIIINGGGGGGG " );
 
-                timer.cancel();
-                timer.purge();
+                if (timer != null) {
+                    timer.cancel();
+                    timer.purge();
 
-                initTimerTask();
+                    initTimerTask();
 
-                timer = new Timer();
+                    timer = new Timer();
 
-                timer.schedule(timerTask, 1000, 50);
-                timerRunning = 2;
+                    timer.schedule(timerTask, 0, 50);
+                    Log.i(TAG, "new Timer 2 (fling)");
+                    timerRunning = 2;
+                }
 
                 return true;
             }
@@ -132,6 +135,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         Log.i(TAG, "on touch event!!");
+
+        if (timerRunning == 0) {
+            startGame();
+        }
 
         mDetector.onTouchEvent(event);
         return true;
@@ -164,7 +171,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             }
             break;
             case R.id.button_left: {
-                if (timerRunning == 1) {
+                if (timerRunning != 0) {
                     Log.i(TAG, "Move left...");
                     moveLeft();
                     refreshDisplay();
@@ -174,7 +181,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             }
             break;
             case R.id.button_right: {
-                if (timerRunning == 1) {
+                if (timerRunning != 0) {
                     Log.i(TAG, "Move right...");
                     moveRight();
                     refreshDisplay();
@@ -184,7 +191,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             }
             break;
             case R.id.button_spin: {
-                if (timerRunning == 1) {
+                if (timerRunning != 0) {
                     Log.i(TAG, "Spin Tetromino...");
                     spin();
                     refreshDisplay();
@@ -201,6 +208,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         initTimerTask();
         timer = new Timer();
         timer.schedule(timerTask, 1000, 500);
+        Log.i(TAG, "new Timer 1 (startGame)");
         timerRunning = 1;
 
 //                new TimerTask() {
@@ -936,6 +944,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             timer = new Timer();
 
             timer.schedule(timerTask, 1000, 500);
+            Log.i(TAG, "new Timer 1 (newTetromino)");
             timerRunning = 1;
 
         }
@@ -1033,6 +1042,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     public void gameOverTasks() {
         timer.cancel();
+        timer.purge();
         timerRunning = 0;
 
         // TODO save score in highscore table
