@@ -36,12 +36,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     int timerRunning = 0;
     int tetrominoID;
     int spinned = 0;
-    int score = 0;
-    int level = 0;
-    int interScore = 0;
-    int numberOfLinesCleared = 0; //lines cleared overall
-    int clearedLinesInARow = 0; //lines cleared at once
-    Canvas canvasPre;
 
     private static final int TETROMINO_O = 0;
     private static final int TETROMINO_I = 1;
