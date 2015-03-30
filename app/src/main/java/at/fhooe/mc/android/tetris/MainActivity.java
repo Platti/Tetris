@@ -41,6 +41,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     int interScore = 0;
     int numberOfLinesCleared = 0; //lines cleared overall
     int clearedLinesInARow = 0; //lines cleared at once
+    Canvas canvasPre;
 
     private static final int TETROMINO_O = 0;
     private static final int TETROMINO_I = 1;
@@ -120,16 +121,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     timer.schedule(timerTask, 0, 50);
                     Log.i(TAG, "new Timer 2 (fling)");
                     timerRunning = 2;
-
-                    interScore++;
-
-                    score = score + interScore;
-                    Log.i(TAG, "score + interscore: " + score);
                 }
 
                 return true;
             }
         });
+
     }
 
     @Override
@@ -229,11 +226,21 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         initDisplay();
         initTimerTask();
         timer = new Timer();
-        timer.schedule(timerTask, 1000, 300);
+        timer.schedule(timerTask, 1000, 500);
         Log.i(TAG, "new Timer 1 (startGame)");
         timerRunning = 1;
 
+//                new TimerTask() {
+//            @Override
+//            public void run() {
+//                Log.i(TAG, "TimerTask started...");
+//                refreshDisplay();
+//                moveDown();
+//            }
+//        }, 1000, 500);
+
         newTetromino();
+
     }
 
     public void initTimerTask() {
@@ -921,18 +928,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             if (fullLine) {
                 clearLineNumber(row);
                 // TODO count score
-
-                clearedLinesInARow++;
-                numberOfLinesCleared++;
-
-                Log.i(TAG, "numberOfLinesCleared: " + numberOfLinesCleared);
-                Log.i(TAG, "clearedLinesInARow: " + clearedLinesInARow);
-
-                if (numberOfLinesCleared % 10 == 0) { //set level after 10 lines cleared
-                    level = numberOfLinesCleared / 10;
-                }
             }
         }
+
     }
 
     private void clearLineNumber(int row) {
@@ -947,16 +945,16 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         for (int col = 0; col < pixels[0].length; col++) {
             pixels[0][col].color = Pixel.COLOR_CLEAR;
         }
+
     }
 
     public boolean newTetromino() {
-        //tetrominoID = (int) (Math.random() * 7);
-        tetrominoID = TETROMINO_O;
+        tetrominoID = (int) (Math.random() * 7);
         spinned = 0;
         int[][] newT = new int[4][];
         boolean gameOver = true;
 
-        if (timerRunning == 1) {
+        if (timerRunning == 2) {
             timer.cancel();
             timer.purge();
 
@@ -964,43 +962,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
             timer = new Timer();
 
-            timer.schedule(timerTask, 0, 300);
+            timer.schedule(timerTask, 1000, 500);
+            Log.i(TAG, "new Timer 1 (newTetromino)");
             timerRunning = 1;
-            interScore = 0;
-        } else if (timerRunning == 2) {
-            timer.cancel();
-            timer.purge();
 
-            initTimerTask();
-
-            timer = new Timer();
-
-            timer.schedule(timerTask, 0, 300);
-            timerRunning = 1;
         }
-
-        switch (clearedLinesInARow) {
-            case 1: {
-                score = score + 40 * (level + 1);
-            } break;
-
-            case 2: {
-                score = score + 100 * (level + 1);
-            } break;
-
-            case 3: {
-                score = score + 300 * (level + 1);
-            } break;
-
-            case 4: {
-                score = score + 1200 * (level + 1);
-            } break;
-        }
-
-        clearedLinesInARow = 0;
-
-        Log.i(TAG, "score newTetromino: " + score);
-        Log.i(TAG, "level: " + level);
 
         switch (tetrominoID) {
             case TETROMINO_O: {
@@ -1090,6 +1056,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         }
 
         return gameOver;
+
     }
 
     public void gameOverTasks() {
