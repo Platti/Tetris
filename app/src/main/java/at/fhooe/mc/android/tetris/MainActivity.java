@@ -256,7 +256,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 //                moveDown();
 //            }
 //        }, 1000, 500);
-
+//        nextTetromino();
         newTetromino();
 
     }
@@ -292,6 +292,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 preview[row][col] = new Pixel(new RectF(col * pixelWidth + 1, row * pixelHeight + 1, (col + 1) * pixelWidth - 1, (row + 1) * pixelHeight - 1));
             }
         }
+        drawPreview();
     }
 
     private boolean moveDownPossible() {
@@ -979,6 +980,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     public void nextTetromino() {
         Log.i(TAG, "surfacePreview nextTetromino....");
         nextTetrominoID = (int) (Math.random() * 7);
+
+        for (int row = 0; row < preview.length; row++) {
+            for (int col = 0; col < preview[row].length; col++) {
+                preview[row][col].color = Color.LTGRAY;
+            }
+        }
 
         switch (tetrominoID) {
             case TETROMINO_O: {

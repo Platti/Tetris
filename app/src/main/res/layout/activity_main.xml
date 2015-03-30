@@ -9,7 +9,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:baselineAligned="false">
 
         <FrameLayout
             android:layout_width="fill_parent"
@@ -58,7 +59,8 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:id="@+id/linear_layout">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -78,8 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/surface_next"
-                android:focusable="false"
-                android:visibility="visible" />
+                android:focusable="false" />
 
     </LinearLayout>
     </FrameLayout>
