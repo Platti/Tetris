@@ -126,10 +126,23 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (timerRunning == 1 || timerRunning == 2) {
+        if (timerRunning != 0) {
             timer.cancel();
+            timer.purge();
             timerRunning = 0;
         }
+        Log.i(TAG, "onDestroy");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (timerRunning != 0) {
+            timer.cancel();
+            timer.purge();
+            timerRunning = 0;
+        }
+        Log.i(TAG, "onStop");
     }
 
     @Override
