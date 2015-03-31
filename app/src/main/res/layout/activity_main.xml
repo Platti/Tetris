@@ -72,6 +72,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/textView_level"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Lines:"
                 android:id="@+id/text_lines"
@@ -81,11 +88,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/textView_lines"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Score:"
                 android:id="@+id/text_score"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/textView_score"
+                android:layout_gravity="center_horizontal" />
 
             <TextView
             android:layout_width="wrap_content"

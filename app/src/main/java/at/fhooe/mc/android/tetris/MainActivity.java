@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.os.Handler;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,6 +32,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     GestureDetector mDetector;
     private SurfaceHolder mHolder;
     private SurfaceHolder mHolder2;
+    Handler mHandler = new Handler();
     SurfaceView background;
     SurfaceView previewSurface;
     FrameLayout mFrame;
@@ -115,9 +117,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         b = (Button) findViewById(R.id.button_spin);
         b.setOnClickListener(this);
 
-        textLevel = (TextView) findViewById(R.id.text_level);
-        textLines = (TextView) findViewById(R.id.text_lines);
-        textScore = (TextView) findViewById(R.id.text_score);
+        textLevel = (TextView) findViewById(R.id.textView_level);
+        textLines = (TextView) findViewById(R.id.textView_lines);
+        textScore = (TextView) findViewById(R.id.textView_score);
 
 
         mDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
@@ -1154,9 +1156,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         Log.i(TAG, "score newTetromino: " + score);
         Log.i(TAG, "level: " + level);
 
-//        textLevel.setText("Level:\n" + level + "\n");
-//        textScore.setText("Score:\n" + score + "\n");
-//        textLines.setText("Lines:\n" + numberOfLinesCleared + "\n");
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                textLevel.setText(String.valueOf(level));
+                textScore.setText(String.valueOf(score));
+                textLines.setText(String.valueOf(numberOfLinesCleared));
+            }
+        });
+        
 
         switch (tetrominoID) {
             case TETROMINO_O: {
