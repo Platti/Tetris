@@ -1118,7 +1118,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
             timer = new Timer();
 
-            timer.schedule(timerTask, 0, 300);
+            if (level == 10) {
+                timer.schedule(timerTask, 0, 100);
+            } else {
+                timer.schedule(timerTask, 0, (1000 - (level*100)));
+            }
+
             timerRunning = 1;
             interScore = 0;
         } else if (timerRunning == 2) {
@@ -1129,7 +1134,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
             timer = new Timer();
 
-            timer.schedule(timerTask, 0, 300);
+            if (level == 10) {
+                timer.schedule(timerTask, 0, 100);
+            } else {
+                timer.schedule(timerTask, 0, (1000 - (level*100)));
+            }
+
             timerRunning = 1;
         }
 
@@ -1164,7 +1174,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 textLines.setText(String.valueOf(numberOfLinesCleared));
             }
         });
-        
+
 
         switch (tetrominoID) {
             case TETROMINO_O: {

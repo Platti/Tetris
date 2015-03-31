@@ -63,11 +63,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:rotation="90"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Level:"
                 android:id="@+id/text_level"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp" />
+                android:layout_marginTop="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -79,11 +82,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:rotation="90"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Lines:"
                 android:id="@+id/text_lines"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -95,11 +101,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:rotation="90"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Score:"
                 android:id="@+id/text_score"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -111,11 +120,14 @@
             <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:rotation="90"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Next:"
             android:id="@+id/text_next"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
