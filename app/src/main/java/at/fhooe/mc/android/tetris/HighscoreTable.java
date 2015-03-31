@@ -1,0 +1,31 @@
+package at.fhooe.mc.android.tetris;
+
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import at.fhooe.mc.android.tetris.R;
+
+public class HighscoreTable extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.highscore_table);
+
+        SharedPreferences sp = getSharedPreferences(MainActivity.PREF_NAME, MODE_PRIVATE);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.highscore_layout);
+
+        int score;
+        for (int i = 0; i < 10; i++) {
+            score = sp.getInt("score" + i, -1);
+            TextView tv = new TextView(this);
+            tv.setText(String.valueOf(score));
+            layout.addView(tv);
+        }
+    }
+}

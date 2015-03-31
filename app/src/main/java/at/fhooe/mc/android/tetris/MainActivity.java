@@ -3,6 +3,7 @@ package at.fhooe.mc.android.tetris;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -23,6 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.os.Handler;
 
+import java.util.ArrayList;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -63,13 +66,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     private static final int TETROMINO_Z = 5;
     private static final int TETROMINO_T = 6;
 
-    private static final int COLOR_O = Color.RED;
-    private static final int COLOR_I = Color.GREEN;
-    private static final int COLOR_L = Color.YELLOW;
-    private static final int COLOR_J = Color.BLUE;
-    private static final int COLOR_S = Color.MAGENTA;
-    private static final int COLOR_Z = Color.CYAN;
-    private static final int COLOR_T = Color.GRAY;
+    public static final int COLOR_O = Color.RED;
+    public static final int COLOR_I = Color.GREEN;
+    public static final int COLOR_L = Color.YELLOW;
+    public static final int COLOR_J = Color.BLUE;
+    public static final int COLOR_S = Color.MAGENTA;
+    public static final int COLOR_Z = Color.CYAN;
+    public static final int COLOR_T = Color.GRAY;
+
+    public static final String PREF_NAME = "my_highscores";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,16 +103,20 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         SurfaceHolder shPre = previewSurface.getHolder();
         shPre.addCallback(new SurfaceHolder.Callback() {
             @Override
-            public void surfaceCreated(SurfaceHolder holder) {mHolder2 = holder;}
+            public void surfaceCreated(SurfaceHolder holder) {
+                mHolder2 = holder;
+            }
 
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mFramePreview.getWidth(), (int)((mFramePreview.getWidth()/3.0)*4));
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mFramePreview.getWidth(), (int) ((mFramePreview.getWidth() / 3.0) * 4));
                 mFramePreview.setLayoutParams(params);
             }
 
             @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {mHolder2 = null;}
+            public void surfaceDestroyed(SurfaceHolder holder) {
+                mHolder2 = null;
+            }
         });
 
         Button b = (Button) findViewById(R.id.button_left);
@@ -124,10 +133,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
         mDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
             @Override
-            public boolean onDown(MotionEvent e) {return false;}
+            public boolean onDown(MotionEvent e) {
+                return false;
+            }
 
             @Override
-            public void onShowPress(MotionEvent e) {}
+            public void onShowPress(MotionEvent e) {
+            }
 
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
@@ -135,14 +147,17 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             }
 
             @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {return false;}
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                return false;
+            }
 
             @Override
-            public void onLongPress(MotionEvent e) {}
+            public void onLongPress(MotionEvent e) {
+            }
 
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                Log.i(TAG, "FLIIIIIIIINGGGGGGG " );
+                Log.i(TAG, "FLIIIIIIIINGGGGGGG ");
 
                 if (timer != null) {
                     timer.cancel();
@@ -1084,7 +1099,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     }
 
-    public void drawPreview(){
+    public void drawPreview() {
         Log.i(TAG, "surfacePreview draw Preview....");
         if (mHolder2 != null) {
             canvasPre = mHolder2.lockCanvas();
@@ -1121,7 +1136,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             if (level == 10) {
                 timer.schedule(timerTask, 0, 100);
             } else {
-                timer.schedule(timerTask, 0, (1000 - (level*100)));
+                timer.schedule(timerTask, 0, (1000 - (level * 100)));
             }
 
             timerRunning = 1;
@@ -1137,7 +1152,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             if (level == 10) {
                 timer.schedule(timerTask, 0, 100);
             } else {
-                timer.schedule(timerTask, 0, (1000 - (level*100)));
+                timer.schedule(timerTask, 0, (1000 - (level * 100)));
             }
 
             timerRunning = 1;
@@ -1146,19 +1161,23 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         switch (clearedLinesInARow) {
             case 1: {
                 score = score + 40 * (level + 1);
-            } break;
+            }
+            break;
 
             case 2: {
                 score = score + 100 * (level + 1);
-            } break;
+            }
+            break;
 
             case 3: {
                 score = score + 300 * (level + 1);
-            } break;
+            }
+            break;
 
             case 4: {
                 score = score + 1200 * (level + 1);
-            } break;
+            }
+            break;
         }
 
         clearedLinesInARow = 0;
@@ -1268,12 +1287,53 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         return gameOver;
     }
 
+
+    public void storeHighscore() {
+        SharedPreferences sp = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        int[] highscores = new int[11];
+        // get old highscore table
+        for (int i = 0; i < 10; i++) {
+            highscores[i] = sp.getInt("score" + i, -1);
+        }
+
+        // insert latest score
+        highscores[10] = score;
+        sortIntArray(highscores);
+
+        // save new highscore table
+        SharedPreferences.Editor edit = sp.edit();
+        for (int i = 0; i < 10; i++) {
+            edit.putInt("score" + i, highscores[i]);
+        }
+        edit.commit();
+    }
+
+    private void sortIntArray(int[] array){
+        int tempData;
+        boolean swapped = true;
+
+        while (swapped) {
+            swapped = false;
+            for (int i = 0; i < array.length - 1; i++) {
+                if (array[i] < array[i + 1]) {
+                    tempData = array[i];
+                    array[i] = array[i + 1];
+                    array[i + 1] = tempData;
+                    swapped = true;
+                }
+            }
+        }
+    }
+
     public void gameOverTasks() {
         timer.cancel();
         timer.purge();
         timerRunning = 0;
 
         // TODO save score in highscore table
+
+        Log.i(TAG, "save score in highscore table...");
+        storeHighscore();
 
         DialogFragment dialog = new RestartDialog();
         dialog.show(getFragmentManager(), "restart_dialog");
