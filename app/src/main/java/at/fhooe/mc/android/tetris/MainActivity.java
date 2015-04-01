@@ -995,7 +995,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
             if (fullLine) {
                 clearLineNumber(row);
-                // TODO count score
 
                 clearedLinesInARow++;
                 numberOfLinesCleared++;
@@ -1332,8 +1331,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         timer.cancel();
         timer.purge();
         timerRunning = 0;
-
-        // TODO save score in highscore table
 
         Log.i(TAG, "save score in highscore table...");
         storeHighscore();
