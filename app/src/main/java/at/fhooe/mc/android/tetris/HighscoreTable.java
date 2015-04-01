@@ -24,7 +24,7 @@ public class HighscoreTable extends Activity {
         int score;
         for (int i = 0; i < 10; i++) {
             score = sp.getInt("score" + i, -1);
-            if (score >= -1) {
+            if (score >= 0) {
                 TextView tv = new TextView(this);
                 tv.setGravity(Gravity.CENTER);
                 tv.setTextSize(30.0f);
