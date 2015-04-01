@@ -54,7 +54,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/linear_layout"
             android:layout_gravity="top"
             android:layout_marginLeft="5dp"
@@ -63,59 +63,41 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:rotation="90"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Level:"
-                android:id="@+id/text_level"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
+                android:text="Level:\n0"
                 android:id="@+id/textView_level"
-                android:layout_gravity="center_horizontal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:rotation="90"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Lines:"
-                android:id="@+id/text_lines"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp" />
+                android:gravity="center"
+                android:layout_gravity="center"
+
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Lines:\n0"
                 android:id="@+id/textView_lines"
-                android:layout_gravity="center_horizontal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:rotation="90"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Score:"
-                android:id="@+id/text_score"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp" />
+                android:gravity="center"
+                android:layout_gravity="center"
+
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Score:\n0"
                 android:id="@+id/textView_score"
-                android:layout_gravity="center_horizontal" />
+                android:rotation="90"
+                android:gravity="center"
+                android:layout_gravity="center"
+
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp" />
 
             <TextView
             android:layout_width="wrap_content"

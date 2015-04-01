@@ -17,7 +17,8 @@
             android:text="@string/button_start_game"
             android:id="@+id/button_start"
             android:layout_gravity="center_horizontal"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:textColor="#ff000000" />
 
         <TextView
             android:layout_width="match_parent"
@@ -31,7 +32,8 @@
             android:text="@string/button_highscores"
             android:id="@+id/button_highscores"
             android:layout_gravity="center_horizontal"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:textColor="#ff000000" />
 
         <TextView
             android:layout_width="match_parent"
@@ -45,6 +47,7 @@
             android:text="@string/button_options"
             android:id="@+id/button_options"
             android:layout_gravity="center_horizontal"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:textColor="#ff000000" />
     </LinearLayout>
 </FrameLayout>
