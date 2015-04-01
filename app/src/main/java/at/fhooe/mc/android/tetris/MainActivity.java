@@ -159,22 +159,25 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 Log.i(TAG, "FLIIIIIIIINGGGGGGG ");
 
-                if (timer != null) {
-                    timer.cancel();
-                    timer.purge();
+                if (timerRunning == 1) {
 
-                    initTimerTask();
+                    if (timer != null) {
+                        timer.cancel();
+                        timer.purge();
 
-                    timer = new Timer();
+                        initTimerTask();
 
-                    timer.schedule(timerTask, 0, 50);
-                    Log.i(TAG, "new Timer 2 (fling)");
-                    timerRunning = 2;
+                        timer = new Timer();
 
-                    interScore++;
+                        timer.schedule(timerTask, 0, 50);
+                        Log.i(TAG, "new Timer 2 (fling)");
+                        timerRunning = 2;
 
-                    score = score + interScore;
-                    Log.i(TAG, "score + interscore: " + score);
+                        interScore++;
+
+                        score = score + interScore;
+                        Log.i(TAG, "score + interscore: " + score);
+                    }
                 }
 
                 return true;
