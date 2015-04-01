@@ -20,6 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.os.Handler;
@@ -57,6 +58,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     TextView textLevel;
     TextView textLines;
     TextView textScore;
+    ImageButton ib;
+    boolean pause = false;
 
     private static final int TETROMINO_O = 0;
     private static final int TETROMINO_I = 1;
@@ -125,6 +128,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         b.setOnClickListener(this);
         b = (Button) findViewById(R.id.button_spin);
         b.setOnClickListener(this);
+        ib = (ImageButton) findViewById(R.id.button_pause);
+        ib.setOnClickListener(this);
 
         textLevel = (TextView) findViewById(R.id.textView_level);
         textLines = (TextView) findViewById(R.id.textView_lines);
@@ -275,8 +280,22 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 }
             }
             break;
+            case R.id.button_pause: {
+                if (timerRunning != 0) {
+                   pause();
+                } else {
+                    startGame();
+                }
+
+
+
+
+            }
+            break;
         }
     }
+
+
 
     public void startGame() {
         initDisplay();
@@ -285,6 +304,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         timer.schedule(timerTask, 1000, 300);
         Log.i(TAG, "new Timer 1 (startGame)");
         timerRunning = 1;
+
 
 //                new TimerTask() {
 //            @Override
@@ -298,6 +318,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         nextTetrominoID = (int) (Math.random() * 7);
         newTetromino();
     }
+
 
     public void initTimerTask() {
         timerTask = new TimerTask() {
@@ -333,6 +354,47 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         }
         drawPreview();
 
+    }
+
+    public void pause(){
+        if(!pause){
+            Log.i(TAG, "Pause pressed...");
+            timer.cancel();
+            timer.purge();
+            ib.setImageResource(R.drawable.ic_media_play);
+            pause = true;
+        } else{
+            if (timerRunning == 1) {
+
+                initTimerTask();
+
+                timer = new Timer();
+
+                if (level == 10) {
+                    timer.schedule(timerTask, 0, 100);
+                } else {
+                    timer.schedule(timerTask, 0, (1000 - (level * 100)));
+                }
+
+                timerRunning = 1;
+                interScore = 0;
+            } else if (timerRunning == 2) {
+
+                initTimerTask();
+
+                timer = new Timer();
+
+                if (level == 10) {
+                    timer.schedule(timerTask, 0, 100);
+                } else {
+                    timer.schedule(timerTask, 0, (1000 - (level * 100)));
+                }
+
+                timerRunning = 1;
+            }
+            ib.setImageResource(R.drawable.ic_media_pause);
+            pause = false;
+        }
     }
 
     private boolean moveDownPossible() {
