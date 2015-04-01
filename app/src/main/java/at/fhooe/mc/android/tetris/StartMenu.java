@@ -25,10 +25,16 @@ public class StartMenu extends Activity implements View.OnClickListener {
 //        bar.hide();
 
         setContentView(R.layout.start_menu);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         GradientDrawable gd1 = new GradientDrawable();
         GradientDrawable gd2 = new GradientDrawable();
         GradientDrawable gd3 = new GradientDrawable();
+
         gd1.setCornerRadius(10);
         gd2.setCornerRadius(10);
         gd3.setCornerRadius(10);
@@ -52,19 +58,25 @@ public class StartMenu extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        GradientDrawable gdPressed = new GradientDrawable();
+        gdPressed.setCornerRadius(10);
+        gdPressed.setColor(Color.WHITE);
+
         switch (v.getId()) {
             case R.id.button_start: {
+                v.setBackground(gdPressed);
                 Intent i = new Intent(StartMenu.this, MainActivity.class);
                 startActivity(i);
             }
             break;
             case R.id.button_highscores: {
+                v.setBackground(gdPressed);
                 Intent i = new Intent(StartMenu.this, HighscoreTable.class);
                 startActivity(i);
             }
             break;
             case R.id.button_options: {
-
+                v.setBackground(gdPressed);
             }
             break;
         }
