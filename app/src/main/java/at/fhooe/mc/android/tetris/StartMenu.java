@@ -3,13 +3,14 @@ package at.fhooe.mc.android.tetris;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-public class StartMenu extends Activity implements View.OnClickListener{
+public class StartMenu extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,32 +25,44 @@ public class StartMenu extends Activity implements View.OnClickListener{
 
         setContentView(R.layout.start_menu);
 
+        GradientDrawable gd1 = new GradientDrawable();
+        GradientDrawable gd2= new GradientDrawable();
+        GradientDrawable gd3= new GradientDrawable();
+        gd1.setCornerRadius(10);
+        gd2.setCornerRadius(10);
+        gd3.setCornerRadius(10);
+
         Button b = null;
         b = (Button) findViewById(R.id.button_start);
-        b.setBackgroundColor(MainActivity.COLOR_O);
+        gd1.setColor(MainActivity.COLOR_O);
+        b.setBackground(gd1);
         b.setOnClickListener(this);
+
         b = (Button) findViewById(R.id.button_highscores);
-        b.setBackgroundColor(MainActivity.COLOR_I);
+        gd2.setColor(MainActivity.COLOR_I);
+        b.setBackground(gd2);
         b.setOnClickListener(this);
+
         b = (Button) findViewById(R.id.button_options);
-        b.setBackgroundColor(MainActivity.COLOR_L);
+        gd3.setColor(MainActivity.COLOR_L);
+        b.setBackground(gd3);
         b.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.button_start:{
+        switch (v.getId()) {
+            case R.id.button_start: {
                 Intent i = new Intent(StartMenu.this, MainActivity.class);
                 startActivity(i);
             }
             break;
-            case R.id.button_highscores:{
+            case R.id.button_highscores: {
                 Intent i = new Intent(StartMenu.this, HighscoreTable.class);
                 startActivity(i);
             }
             break;
-            case R.id.button_options:{
+            case R.id.button_options: {
 
             }
             break;
