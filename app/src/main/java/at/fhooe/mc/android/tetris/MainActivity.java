@@ -58,6 +58,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     TextView textLevel;
     TextView textLines;
     TextView textScore;
+    Button bLeft;
+    Button bRight;
+    Button bSpin;
     ImageButton ib;
     boolean pause = false;
 
@@ -69,13 +72,22 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     private static final int TETROMINO_Z = 5;
     private static final int TETROMINO_T = 6;
 
-    public static final int COLOR_O = Color.RED;
-    public static final int COLOR_I = Color.GREEN;
-    public static final int COLOR_L = Color.YELLOW;
-    public static final int COLOR_J = Color.BLUE;
-    public static final int COLOR_S = Color.MAGENTA;
-    public static final int COLOR_Z = Color.CYAN;
-    public static final int COLOR_T = Color.GRAY;
+//    public static final int COLOR_O = Color.RED;
+//    public static final int COLOR_I = Color.GREEN;
+//    public static final int COLOR_L = Color.YELLOW;
+//    public static final int COLOR_J = Color.BLUE;
+//    public static final int COLOR_S = Color.MAGENTA;
+//    public static final int COLOR_Z = Color.CYAN;
+//    public static final int COLOR_T = Color.GRAY;
+
+    public static int COLOR_O;
+    public static int COLOR_I;
+    public static int COLOR_L;
+    public static int COLOR_J;
+    public static int COLOR_S;
+    public static int COLOR_Z;
+    public static int COLOR_T;
+
 
     public static final String PREF_NAME = "my_highscores";
 
@@ -122,12 +134,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             }
         });
 
-        Button b = (Button) findViewById(R.id.button_left);
-        b.setOnClickListener(this);
-        b = (Button) findViewById(R.id.button_right);
-        b.setOnClickListener(this);
-        b = (Button) findViewById(R.id.button_spin);
-        b.setOnClickListener(this);
+        bLeft = (Button) findViewById(R.id.button_left);
+        bLeft.setOnClickListener(this);
+        bRight = (Button) findViewById(R.id.button_right);
+        bRight.setOnClickListener(this);
+        bSpin = (Button) findViewById(R.id.button_spin);
+        bSpin.setOnClickListener(this);
         ib = (ImageButton) findViewById(R.id.button_pause);
         ib.setOnClickListener(this);
 
@@ -135,6 +147,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         textLines = (TextView) findViewById(R.id.textView_lines);
         textScore = (TextView) findViewById(R.id.textView_score);
 
+        COLOR_I = getResources().getColor(R.color.red);
+        COLOR_O = getResources().getColor(R.color.yellow);
+        COLOR_L = getResources().getColor(R.color.purple);
+        COLOR_J = getResources().getColor(R.color.blue);
+        COLOR_S = getResources().getColor(R.color.green);
+        COLOR_Z = getResources().getColor(R.color.turquoise);
+        COLOR_T = getResources().getColor(R.color.orange);
 
         mDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
             @Override
@@ -163,25 +182,26 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 Log.i(TAG, "FLIIIIIIIINGGGGGGG ");
+                if(!pause) {
+                    if (timerRunning == 1) {
 
-                if (timerRunning == 1) {
+                        if (timer != null) {
+                            timer.cancel();
+                            timer.purge();
 
-                    if (timer != null) {
-                        timer.cancel();
-                        timer.purge();
+                            initTimerTask();
 
-                        initTimerTask();
+                            timer = new Timer();
 
-                        timer = new Timer();
+                            timer.schedule(timerTask, 0, 50);
+                            Log.i(TAG, "new Timer 2 (fling)");
+                            timerRunning = 2;
 
-                        timer.schedule(timerTask, 0, 50);
-                        Log.i(TAG, "new Timer 2 (fling)");
-                        timerRunning = 2;
+                            interScore++;
 
-                        interScore++;
-
-                        score = score + interScore;
-                        Log.i(TAG, "score + interscore: " + score);
+                            score = score + interScore;
+                            Log.i(TAG, "score + interscore: " + score);
+                        }
                     }
                 }
 
@@ -282,19 +302,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             break;
             case R.id.button_pause: {
                 if (timerRunning != 0) {
-                   pause();
+                    pause();
                 } else {
                     startGame();
                 }
-
-
-
-
             }
             break;
         }
     }
-
 
 
     public void startGame() {
@@ -356,14 +371,17 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     }
 
-    public void pause(){
-        if(!pause){
+    public void pause() {
+        if (!pause) {
             Log.i(TAG, "Pause pressed...");
             timer.cancel();
             timer.purge();
             ib.setImageResource(R.drawable.ic_media_play);
+            bLeft.setEnabled(false);
+            bRight.setEnabled(false);
+            bSpin.setEnabled(false);
             pause = true;
-        } else{
+        } else {
             if (timerRunning == 1) {
 
                 initTimerTask();
@@ -393,6 +411,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 timerRunning = 1;
             }
             ib.setImageResource(R.drawable.ic_media_pause);
+            bLeft.setEnabled(true);
+            bRight.setEnabled(true);
+            bSpin.setEnabled(true);
             pause = false;
         }
     }
@@ -1372,7 +1393,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         edit.commit();
     }
 
-    private void sortIntArray(int[] array){
+    private void sortIntArray(int[] array) {
         int tempData;
         boolean swapped = true;
 
@@ -1393,6 +1414,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         timer.cancel();
         timer.purge();
         timerRunning = 0;
+        pause = true;
 
         Log.i(TAG, "save score in highscore table...");
         storeHighscore();

@@ -6,5 +6,13 @@
     <color name="bronze">#FFCD7F32</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="red">#FFC11A1A</color>
+    <color name="purple">#FFB252A0</color>
+    <color name="green">#FF29B729</color>
+    <color name="yellow">#FFE5A31F</color>
+    <color name="blue">#FF2A187F</color>
+    <color name="orange">#FFCE6825</color>
+    <color name="turquoise">#FF34ADA4</color>
+
 
 </resources>

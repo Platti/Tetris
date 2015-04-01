@@ -31,7 +31,7 @@
                 android:id="@+id/button_left"
                 android:layout_gravity="left|bottom"
                 android:background="@drawable/button_background"
-                style="@android:style/Widget.DeviceDefault.Button.Borderless" />
+                style="@android:style/Widget.DeviceDefault.Button.Borderless"/>
 
             <Button
                 android:layout_width="100dp"
