@@ -13,4 +13,7 @@
     <string name="button_highscores">My Highscores</string>
     <string name="button_options">Options</string>
     <string name="title_activity_highscore_table">Highscore Table</string>
+    <string name="title_activity_options">Options</string>
+    <string name="current_theme">Current Theme:</string>
+    <string name="choose_new_theme">Choose new theme:</string>
 </resources>

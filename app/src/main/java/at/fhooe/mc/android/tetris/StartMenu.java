@@ -80,6 +80,8 @@ public class StartMenu extends Activity implements View.OnClickListener {
             break;
             case R.id.button_options: {
                 v.setBackground(gdPressed);
+                Intent i = new Intent(StartMenu.this, OptionsActivity.class);
+                startActivity(i);
             }
             break;
         }
