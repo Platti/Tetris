@@ -63,6 +63,16 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
                         Color.argb(255, 50, 50, 50),
                         Color.argb(255, 0, 0, 0)}));
 
+        adapter.add(new ColorTheme("FC Barcelona",
+                new int[]{
+                        Color.argb(255, 0, 75, 149),
+                        Color.argb(255, 164, 35, 75),
+                        Color.argb(255, 226, 185, 0),
+                        Color.argb(255, 219, 47, 54),
+                        Color.argb(255, 255, 233, 0),
+                        Color.argb(255, 255, 255, 255),
+                        Color.argb(255, 0, 0, 0)}));
+
         adapter.add(new ColorTheme("Caro's favorites",
                 new int[]{
                         getResources().getColor(R.color.red),
