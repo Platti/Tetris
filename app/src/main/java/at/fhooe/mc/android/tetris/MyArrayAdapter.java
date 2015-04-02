@@ -31,7 +31,7 @@ public class MyArrayAdapter extends ArrayAdapter<ColorTheme> {
         int[] colors = colorTheme.getColors();
 
         TextView tv = (TextView) _view.findViewById(R.id.textView_name);
-        tv.setText(colorTheme.getName());
+        tv.setText(colorTheme.getName()+ ": ");
 
         ImageView iv = null;
         iv = (ImageView) _view.findViewById(R.id.imageView1);

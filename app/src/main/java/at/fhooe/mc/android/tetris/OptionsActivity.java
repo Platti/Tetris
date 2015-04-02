@@ -75,8 +75,6 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-
-
     }
 
     @Override
@@ -86,5 +84,22 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
         color.chooseNewColors(colorTheme.getColors());
 
         Toast.makeText(this, "New theme: " + colorTheme.getName(), Toast.LENGTH_SHORT).show();
+
+        // Update Current Theme
+        ImageView iv = null;
+        iv = (ImageView) findViewById(R.id.imageView1);
+        iv.setBackgroundColor(color.o);
+        iv = (ImageView) findViewById(R.id.imageView2);
+        iv.setBackgroundColor(color.i);
+        iv = (ImageView) findViewById(R.id.imageView3);
+        iv.setBackgroundColor(color.l);
+        iv = (ImageView) findViewById(R.id.imageView4);
+        iv.setBackgroundColor(color.j);
+        iv = (ImageView) findViewById(R.id.imageView5);
+        iv.setBackgroundColor(color.s);
+        iv = (ImageView) findViewById(R.id.imageView6);
+        iv.setBackgroundColor(color.z);
+        iv = (ImageView) findViewById(R.id.imageView7);
+        iv.setBackgroundColor(color.t);
     }
 }
