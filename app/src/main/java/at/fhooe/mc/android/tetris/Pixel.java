@@ -7,8 +7,6 @@ import android.graphics.RectF;
  * Created by Platti on 25.03.2015.
  */
 public class Pixel {
-    public static final int COLOR_CLEAR = Color.argb(0, 0, 0, 0);
-
     RectF rect;
     int color;
     boolean fixed;
@@ -20,6 +18,6 @@ public class Pixel {
     }
 
     public Pixel(RectF rect) {
-        this(rect, COLOR_CLEAR, false);
+        this(rect, Color.TRANSPARENT, false);
     }
 }

@@ -13,6 +13,8 @@ import android.widget.Button;
 
 public class StartMenu extends Activity implements View.OnClickListener {
 
+    TetrisColor color;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,7 @@ public class StartMenu extends Activity implements View.OnClickListener {
 //        bar.hide();
 
         setContentView(R.layout.start_menu);
+        color = new TetrisColor(this);
     }
 
     @Override
@@ -41,17 +44,17 @@ public class StartMenu extends Activity implements View.OnClickListener {
 
         Button b = null;
         b = (Button) findViewById(R.id.button_start);
-        gd1.setColors(new int[]{MainActivity.COLOR_O, MainActivity.COLOR_O | Color.LTGRAY, MainActivity.COLOR_O,});
+        gd1.setColors(new int[]{color.o, color.o | Color.LTGRAY, color.o});
         b.setBackground(gd1);
         b.setOnClickListener(this);
 
         b = (Button) findViewById(R.id.button_highscores);
-        gd2.setColors(new int[]{MainActivity.COLOR_I, MainActivity.COLOR_I | Color.LTGRAY, MainActivity.COLOR_I,});
+        gd2.setColors(new int[]{color.i, color.i | Color.LTGRAY, color.i});
         b.setBackground(gd2);
         b.setOnClickListener(this);
 
         b = (Button) findViewById(R.id.button_options);
-        gd3.setColors(new int[]{MainActivity.COLOR_L, MainActivity.COLOR_L | Color.LTGRAY, MainActivity.COLOR_L,});
+        gd3.setColors(new int[]{color.l, color.l | Color.LTGRAY, color.l});
         b.setBackground(gd3);
         b.setOnClickListener(this);
     }

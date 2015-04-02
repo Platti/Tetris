@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -80,13 +79,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 //    public static final int COLOR_Z = Color.CYAN;
 //    public static final int COLOR_T = Color.GRAY;
 
-    public static int COLOR_O;
-    public static int COLOR_I;
-    public static int COLOR_L;
-    public static int COLOR_J;
-    public static int COLOR_S;
-    public static int COLOR_Z;
-    public static int COLOR_T;
+    TetrisColor color;
+
+//    public static int COLOR_O;
+//    public static int COLOR_I;
+//    public static int COLOR_L;
+//    public static int COLOR_J;
+//    public static int COLOR_S;
+//    public static int COLOR_Z;
+//    public static int COLOR_T;
 
 
     public static final String PREF_NAME = "my_highscores";
@@ -147,13 +148,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         textLines = (TextView) findViewById(R.id.textView_lines);
         textScore = (TextView) findViewById(R.id.textView_score);
 
-        COLOR_I = getResources().getColor(R.color.red);
-        COLOR_O = getResources().getColor(R.color.yellow);
-        COLOR_L = getResources().getColor(R.color.purple);
-        COLOR_J = getResources().getColor(R.color.blue);
-        COLOR_S = getResources().getColor(R.color.green);
-        COLOR_Z = getResources().getColor(R.color.turquoise);
-        COLOR_T = getResources().getColor(R.color.orange);
+        color = new TetrisColor(this);
+
+//        COLOR_I = getResources().getColor(R.color.red);
+//        COLOR_O = getResources().getColor(R.color.yellow);
+//        COLOR_L = getResources().getColor(R.color.purple);
+//        COLOR_J = getResources().getColor(R.color.blue);
+//        COLOR_S = getResources().getColor(R.color.green);
+//        COLOR_Z = getResources().getColor(R.color.turquoise);
+//        COLOR_T = getResources().getColor(R.color.orange);
 
         mDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
             @Override
@@ -421,7 +424,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     private boolean moveDownPossible() {
         for (int row = pixels.length - 1; row >= 0; row--) {
             for (int col = 0; col < pixels[row].length; col++) {
-                if (pixels[row][col].color != Pixel.COLOR_CLEAR && !pixels[row][col].fixed) {
+                if (pixels[row][col].color != color.clear && !pixels[row][col].fixed) {
                     if (row < pixels.length - 1 && pixels[row + 1][col].fixed) {
                         return false;
                     }
@@ -438,16 +441,16 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         if (moveDownPossible()) {
             for (int row = pixels.length - 2; row >= 0; row--) {
                 for (int col = 0; col < pixels[row].length; col++) {
-                    if (pixels[row][col].color != Pixel.COLOR_CLEAR && !pixels[row][col].fixed) {
+                    if (pixels[row][col].color != color.clear && !pixels[row][col].fixed) {
                         pixels[row + 1][col].color = pixels[row][col].color;
-                        pixels[row][col].color = Pixel.COLOR_CLEAR;
+                        pixels[row][col].color = color.clear;
                     }
                 }
             }
         } else {
             for (int row = pixels.length - 1; row >= 0; row--) {
                 for (int col = 0; col < pixels[row].length; col++) {
-                    if (pixels[row][col].color != Pixel.COLOR_CLEAR) {
+                    if (pixels[row][col].color != color.clear) {
                         pixels[row][col].fixed = true;
                     }
                 }
@@ -464,7 +467,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     private boolean moveLeftPossible() {
         for (int col = 0; col < pixels[0].length; col++) {
             for (int row = pixels.length - 1; row >= 0; row--) {
-                if (pixels[row][col].color != Pixel.COLOR_CLEAR && !pixels[row][col].fixed) {
+                if (pixels[row][col].color != color.clear && !pixels[row][col].fixed) {
                     if (col > 0 && pixels[row][col - 1].fixed) {
                         return false;
                     }
@@ -481,9 +484,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         if (moveLeftPossible()) {
             for (int col = 1; col < pixels[0].length; col++) {
                 for (int row = pixels.length - 1; row >= 0; row--) {
-                    if (pixels[row][col].color != Pixel.COLOR_CLEAR && !pixels[row][col].fixed) {
+                    if (pixels[row][col].color != color.clear && !pixels[row][col].fixed) {
                         pixels[row][col - 1].color = pixels[row][col].color;
-                        pixels[row][col].color = Pixel.COLOR_CLEAR;
+                        pixels[row][col].color = color.clear;
                     }
                 }
             }
@@ -493,7 +496,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     private boolean moveRightPossible() {
         for (int col = pixels[0].length - 1; col >= 0; col--) {
             for (int row = pixels.length - 1; row >= 0; row--) {
-                if (pixels[row][col].color != Pixel.COLOR_CLEAR && !pixels[row][col].fixed) {
+                if (pixels[row][col].color != color.clear && !pixels[row][col].fixed) {
                     if (col < pixels[0].length - 1 && pixels[row][col + 1].fixed) {
                         return false;
                     }
@@ -510,9 +513,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         if (moveRightPossible()) {
             for (int col = pixels[0].length - 2; col >= 0; col--) {
                 for (int row = pixels.length - 1; row >= 0; row--) {
-                    if (pixels[row][col].color != Pixel.COLOR_CLEAR && !pixels[row][col].fixed) {
+                    if (pixels[row][col].color != color.clear && !pixels[row][col].fixed) {
                         pixels[row][col + 1].color = pixels[row][col].color;
-                        pixels[row][col].color = Pixel.COLOR_CLEAR;
+                        pixels[row][col].color = color.clear;
                     }
                 }
             }
@@ -522,7 +525,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     private int[] getTetromino() {
         for (int row = pixels.length - 1; row >= 0; row--) {
             for (int col = 0; col < pixels[row].length; col++) {
-                if (pixels[row][col].color != Pixel.COLOR_CLEAR && !pixels[row][col].fixed) {
+                if (pixels[row][col].color != color.clear && !pixels[row][col].fixed) {
                     int[] i = {row, col};
                     return i;
                 }
@@ -583,8 +586,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] + 2;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_I);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.i);
                         spinned = 1;
                     }
 
@@ -611,8 +614,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] + 1;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_I);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.i);
                         spinned = 0;
                     }
 
@@ -642,8 +645,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] + 1;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_L);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.l);
                         spinned = 1;
                     }
                 } else if (spinned == 1) {
@@ -668,8 +671,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1];
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_L);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.l);
                         spinned = 2;
                     }
                 } else if (spinned == 2) {
@@ -694,8 +697,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] + 1;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_L);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.l);
                         spinned = 3;
                     }
                 } else if (spinned == 3) {
@@ -720,8 +723,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] + 2;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_L);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.l);
                         spinned = 0;
                     }
                 }
@@ -751,8 +754,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] + 2;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_J);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.j);
                         spinned = 1;
                     }
                 } else if (spinned == 1) {
@@ -777,8 +780,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] + 2;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_J);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.j);
                         spinned = 2;
                     }
                 } else if (spinned == 2) {
@@ -803,8 +806,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] + 1;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_J);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.j);
                         spinned = 3;
                     }
                 } else if (spinned == 3) {
@@ -829,8 +832,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] - 1;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_J);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.j);
                         spinned = 0;
                     }
                 }
@@ -858,8 +861,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3] = oldT[1];
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_S);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.s);
                         spinned = 1;
                     }
                 } else if (spinned == 1) {
@@ -883,8 +886,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] + 1;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_S);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.s);
                         spinned = 0;
                     }
 
@@ -913,8 +916,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] + 1;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_Z);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.z);
                         spinned = 1;
                     }
                 } else if (spinned == 1) {
@@ -938,8 +941,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] - 1;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_Z);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.z);
                         spinned = 0;
                     }
 
@@ -967,8 +970,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] + 1;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_T);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.t);
                         spinned = 1;
                     }
                 } else if (spinned == 1) {
@@ -991,8 +994,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] - 1;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_T);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.t);
                         spinned = 2;
                     }
                 } else if (spinned == 2) {
@@ -1015,8 +1018,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1];
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_T);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.t);
                         spinned = 3;
                     }
                 } else if (spinned == 3) {
@@ -1039,8 +1042,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                     newT[3][1] = pos[1] + 1;
 
                     if (checkIfPositionAvailable(newT) == 0) {
-                        setTetromino(oldT, Pixel.COLOR_CLEAR);
-                        setTetromino(newT, COLOR_T);
+                        setTetromino(oldT, color.clear);
+                        setTetromino(newT, color.t);
                         spinned = 0;
                     }
                 }
@@ -1052,7 +1055,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     public void refreshDisplay() {
         if (mHolder != null) {
             Canvas c = mHolder.lockCanvas();
-            c.drawColor(Color.LTGRAY);
+            c.drawColor(color.background);
             Paint p = new Paint();
 
             for (int row = pixels.length - 1; row >= 0; row--) {
@@ -1102,7 +1105,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         }
         // clear line number 0
         for (int col = 0; col < pixels[0].length; col++) {
-            pixels[0][col].color = Pixel.COLOR_CLEAR;
+            pixels[0][col].color = color.clear;
         }
     }
 
@@ -1112,75 +1115,63 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
         for (int row = 0; row < preview.length; row++) {
             for (int col = 0; col < preview[row].length; col++) {
-                preview[row][col].color = Color.LTGRAY;
+                preview[row][col].color = color.background;
             }
         }
 
         switch (nextTetrominoID) {
             case TETROMINO_O: {
-                preview[1][1].color = COLOR_O;
-                preview[1][2].color = COLOR_O;
-                preview[2][1].color = COLOR_O;
-                preview[2][2].color = COLOR_O;
-
-                drawPreview();
+                preview[1][1].color = color.o;
+                preview[1][2].color = color.o;
+                preview[2][1].color = color.o;
+                preview[2][2].color = color.o;
             }
             break;
             case TETROMINO_I: {
-                preview[0][1].color = COLOR_I;
-                preview[1][1].color = COLOR_I;
-                preview[2][1].color = COLOR_I;
-                preview[3][1].color = COLOR_I;
-
-                drawPreview();
+                preview[0][1].color = color.i;
+                preview[1][1].color = color.i;
+                preview[2][1].color = color.i;
+                preview[3][1].color = color.i;
             }
             break;
             case TETROMINO_L: {
-                preview[0][1].color = COLOR_L;
-                preview[1][1].color = COLOR_L;
-                preview[2][1].color = COLOR_L;
-                preview[2][2].color = COLOR_L;
-
-                drawPreview();
+                preview[0][1].color = color.l;
+                preview[1][1].color = color.l;
+                preview[2][1].color = color.l;
+                preview[2][2].color = color.l;
             }
             break;
             case TETROMINO_J: {
-                preview[0][2].color = COLOR_J;
-                preview[1][2].color = COLOR_J;
-                preview[2][2].color = COLOR_J;
-                preview[2][1].color = COLOR_J;
-
-                drawPreview();
+                preview[0][2].color = color.j;
+                preview[1][2].color = color.j;
+                preview[2][2].color = color.j;
+                preview[2][1].color = color.j;
             }
             break;
             case TETROMINO_S: {
-                preview[2][0].color = COLOR_S;
-                preview[2][1].color = COLOR_S;
-                preview[1][1].color = COLOR_S;
-                preview[1][2].color = COLOR_S;
-
-                drawPreview();
+                preview[2][0].color = color.s;
+                preview[2][1].color = color.s;
+                preview[1][1].color = color.s;
+                preview[1][2].color = color.s;
             }
             break;
             case TETROMINO_Z: {
-                preview[1][0].color = COLOR_Z;
-                preview[1][1].color = COLOR_Z;
-                preview[2][1].color = COLOR_Z;
-                preview[2][2].color = COLOR_Z;
-
-                drawPreview();
+                preview[1][0].color = color.z;
+                preview[1][1].color = color.z;
+                preview[2][1].color = color.z;
+                preview[2][2].color = color.z;
             }
             break;
             case TETROMINO_T: {
-                preview[2][0].color = COLOR_T;
-                preview[2][1].color = COLOR_T;
-                preview[2][2].color = COLOR_T;
-                preview[1][1].color = COLOR_T;
-
-                drawPreview();
+                preview[2][0].color = color.t;
+                preview[2][1].color = color.t;
+                preview[2][2].color = color.t;
+                preview[1][1].color = color.t;
             }
             break;
         }
+
+        drawPreview();
 
     }
 
@@ -1188,7 +1179,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         Log.i(TAG, "surfacePreview draw Preview....");
         if (mHolder2 != null) {
             canvasPre = mHolder2.lockCanvas();
-            canvasPre.drawColor(Color.LTGRAY);
+            canvasPre.drawColor(color.background);
             Paint p = new Paint();
 
             for (int row = preview.length - 1; row >= 0; row--) {
@@ -1288,7 +1279,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 newT[3] = new int[]{1, 5};
 
                 if (checkIfPositionAvailable(newT) == 0) {
-                    setTetromino(newT, COLOR_O);
+                    setTetromino(newT, color.o);
                     gameOver = false;
                 }
             }
@@ -1300,7 +1291,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 newT[3] = new int[]{0, 6};
 
                 if (checkIfPositionAvailable(newT) == 0) {
-                    setTetromino(newT, COLOR_I);
+                    setTetromino(newT, color.i);
                     gameOver = false;
                 }
             }
@@ -1312,7 +1303,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 newT[3] = new int[]{2, 5};
 
                 if (checkIfPositionAvailable(newT) == 0) {
-                    setTetromino(newT, COLOR_L);
+                    setTetromino(newT, color.l);
                     gameOver = false;
                 }
             }
@@ -1324,7 +1315,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 newT[3] = new int[]{2, 4};
 
                 if (checkIfPositionAvailable(newT) == 0) {
-                    setTetromino(newT, COLOR_J);
+                    setTetromino(newT, color.j);
                     gameOver = false;
                 }
             }
@@ -1336,7 +1327,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 newT[3] = new int[]{0, 6};
 
                 if (checkIfPositionAvailable(newT) == 0) {
-                    setTetromino(newT, COLOR_S);
+                    setTetromino(newT, color.s);
                     gameOver = false;
                 }
             }
@@ -1348,7 +1339,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 newT[3] = new int[]{1, 6};
 
                 if (checkIfPositionAvailable(newT) == 0) {
-                    setTetromino(newT, COLOR_Z);
+                    setTetromino(newT, color.z);
                     gameOver = false;
                 }
             }
@@ -1360,7 +1351,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 newT[3] = new int[]{0, 5};
 
                 if (checkIfPositionAvailable(newT) == 0) {
-                    setTetromino(newT, COLOR_T);
+                    setTetromino(newT, color.t);
                     gameOver = false;
                 }
             }
