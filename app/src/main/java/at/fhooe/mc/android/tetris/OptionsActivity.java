@@ -53,7 +53,7 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
                         Color.MAGENTA,
                         Color.GRAY}));
 
-        adapter.add(new ColorTheme("Black 'n' White",
+        adapter.add(new ColorTheme("Shades of Grey",
                 new int[]{
                         Color.argb(255, 255, 255, 255),
                         Color.argb(255, 230, 230, 230),
@@ -62,6 +62,16 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
                         Color.argb(255, 90, 90, 90),
                         Color.argb(255, 50, 50, 50),
                         Color.argb(255, 0, 0, 0)}));
+
+        adapter.add(new ColorTheme("Pastel Colors",
+                new int[]{
+                        Color.argb(255, 106, 203, 222),
+                        Color.argb(255, 246, 156, 155),
+                        Color.argb(255, 255, 247, 129),
+                        Color.argb(255, 124, 139, 198),
+                        Color.argb(255, 249, 180, 138),
+                        Color.argb(255, 182, 216, 132),
+                        Color.argb(255, 191, 128, 183)}));
 
         adapter.add(new ColorTheme("FC Barcelona",
                 new int[]{
@@ -72,6 +82,16 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
                         Color.argb(255, 255, 233, 0),
                         Color.argb(255, 255, 255, 255),
                         Color.argb(255, 0, 0, 0)}));
+
+        adapter.add(new ColorTheme("Milka",
+                new int[]{
+                        Color.argb(255, 104, 79, 163),
+                        Color.argb(255, 255, 255, 255),
+                        Color.argb(255, 116, 38, 18),
+                        Color.argb(255, 215, 195, 145),
+                        Color.argb(255, 2, 183, 240),
+                        Color.argb(255, 71, 13, 2),
+                        Color.argb(255, 40, 27, 115)}));
 
         adapter.add(new ColorTheme("Caro's favorites",
                 new int[]{
