@@ -1,19 +1,18 @@
 package at.fhooe.mc.android.tetris;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 
 public class StartMenu extends Activity implements View.OnClickListener {
 
     TetrisColor color;
+    MediaPlayer mP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +27,22 @@ public class StartMenu extends Activity implements View.OnClickListener {
 
         setContentView(R.layout.start_menu);
         color = new TetrisColor(this);
+
+        mP = MediaPlayer.create(StartMenu.this, R.raw.menusoundtrack);
+        mP.setLooping(true);
+        mP.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mP.stop();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mP.stop();
     }
 
     @Override

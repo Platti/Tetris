@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -24,8 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.os.Handler;
 
-import java.util.ArrayList;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -62,6 +61,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     Button bSpin;
     ImageButton ib;
     boolean pause = false;
+    MediaPlayer mP;
 
     private static final int TETROMINO_O = 0;
     private static final int TETROMINO_I = 1;
@@ -211,6 +211,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 return true;
             }
         });
+
+        mP = MediaPlayer.create(MainActivity.this, R.raw.gamesoundtrack);
+        mP.setLooping(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mP.start();
     }
 
     @Override
@@ -222,6 +231,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             timerRunning = 0;
         }
         Log.i(TAG, "onDestroy");
+
+        mP.stop();
     }
 
     @Override
@@ -233,6 +244,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             timerRunning = 0;
         }
         Log.i(TAG, "onStop");
+
+        mP.stop();
     }
 
     @Override
@@ -323,6 +336,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         Log.i(TAG, "new Timer 1 (startGame)");
         timerRunning = 1;
 
+        mP.start();
+
 
 //                new TimerTask() {
 //            @Override
@@ -384,6 +399,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             bRight.setEnabled(false);
             bSpin.setEnabled(false);
             pause = true;
+            mP.stop();
         } else {
             if (timerRunning == 1) {
 
@@ -418,6 +434,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             bRight.setEnabled(true);
             bSpin.setEnabled(true);
             pause = false;
+            mP.start();
         }
     }
 
