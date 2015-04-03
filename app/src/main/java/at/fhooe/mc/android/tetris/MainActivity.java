@@ -1281,9 +1281,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                textLevel.setText("Level:\n" + String.valueOf(level));
-                textScore.setText("Score:\n" + String.valueOf(score));
-                textLines.setText("Lines:\n" + String.valueOf(numberOfLinesCleared));
+                textLevel.setText(getString(R.string.level) + "\n" + String.valueOf(level));
+                textScore.setText(getString(R.string.score) + "\n" + String.valueOf(score));
+                textLines.setText(getString(R.string.lines) + "\n" + String.valueOf(numberOfLinesCleared));
             }
         });
 

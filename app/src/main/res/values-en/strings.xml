@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tetris</string>
     <string name="action_settings">Settings</string>
@@ -17,5 +18,12 @@
     <string name="level">Level:</string>
     <string name="score">Score:</string>
     <string name="lines">Lines:</string>
-    <string name="next">Next:</string>
+    <string name="next">Next:\n</string>
+    <string name="classicColor">Classic</string>
+    <string name="greyTonesColor">Shades of Grey</string>
+    <string name="pastelColors">Pastel Colors</string>
+    <string name="fcbarcelonaColors">FC Barcelona</string>
+    <string name="milkaColors">Milka</string>
+    <string name="carosFavColors">Caros favorites</string>
+    <string name="newTheme">New theme: </string>
 </resources>

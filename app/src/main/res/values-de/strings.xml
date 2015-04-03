@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tetris</string>
+    <string name="action_settings">Optionen</string>
+
+    <string name="restart_dialog">Game Over! Wollen Sie noch einmal spielen?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+
+    <string name="title_activity_start_menu">Start Menü</string>
+    <string name="button_start_game">Spiel starten</string>
+    <string name="button_highscores">Meine Highscores</string>
+    <string name="button_options">Optionen</string>
+    <string name="title_activity_highscore_table">Highscore Tabelle</string>
+    <string name="title_activity_options">Optionen</string>
+    <string name="current_theme">Aktuelles Farbschema</string>
+    <string name="choose_new_theme">Wählen Sie ein neues Farbschema:</string>
+    <string name="level">Level:</string>
+    <string name="score">Punkte:</string>
+    <string name="lines">Linien:</string>
+    <string name="next">Nächstes:\n</string>
+    <string name="classicColor">Klassisch</string>
+    <string name="greyTonesColor">Grautöne</string>
+    <string name="pastelColors">Pastellfarben</string>
+    <string name="fcbarcelonaColors">FC Barcelona</string>
+    <string name="milkaColors">Milka</string>
+    <string name="carosFavColors">Caros favorites</string>
+    <string name="newTheme">Neues Farbschema: </string>
+</resources>

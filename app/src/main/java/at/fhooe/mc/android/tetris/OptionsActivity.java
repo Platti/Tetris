@@ -2,6 +2,7 @@ package at.fhooe.mc.android.tetris;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +18,7 @@ import at.fhooe.mc.android.tetris.R;
 public class OptionsActivity extends Activity implements AdapterView.OnItemClickListener {
 
     TetrisColor color;
+    MediaPlayer mP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
 
         ListView listView = (ListView) findViewById(R.id.listView);
         ArrayAdapter<ColorTheme> adapter = new MyArrayAdapter(this);
-        adapter.add(new ColorTheme("Classic",
+        adapter.add(new ColorTheme(getString(R.string.classicColor),
                 new int[]{
                         Color.RED,
                         Color.GREEN,
@@ -53,7 +55,7 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
                         Color.MAGENTA,
                         Color.GRAY}));
 
-        adapter.add(new ColorTheme("Shades of Grey",
+        adapter.add(new ColorTheme(getString(R.string.greyTonesColor),
                 new int[]{
                         Color.argb(255, 255, 255, 255),
                         Color.argb(255, 230, 230, 230),
@@ -63,7 +65,7 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
                         Color.argb(255, 50, 50, 50),
                         Color.argb(255, 0, 0, 0)}));
 
-        adapter.add(new ColorTheme("Pastel Colors",
+        adapter.add(new ColorTheme(getString(R.string.pastelColors),
                 new int[]{
                         Color.argb(255, 106, 203, 222),
                         Color.argb(255, 246, 156, 155),
@@ -73,7 +75,7 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
                         Color.argb(255, 182, 216, 132),
                         Color.argb(255, 191, 128, 183)}));
 
-        adapter.add(new ColorTheme("FC Barcelona",
+        adapter.add(new ColorTheme(getString(R.string.fcbarcelonaColors),
                 new int[]{
                         Color.argb(255, 0, 75, 149),
                         Color.argb(255, 164, 35, 75),
@@ -83,7 +85,7 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
                         Color.argb(255, 255, 255, 255),
                         Color.argb(255, 0, 0, 0)}));
 
-        adapter.add(new ColorTheme("Milka",
+        adapter.add(new ColorTheme(getString(R.string.milkaColors),
                 new int[]{
                         Color.argb(255, 104, 79, 163),
                         Color.argb(255, 255, 255, 255),
@@ -93,7 +95,7 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
                         Color.argb(255, 71, 13, 2),
                         Color.argb(255, 40, 27, 115)}));
 
-        adapter.add(new ColorTheme("Caro's favorites",
+        adapter.add(new ColorTheme(getString(R.string.carosFavColors),
                 new int[]{
                         getResources().getColor(R.color.red),
                         getResources().getColor(R.color.yellow),
@@ -105,6 +107,22 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+
+        mP = MediaPlayer.create(OptionsActivity.this, R.raw.menusoundtrack);
+        mP.setLooping(true);
+        mP.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mP.stop();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mP.stop();
     }
 
     @Override
@@ -113,7 +131,7 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
         ColorTheme colorTheme = (ColorTheme) parent.getAdapter().getItem(position);
         color.chooseNewColors(colorTheme.getColors());
 
-        Toast.makeText(this, "New theme: " + colorTheme.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.newTheme) + colorTheme.getName(), Toast.LENGTH_SHORT).show();
 
         // Update Current Theme
         ImageView iv = null;
