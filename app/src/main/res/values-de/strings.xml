@@ -13,8 +13,8 @@
     <string name="button_options">Optionen</string>
     <string name="title_activity_highscore_table">Highscore Tabelle</string>
     <string name="title_activity_options">Optionen</string>
-    <string name="current_theme">Aktuelles Farbschema</string>
-    <string name="choose_new_theme">Wählen Sie ein neues Farbschema:</string>
+    <string name="current_theme">Gewählt:</string>
+    <string name="choose_new_theme">Wähle ein neues Farbschema:</string>
     <string name="level">Level:</string>
     <string name="score">Punkte:</string>
     <string name="lines">Linien:</string>

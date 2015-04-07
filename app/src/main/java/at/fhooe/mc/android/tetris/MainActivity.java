@@ -148,6 +148,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         textLines = (TextView) findViewById(R.id.textView_lines);
         textScore = (TextView) findViewById(R.id.textView_score);
 
+        textLevel.setText(getString(R.string.level) + "\n" + 0);
+        textScore.setText(getString(R.string.score) + "\n" + 0);
+        textLines.setText(getString(R.string.lines) + "\n" + 0);
+
         color = new TetrisColor(this);
 
 //        COLOR_I = getResources().getColor(R.color.red);

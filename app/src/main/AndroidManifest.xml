@@ -31,7 +31,8 @@
         <activity
             android:name=".HighscoreTable"
             android:label="@string/title_activity_highscore_table"
-            android:parentActivityName=".StartMenu" >
+            android:parentActivityName=".StartMenu"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="at.fhooe.mc.android.tetris.StartMenu" />
@@ -39,7 +40,8 @@
         <activity
             android:name=".OptionsActivity"
             android:label="@string/title_activity_options"
-            android:parentActivityName=".StartMenu" >
+            android:parentActivityName=".StartMenu"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="at.fhooe.mc.android.tetris.StartMenu" />

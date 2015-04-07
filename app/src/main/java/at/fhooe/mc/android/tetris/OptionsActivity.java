@@ -171,7 +171,7 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
         ColorTheme colorTheme = (ColorTheme) parent.getAdapter().getItem(position);
         color.chooseNewColors(colorTheme.getColors());
 
-        Toast.makeText(this, getString(R.string.newTheme) + colorTheme.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.newTheme) + " " + colorTheme.getName(), Toast.LENGTH_SHORT).show();
 
         // Update Current Theme
         ImageView iv = null;
