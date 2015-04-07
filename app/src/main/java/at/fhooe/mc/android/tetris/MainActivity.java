@@ -212,14 +212,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             }
         });
 
-        mP = MediaPlayer.create(MainActivity.this, R.raw.gamesoundtrack);
-        mP.setLooping(true);
+//        mP = MediaPlayer.create(MainActivity.this, R.raw.gamesoundtrack);
+//        mP.setLooping(true);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mP.start();
+//        mP.start();
     }
 
     @Override
@@ -232,7 +232,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         }
         Log.i(TAG, "onDestroy");
 
-        mP.stop();
+//        mP.stop();
     }
 
     @Override
@@ -245,7 +245,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         }
         Log.i(TAG, "onStop");
 
-        mP.stop();
+//        mP.stop();
     }
 
     @Override
@@ -336,7 +336,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         Log.i(TAG, "new Timer 1 (startGame)");
         timerRunning = 1;
 
-        mP.start();
+//        mP.start();
 
 
 //                new TimerTask() {
@@ -399,7 +399,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             bRight.setEnabled(false);
             bSpin.setEnabled(false);
             pause = true;
-            mP.stop();
+//            mP.stop();
         } else {
             if (timerRunning == 1) {
 
@@ -434,7 +434,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             bRight.setEnabled(true);
             bSpin.setEnabled(true);
             pause = false;
-            mP.start();
+//            mP.start();
         }
     }
 
@@ -1422,7 +1422,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         timer.cancel();
         timer.purge();
         timerRunning = 0;
-        pause = true;
 
         Log.i(TAG, "save score in highscore table...");
         storeHighscore();

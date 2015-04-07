@@ -18,7 +18,7 @@
             android:id="@+id/button_start"
             android:layout_gravity="center_horizontal"
             android:padding="5dp"
-            android:textColor="#ff000000" />
+            android:textColor="@android:color/black" />
 
         <TextView
             android:layout_width="match_parent"

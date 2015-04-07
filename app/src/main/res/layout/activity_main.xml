@@ -1,136 +1,135 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:foregroundGravity="center">
+    android:foregroundGravity="center"
+    tools:context=".MainActivity">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
         <FrameLayout
+            android:id="@+id/frame"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/frame"
             android:layout_gravity="center"
             android:foregroundGravity="center">
 
             <SurfaceView
+                android:id="@+id/background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/background"
                 android:layout_gravity="center" />
 
             <Button
-                android:layout_width="100dp"
-                android:layout_height="400dp"
                 android:id="@+id/button_left"
-                android:layout_gravity="left|bottom"
-                android:background="@drawable/button_background"
-                style="@android:style/Widget.DeviceDefault.Button.Borderless"/>
-
-            <Button
+                style="@android:style/Widget.DeviceDefault.Button.Borderless"
                 android:layout_width="100dp"
                 android:layout_height="400dp"
-                android:id="@+id/button_right"
-                android:layout_gravity="right|bottom"
-                android:background="@drawable/button_background"
-                style="@android:style/Widget.DeviceDefault.Button.Borderless" />
+                android:layout_gravity="left|bottom"
+                android:background="@drawable/button_background" />
 
             <Button
+                android:id="@+id/button_right"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless"
+                android:layout_width="100dp"
+                android:layout_height="400dp"
+                android:layout_gravity="right|bottom"
+                android:background="@drawable/button_background" />
+
+            <Button
+                android:id="@+id/button_spin"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless"
                 android:layout_width="180dp"
                 android:layout_height="200dp"
-                android:id="@+id/button_spin"
                 android:layout_gravity="center"
-                android:background="@drawable/button_background"
-                style="@android:style/Widget.DeviceDefault.Button.Borderless" />
+                android:background="@drawable/button_background" />
 
         </FrameLayout>
 
         <LinearLayout
-            android:orientation="vertical"
+            android:id="@+id/linear_layout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/linear_layout"
             android:layout_gravity="top"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
+            android:layout_marginRight="5dp"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/level"
                 android:id="@+id/textView_level"
-                android:rotation="90"
-                android:gravity="center"
-                android:layout_gravity="center"
-
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp" />
-
-            <TextView
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/lines"
-                android:id="@+id/textView_lines"
-                android:rotation="90"
-                android:gravity="center"
                 android:layout_gravity="center"
-
+                android:gravity="center"
                 android:paddingBottom="15dp"
-                android:paddingTop="15dp" />
+                android:paddingTop="15dp"
+                android:rotation="90"
+
+                android:text="@string/level"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
+                android:id="@+id/textView_lines"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/score"
-                android:id="@+id/textView_score"
-                android:rotation="90"
-                android:gravity="center"
                 android:layout_gravity="center"
-
+                android:gravity="center"
+                android:paddingBottom="15dp"
                 android:paddingTop="15dp"
-                android:paddingBottom="15dp" />
+                android:rotation="90"
+
+                android:text="@string/lines"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:rotation="90"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/next"
-            android:id="@+id/text_next"
+                android:id="@+id/textView_score"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:rotation="90"
+
+                android:text="@string/score"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/text_next"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
+                android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:paddingBottom="10dp" />
+                android:rotation="90"
+                android:text="@string/next"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <FrameLayout
+                android:id="@+id/frame_preview"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:id="@+id/frame_preview"
                 android:layout_gravity="center_horizontal">
 
                 <SurfaceView
+                    android:id="@+id/surface_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/surface_next"
                     android:focusable="false" />
             </FrameLayout>
 
             <ImageButton
+                android:id="@+id/button_pause"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/button_pause"
-                android:src="@drawable/ic_media_pause"
                 android:layout_marginTop="50dp"
-                style="@android:style/Widget.DeviceDefault.Button.Borderless" />
+                android:src="@drawable/ic_media_pause" />
 
         </LinearLayout>
 

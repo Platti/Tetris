@@ -28,21 +28,21 @@ public class StartMenu extends Activity implements View.OnClickListener {
         setContentView(R.layout.start_menu);
         color = new TetrisColor(this);
 
-        mP = MediaPlayer.create(StartMenu.this, R.raw.menusoundtrack);
-        mP.setLooping(true);
-        mP.start();
+//        mP = MediaPlayer.create(StartMenu.this, R.raw.menusoundtrack);
+//        mP.setLooping(true);
+//        mP.start();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mP.stop();
+//        mP.stop();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mP.stop();
+//        mP.stop();
     }
 
     @Override
@@ -59,17 +59,17 @@ public class StartMenu extends Activity implements View.OnClickListener {
 
         Button b = null;
         b = (Button) findViewById(R.id.button_start);
-        gd1.setColors(new int[]{color.o, color.o | Color.LTGRAY, color.o});
+        gd1.setColors(new int[]{0xffffebff, 0xffffeb55, 0xffffeb00});//color.o, color.o | Color.LTGRAY, color.o});
         b.setBackground(gd1);
         b.setOnClickListener(this);
 
         b = (Button) findViewById(R.id.button_highscores);
-        gd2.setColors(new int[]{color.i, color.i | Color.LTGRAY, color.i});
+        gd2.setColors(new int[]{0xffddffdd, 0xff80ea80, 0xff339933});//0xffddffdd, 0xff80ea80, 0xff339933});color.i, color.i | Color.LTGRAY, color.i});
         b.setBackground(gd2);
         b.setOnClickListener(this);
 
         b = (Button) findViewById(R.id.button_options);
-        gd3.setColors(new int[]{color.l, color.l | Color.LTGRAY, color.l});
+        gd3.setColors(new int[]{0xffc4f5ff, 0xff55e1ff, 0xff008baa});//color.l, color.l | Color.LTGRAY, color.l});
         b.setBackground(gd3);
         b.setOnClickListener(this);
     }
