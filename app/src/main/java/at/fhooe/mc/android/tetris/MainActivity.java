@@ -334,6 +334,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     public void startGame() {
         initDisplay();
+        score = 0;
+        level = 0;
+        numberOfLinesCleared = 0;
         initTimerTask();
         timer = new Timer();
         timer.schedule(timerTask, 1000, 300);

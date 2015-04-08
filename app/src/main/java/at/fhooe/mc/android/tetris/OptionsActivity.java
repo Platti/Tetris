@@ -95,15 +95,15 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
                         Color.argb(255, 71, 13, 2),
                         Color.argb(255, 40, 27, 115)}));
 
-//        adapter.add(new ColorTheme("Nespresso",
-//                new int[]{
-//                        Color.argb(255, 0, 0, 0),
-//                        Color.argb(255, 78, 22, 5),
-//                        Color.argb(255, 72, 21, 100),
-//                        Color.argb(255, 25, 71, 25),
-//                        Color.argb(255, 169, 136, 59),
-//                        Color.argb(255, 151, 3, 16),
-//                        Color.argb(255, 16, 115, 111)}));
+        adapter.add(new ColorTheme("Nespresso",
+                new int[]{
+                        Color.argb(255, 0, 0, 0),
+                        Color.argb(255, 78, 22, 5),
+                        Color.argb(255, 72, 21, 100),
+                        Color.argb(255, 25, 71, 25),
+                        Color.argb(255, 169, 136, 59),
+                        Color.argb(255, 151, 3, 16),
+                        Color.argb(255, 16, 115, 111)}));
 //
 //        adapter.add(new ColorTheme("Erdtöne",
 //                new int[]{
