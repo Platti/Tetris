@@ -52,10 +52,12 @@ public class StartMenu extends Activity implements View.OnClickListener {
         GradientDrawable gd1 = new GradientDrawable();
         GradientDrawable gd2 = new GradientDrawable();
         GradientDrawable gd3 = new GradientDrawable();
+        GradientDrawable gd4 = new GradientDrawable();
 
         gd1.setCornerRadius(10);
         gd2.setCornerRadius(10);
         gd3.setCornerRadius(10);
+        gd4.setCornerRadius(10);
 
         Button b = null;
         b = (Button) findViewById(R.id.button_start);
@@ -64,19 +66,19 @@ public class StartMenu extends Activity implements View.OnClickListener {
         b.setOnClickListener(this);
 
         b = (Button) findViewById(R.id.button_multiplayer);
-        gd1.setColors(new int[]{color.i | Color.LTGRAY, color.i});//0xffffebff, 0xffffeb55, 0xffffeb00});//
-        b.setBackground(gd1);
-        b.setOnClickListener(this);
-
-        b = (Button) findViewById(R.id.button_highscores);
-        gd2.setColors(new int[]{color.l | Color.LTGRAY, color.l});//0xffddffdd, 0xff80ea80, 0xff339933});//0xffddffdd, 0xff80ea80, 0xff339933});color.i, color.i | Color.LTGRAY, color.i});
-
+        gd2.setColors(new int[]{color.i | Color.LTGRAY, color.i});//0xffffebff, 0xffffeb55, 0xffffeb00});//
         b.setBackground(gd2);
         b.setOnClickListener(this);
 
-        b = (Button) findViewById(R.id.button_options);
-        gd3.setColors(new int[]{color.j | Color.LTGRAY, color.j});//0xffc4f5ff, 0xff55e1ff, 0xff008baa});//color.l, color.l | Color.LTGRAY, color.l});
+        b = (Button) findViewById(R.id.button_highscores);
+        gd3.setColors(new int[]{color.l | Color.LTGRAY, color.l});//0xffddffdd, 0xff80ea80, 0xff339933});//0xffddffdd, 0xff80ea80, 0xff339933});color.i, color.i | Color.LTGRAY, color.i});
+
         b.setBackground(gd3);
+        b.setOnClickListener(this);
+
+        b = (Button) findViewById(R.id.button_options);
+        gd4.setColors(new int[]{color.j | Color.LTGRAY, color.j});//0xffc4f5ff, 0xff55e1ff, 0xff008baa});//color.l, color.l | Color.LTGRAY, color.l});
+        b.setBackground(gd4);
         b.setOnClickListener(this);
     }
 
@@ -95,7 +97,7 @@ public class StartMenu extends Activity implements View.OnClickListener {
             break;
             case R.id.button_multiplayer: {
                 v.setBackground(gdPressed);
-                Intent i = new Intent(StartMenu.this, MainActivity.class);
+                Intent i = new Intent(StartMenu.this, BluetoothMenu.class);
                 startActivity(i);
             }
             break;

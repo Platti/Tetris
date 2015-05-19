@@ -29,4 +29,5 @@
     <string name="title_activity_bluetooth_menu">Bluetooth Menu</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="button_refresh">Refresh</string>
 </resources>
