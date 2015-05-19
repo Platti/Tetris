@@ -52,7 +52,8 @@
         <activity
             android:name=".BluetoothMenu"
             android:label="@string/title_activity_bluetooth_menu"
-            android:parentActivityName=".StartMenu" >
+            android:parentActivityName=".StartMenu"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="at.fhooe.mc.android.tetris.StartMenu" />
