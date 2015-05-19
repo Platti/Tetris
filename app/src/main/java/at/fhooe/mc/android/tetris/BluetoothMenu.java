@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,10 +35,11 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
 
     private static final int REQUEST_ENABLE_BT = 1;
     private static final String NAME = "Tetris Bluetooth";
-    private static final UUID MY_UUID = UUID.randomUUID();
+    private static final UUID MY_UUID = UUID.fromString("dc70349f-4084-4bf4-8573-0eb470d93270");
     private static final int MESSAGE_READ = 2;
     private static final int MESSAGE_TOAST = 5;
     private static final String MESSAGE_KEY_TOAST = "Message for Toast";
+    private static final String TAG = "Tetris Log-Tag";
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     DeviceArrayAdapter mArrayAdapter;
 
@@ -156,6 +158,8 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         if (mConnectThread == null) {
             MyBluetoothDevice device = (MyBluetoothDevice) _parent.getAdapter().getItem(_pos);
             mConnectThread = new ConnectThread(mBluetoothAdapter.getRemoteDevice(device.getAddress()));
+            mConnectThread.start();
+            Log.i(TAG, "Trying to connect to " + device.getName());
         }
     }
 
@@ -216,6 +220,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
                 }
                 // If a connection was accepted
                 if (socket != null) {
+                    Log.i(TAG,"Somebody connected to your device");
                     // Do work to manage the connection (in a separate thread)
                     manageConnectedSocket(socket);
                     try {
@@ -266,7 +271,9 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
                 // Connect the device through the socket. This will block
                 // until it succeeds or throws an exception
                 mmSocket.connect();
+                Log.i(TAG,"Connected without Exception to " + mmDevice.getName());
             } catch (IOException connectException) {
+                Log.e(TAG,"Error: Connection to " + mmDevice.getName());
                 // Unable to connect; close the socket and get out
                 try {
                     mmSocket.close();
