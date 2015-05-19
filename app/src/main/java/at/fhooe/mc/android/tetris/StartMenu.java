@@ -63,14 +63,19 @@ public class StartMenu extends Activity implements View.OnClickListener {
         b.setBackground(gd1);
         b.setOnClickListener(this);
 
+        b = (Button) findViewById(R.id.button_multiplayer);
+        gd1.setColors(new int[]{color.i | Color.LTGRAY, color.i});//0xffffebff, 0xffffeb55, 0xffffeb00});//
+        b.setBackground(gd1);
+        b.setOnClickListener(this);
+
         b = (Button) findViewById(R.id.button_highscores);
-        gd2.setColors(new int[]{color.i | Color.LTGRAY, color.i});//0xffddffdd, 0xff80ea80, 0xff339933});//0xffddffdd, 0xff80ea80, 0xff339933});color.i, color.i | Color.LTGRAY, color.i});
+        gd2.setColors(new int[]{color.l | Color.LTGRAY, color.l});//0xffddffdd, 0xff80ea80, 0xff339933});//0xffddffdd, 0xff80ea80, 0xff339933});color.i, color.i | Color.LTGRAY, color.i});
 
         b.setBackground(gd2);
         b.setOnClickListener(this);
 
         b = (Button) findViewById(R.id.button_options);
-        gd3.setColors(new int[]{color.l | Color.LTGRAY, color.l});//0xffc4f5ff, 0xff55e1ff, 0xff008baa});//color.l, color.l | Color.LTGRAY, color.l});
+        gd3.setColors(new int[]{color.j | Color.LTGRAY, color.j});//0xffc4f5ff, 0xff55e1ff, 0xff008baa});//color.l, color.l | Color.LTGRAY, color.l});
         b.setBackground(gd3);
         b.setOnClickListener(this);
     }
@@ -83,6 +88,12 @@ public class StartMenu extends Activity implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.button_start: {
+                v.setBackground(gdPressed);
+                Intent i = new Intent(StartMenu.this, MainActivity.class);
+                startActivity(i);
+            }
+            break;
+            case R.id.button_multiplayer: {
                 v.setBackground(gdPressed);
                 Intent i = new Intent(StartMenu.this, MainActivity.class);
                 startActivity(i);

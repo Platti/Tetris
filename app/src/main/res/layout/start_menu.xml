@@ -18,13 +18,20 @@
             android:id="@+id/button_start"
             android:layout_gravity="center_horizontal"
             android:padding="5dp"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
 
-        <TextView
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/textView" />
+            android:text="@string/button_start_multiplayer"
+            android:id="@+id/button_multiplayer"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
 
         <Button
             android:layout_width="match_parent"
@@ -33,13 +40,9 @@
             android:id="@+id/button_highscores"
             android:layout_gravity="center_horizontal"
             android:padding="5dp"
-            android:textColor="#ff000000" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/textView2" />
+            android:textColor="#ff000000"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
 
         <Button
             android:layout_width="match_parent"
@@ -48,6 +51,8 @@
             android:id="@+id/button_options"
             android:layout_gravity="center_horizontal"
             android:padding="5dp"
-            android:textColor="#ff000000" />
+            android:textColor="#ff000000"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
     </LinearLayout>
 </FrameLayout>

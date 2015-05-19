@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="at.fhooe.mc.android.tetris" >
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/tetris"
@@ -16,7 +18,7 @@
         <activity
             android:name=".Splashscreen"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,6 +44,14 @@
             android:label="@string/title_activity_options"
             android:parentActivityName=".StartMenu"
             android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="at.fhooe.mc.android.tetris.StartMenu" />
+        </activity>
+        <activity
+            android:name=".BluetoothMenu"
+            android:label="@string/title_activity_bluetooth_menu"
+            android:parentActivityName=".StartMenu" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="at.fhooe.mc.android.tetris.StartMenu" />

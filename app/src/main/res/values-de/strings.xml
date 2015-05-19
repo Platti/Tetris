@@ -8,7 +8,7 @@
     <string name="no">Nein</string>
 
     <string name="title_activity_start_menu">Start Menü</string>
-    <string name="button_start_game">Spiel starten</string>
+    <string name="button_start_game">Einzelspieler</string>
     <string name="button_highscores">Meine Highscores</string>
     <string name="button_options">Optionen</string>
     <string name="title_activity_highscore_table">Highscore Tabelle</string>
@@ -26,4 +26,5 @@
     <string name="milkaColors">Milka</string>
     <string name="zipferColors">Zipfer</string>
     <string name="newTheme">Neues Farbschema: </string>
+    <string name="button_start_multiplayer">Mehrspieler</string>
 </resources>
