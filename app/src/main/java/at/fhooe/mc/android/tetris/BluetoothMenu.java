@@ -47,16 +47,16 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
     ConnectThread mConnectThread;
     ConnectedThread mConnectedThread;
 
-    private final Handler mHandler = new Handler(){
+    private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch(msg.what){
-                case MESSAGE_READ:{
+            switch (msg.what) {
+                case MESSAGE_READ: {
                     String data = msg.getData().toString();
                     Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
                 }
                 break;
-                case MESSAGE_TOAST:{
+                case MESSAGE_TOAST: {
                     Bundle data = msg.getData();
                     Toast.makeText(getBaseContext(), data.getString(MESSAGE_KEY_TOAST), Toast.LENGTH_LONG).show();
                 }
@@ -120,7 +120,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         deviceList.setAdapter(mArrayAdapter);
         deviceList.setOnItemClickListener(this);
 
-        if (mAcceptThread == null) {
+        if (mAcceptThread == null && mBluetoothAdapter.isEnabled()) {
             mAcceptThread = new AcceptThread();
             mAcceptThread.start();
         }
@@ -131,6 +131,10 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         if (requestCode == REQUEST_ENABLE_BT && resultCode != RESULT_OK) {
             this.finish();
         } else if (requestCode == REQUEST_ENABLE_BT && resultCode == RESULT_OK) {
+            if (mAcceptThread == null && mBluetoothAdapter.isEnabled()) {
+                mAcceptThread = new AcceptThread();
+                mAcceptThread.start();
+            }
             Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
             discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
             startActivity(discoverableIntent);
@@ -149,6 +153,12 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
             case R.id.button_refresh: {
                 mBluetoothAdapter.cancelDiscovery();
                 mArrayAdapter.clear();
+                Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+                if (pairedDevices.size() > 0) {
+                    for (BluetoothDevice device : pairedDevices) {
+                        mArrayAdapter.add(new MyBluetoothDevice(device.getName(), device.getAddress(), true));
+                    }
+                }
                 mBluetoothAdapter.startDiscovery();
             }
         }
@@ -156,7 +166,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
 
     @Override
     public void onItemClick(AdapterView<?> _parent, View _view, int _pos, long _id) {
-        if (mConnectThread == null) {
+        if (mConnectThread == null && mConnectedThread == null) {
             MyBluetoothDevice device = (MyBluetoothDevice) _parent.getAdapter().getItem(_pos);
             mConnectThread = new ConnectThread(mBluetoothAdapter.getRemoteDevice(device.getAddress()));
             mConnectThread.start();
@@ -217,7 +227,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
                 }
                 // If a connection was accepted
                 if (socket != null) {
-                    Log.i(TAG,"Somebody connected to your device");
+                    Log.i(TAG, "Somebody connected to your device");
                     // Do work to manage the connection (in a separate thread)
                     manageConnectedSocket(socket);
                     try {
@@ -268,9 +278,16 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
                 // Connect the device through the socket. This will block
                 // until it succeeds or throws an exception
                 mmSocket.connect();
-                Log.i(TAG,"Connected without Exception to " + mmDevice.getName());
+                Log.i(TAG, "Connected without Exception to " + mmDevice.getName());
             } catch (IOException connectException) {
-                Log.e(TAG,"Error: Connection to " + mmDevice.getName());
+                Log.e(TAG, "Error: Connection to " + mmDevice.getName());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getBaseContext(), "Could not connect to " + mmDevice.getName(), Toast.LENGTH_LONG).show();
+                    }
+                });
+                mConnectThread = null;
                 // Unable to connect; close the socket and get out
                 try {
                     mmSocket.close();

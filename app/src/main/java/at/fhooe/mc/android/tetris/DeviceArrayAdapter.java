@@ -42,14 +42,14 @@ public class DeviceArrayAdapter extends ArrayAdapter<MyBluetoothDevice> {
         return _view;
     }
 
-    @Override
-    public void clear() {
-        for (int i = 0; i < this.getCount(); i++) {
-            if (!this.getItem(i).isPaired()) {
-                this.remove(this.getItem(i));
-            }
-        }
-    }
+//    @Override
+//    public void clear() {
+//        for (int i = 0; i < this.getCount(); i++) {
+//            if (!this.getItem(i).isPaired()) {
+//                this.remove(this.getItem(i));
+//            }
+//        }
+//    }
 
     @Override
     public void add(MyBluetoothDevice object) {
