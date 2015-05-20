@@ -52,7 +52,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MESSAGE_READ: {
-                    String data = msg.getData().toString();
+                    String data = new String((byte[]) msg.obj);
                     Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
                 }
                 break;
@@ -197,7 +197,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
 
-//        mConnectedThread.write(("Verbunden mit  " + mBluetoothAdapter.getName()).getBytes());
+        mConnectedThread.write(("Verbunden mit  " + mBluetoothAdapter.getName()).getBytes());
     }
 
 
