@@ -3,7 +3,8 @@
     <string name="app_name">Tetris</string>
     <string name="action_settings">Settings</string>
 
-    <string name="restart_dialog">Game Over! Do you want to play again?</string>
+    <string name="restart_dialog1">Game Over!\nYour score: </string>
+    <string name="restart_dialog2">Do you want to play again?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 

@@ -5,5 +5,6 @@
     <color name="silver">#FFC0C0C0</color>
     <color name="bronze">#FFCD7F32</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cyan">#FF00FFFF</color>
 
 </resources>

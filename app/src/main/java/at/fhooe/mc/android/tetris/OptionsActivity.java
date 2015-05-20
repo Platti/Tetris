@@ -56,14 +56,13 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
                         Color.GRAY}));
 
         adapter.add(new ColorTheme(getString(R.string.greyTonesColor),
-                new int[]{
-                        Color.argb(255, 255, 255, 255),
+                new int[]{Color.argb(255, 0, 0, 0),
+                        Color.argb(255, 50, 50, 50),
+                        Color.argb(255, 90, 90, 90),
+                        Color.argb(255, 130, 130, 130),
                         Color.argb(255, 230, 230, 230),
                         Color.argb(255, 170, 170, 170),
-                        Color.argb(255, 130, 130, 130),
-                        Color.argb(255, 90, 90, 90),
-                        Color.argb(255, 50, 50, 50),
-                        Color.argb(255, 0, 0, 0)}));
+                        Color.argb(255, 255, 255, 255),}));
 
         adapter.add(new ColorTheme(getString(R.string.pastelColors),
                 new int[]{
@@ -88,10 +87,10 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
         adapter.add(new ColorTheme(getString(R.string.milkaColors),
                 new int[]{
                         Color.argb(255, 104, 79, 163),
-                        Color.argb(255, 255, 255, 255),
+                        Color.argb(255, 2, 183, 240),
                         Color.argb(255, 116, 38, 18),
                         Color.argb(255, 215, 195, 145),
-                        Color.argb(255, 2, 183, 240),
+                        Color.argb(255, 255, 255, 255),
                         Color.argb(255, 71, 13, 2),
                         Color.argb(255, 40, 27, 115)}));
 
@@ -120,8 +119,8 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
                         Color.argb(255, 38, 45, 115),
                         Color.argb(255, 216, 163, 21),
                         Color.argb(255, 243, 234, 97),
-                        Color.argb(255, 252, 252, 252),
                         Color.argb(255, 187, 107, 46),
+                        Color.argb(255, 252, 252, 252),
                         Color.argb(255, 155, 159, 170),
                         Color.argb(255, 38, 15, 1)}));
 

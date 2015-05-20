@@ -1,5 +1,6 @@
 package at.fhooe.mc.android.tetris;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 
 /**
@@ -8,16 +9,13 @@ import android.media.MediaPlayer;
 
 public class TetrisMediaPlayer extends MediaPlayer {
 
-    private TetrisMediaPlayer player;
+    private static TetrisMediaPlayer player;
     private boolean stop;
 
-    TetrisMediaPlayer(){
-        stop = true;
-    }
-
-    TetrisMediaPlayer getInstance() {
+    public static TetrisMediaPlayer getInstance(Context context, int resid) {
         if (player == null) {
-            player = new TetrisMediaPlayer();
+            player = (TetrisMediaPlayer) TetrisMediaPlayer.create(context, resid);
+            player.setLooping(true);
         }
         return player;
     }
@@ -29,7 +27,15 @@ public class TetrisMediaPlayer extends MediaPlayer {
     @Override
     public void stop() throws IllegalStateException {
         if (stop) {
+            player = null;
             super.stop();
+        }
+    }
+
+    @Override
+    public void start() throws IllegalStateException {
+        if (!isPlaying()) {
+            super.start();
         }
     }
 }

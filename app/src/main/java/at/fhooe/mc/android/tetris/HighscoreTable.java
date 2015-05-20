@@ -37,6 +37,9 @@ public class HighscoreTable extends Activity {
                 } else {
                     tv.setTextColor(getResources().getColor(R.color.white));
                 }
+                if(score == sp.getInt("latest score", -1)){
+                    tv.setTextColor(getResources().getColor(R.color.cyan));
+                }
                 tv.setText(String.valueOf(score));
                 layout.addView(tv);
             }

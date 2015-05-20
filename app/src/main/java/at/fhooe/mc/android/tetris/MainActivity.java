@@ -1405,6 +1405,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         for (int i = 0; i < 10; i++) {
             edit.putInt("score" + i, highscores[i]);
         }
+        edit.putInt("latest score", score);
         edit.commit();
     }
 
@@ -1434,6 +1435,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         storeHighscore();
 
         DialogFragment dialog = new RestartDialog();
+        Bundle args = new Bundle();
+        args.putInt("score",score);
+        dialog.setArguments(args);
         dialog.show(getFragmentManager(), "restart_dialog");
     }
 }
