@@ -197,7 +197,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
 
-        mConnectedThread.write(("Verbunden mit  " + mBluetoothAdapter.getName()).getBytes());
+//        mConnectedThread.write(("Verbunden mit  " + mBluetoothAdapter.getName()).getBytes());
     }
 
 
@@ -227,7 +227,13 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
                 }
                 // If a connection was accepted
                 if (socket != null) {
-                    Log.i(TAG, "Somebody connected to your device");
+                    Log.i(TAG, "Somebody is connecting to your device");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getBaseContext(), "Somebody is connecting to your device...", Toast.LENGTH_LONG).show();
+                        }
+                    });
                     // Do work to manage the connection (in a separate thread)
                     manageConnectedSocket(socket);
                     try {
@@ -278,7 +284,13 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
                 // Connect the device through the socket. This will block
                 // until it succeeds or throws an exception
                 mmSocket.connect();
-                Log.i(TAG, "Connected without Exception to " + mmDevice.getName());
+                Log.i(TAG, "Connecting without Exception to " + mmDevice.getName());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getBaseContext(), "Connecting to " + mmDevice.getName() + "...", Toast.LENGTH_LONG).show();
+                    }
+                });
             } catch (IOException connectException) {
                 Log.e(TAG, "Error: Connection to " + mmDevice.getName());
                 runOnUiThread(new Runnable() {
