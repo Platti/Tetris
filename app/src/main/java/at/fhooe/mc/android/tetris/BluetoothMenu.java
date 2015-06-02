@@ -42,30 +42,10 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
     private static final String TAG = "Tetris Log-Tag";
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     DeviceArrayAdapter mArrayAdapter;
+    BluetoothService service;
 
-    AcceptThread mAcceptThread;
-    ConnectThread mConnectThread;
-    ConnectedThread mConnectedThread;
 
-    private final Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MESSAGE_READ: {
-                    Log.i(TAG, "Reading message");
-                    String data = new String((byte[]) msg.obj);
-                    Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
-                }
-                break;
-                case MESSAGE_TOAST: {
-                    Bundle data = msg.getData();
-                    Toast.makeText(getBaseContext(), data.getString(MESSAGE_KEY_TOAST), Toast.LENGTH_LONG).show();
-                }
-                break;
-            }
-        }
-    };
-
+    private final TetrisHandler mHandler = new TetrisHandler(this);
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -121,9 +101,9 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         deviceList.setAdapter(mArrayAdapter);
         deviceList.setOnItemClickListener(this);
 
-        if (mAcceptThread == null && mBluetoothAdapter.isEnabled()) {
-            mAcceptThread = new AcceptThread();
-            mAcceptThread.start();
+        if (mBluetoothAdapter.isEnabled()) {
+            service = BluetoothService.getInstance(this, mHandler);
+            service.start();
         }
     }
 
@@ -132,14 +112,20 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         if (requestCode == REQUEST_ENABLE_BT && resultCode != RESULT_OK) {
             this.finish();
         } else if (requestCode == REQUEST_ENABLE_BT && resultCode == RESULT_OK) {
-            if (mAcceptThread == null && mBluetoothAdapter.isEnabled()) {
-                mAcceptThread = new AcceptThread();
-                mAcceptThread.start();
+            if (mBluetoothAdapter.isEnabled()) {
+                service = BluetoothService.getInstance(this, mHandler);
+                service.start();
             }
             Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
             discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
             startActivity(discoverableIntent);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        this.finish();
+        super.onStop();
     }
 
     @Override
@@ -167,221 +153,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
 
     @Override
     public void onItemClick(AdapterView<?> _parent, View _view, int _pos, long _id) {
-        if (mConnectThread == null && mConnectedThread == null) {
-            MyBluetoothDevice device = (MyBluetoothDevice) _parent.getAdapter().getItem(_pos);
-            mConnectThread = new ConnectThread(mBluetoothAdapter.getRemoteDevice(device.getAddress()));
-            mConnectThread.start();
-            Log.i(TAG, "Trying to connect to " + device.getName());
-        }
-    }
-
-    public synchronized void manageConnectedSocket(BluetoothSocket socket) {
-
-        // Cancel any thread currently running a connection
-        if (mConnectedThread != null) {
-            mConnectedThread.cancel();
-            mConnectedThread = null;
-        }
-
-        Log.i("Bluetooth", "Socket available: " + String.valueOf(socket != null));
-        mConnectedThread = new ConnectedThread(socket);
-
-        // Cancel the thread that completed the connection
-        if (mConnectThread != null) {
-            mConnectThread.cancel();
-            mConnectThread = null;
-        }
-
-        // Cancel the accept thread because we only want to connect to one device
-        if (mAcceptThread != null) {
-            mAcceptThread.cancel();
-            mAcceptThread = null;
-        }
-
-        mConnectedThread.start();
-        mConnectedThread.write(("Verbunden mit  " + mBluetoothAdapter.getName()).getBytes());
-    }
-
-
-    private class AcceptThread extends Thread {
-        private final BluetoothServerSocket mmServerSocket;
-
-        public AcceptThread() {
-            // Use a temporary object that is later assigned to mmServerSocket,
-            // because mmServerSocket is final
-            BluetoothServerSocket tmp = null;
-            try {
-                // MY_UUID is the app's UUID string, also used by the client code
-                tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
-            } catch (IOException e) {
-            }
-            mmServerSocket = tmp;
-        }
-
-        public void run() {
-            BluetoothSocket socket = null;
-            // Keep listening until exception occurs or a socket is returned
-            while (true) {
-                try {
-                    socket = mmServerSocket.accept();
-                } catch (IOException e) {
-                    break;
-                }
-                // If a connection was accepted
-                if (socket != null) {
-                    Log.i(TAG, "Somebody is connecting to your device");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getBaseContext(), "Somebody is connecting to your device...", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    // Do work to manage the connection (in a separate thread)
-                    manageConnectedSocket(socket);
-                    try {
-                        mmServerSocket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                }
-            }
-        }
-
-        /**
-         * Will cancel the listening socket, and cause the thread to finish
-         */
-        public void cancel() {
-            try {
-                mmServerSocket.close();
-            } catch (IOException e) {
-            }
-        }
-    }
-
-    private class ConnectThread extends Thread {
-        private final BluetoothSocket mmSocket;
-        private final BluetoothDevice mmDevice;
-
-        public ConnectThread(BluetoothDevice device) {
-            // Use a temporary object that is later assigned to mmSocket,
-            // because mmSocket is final
-            BluetoothSocket tmp = null;
-            mmDevice = device;
-
-            // Get a BluetoothSocket to connect with the given BluetoothDevice
-            try {
-                // MY_UUID is the app's UUID string, also used by the server code
-                tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
-            } catch (IOException e) {
-            }
-            mmSocket = tmp;
-        }
-
-        public void run() {
-            // Cancel discovery because it will slow down the connection
-            mBluetoothAdapter.cancelDiscovery();
-
-            try {
-                // Connect the device through the socket. This will block
-                // until it succeeds or throws an exception
-                mmSocket.connect();
-                Log.i(TAG, "Connecting without Exception to " + mmDevice.getName());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getBaseContext(), "Connecting to " + mmDevice.getName() + "...", Toast.LENGTH_LONG).show();
-                    }
-                });
-            } catch (IOException connectException) {
-                Log.e(TAG, "Error: Connection to " + mmDevice.getName());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getBaseContext(), "Could not connect to " + mmDevice.getName(), Toast.LENGTH_LONG).show();
-                    }
-                });
-                mConnectThread = null;
-                // Unable to connect; close the socket and get out
-                try {
-                    mmSocket.close();
-                } catch (IOException closeException) {
-                }
-                return;
-            }
-
-            // Do work to manage the connection (in a separate thread)
-            manageConnectedSocket(mmSocket);
-        }
-
-        /**
-         * Will cancel an in-progress connection, and close the socket
-         */
-        public void cancel() {
-//            try {
-//                mmSocket.close();
-//            } catch (IOException e) {
-//            }
-        }
-    }
-
-    private class ConnectedThread extends Thread {
-        private final BluetoothSocket mmSocket;
-        private final InputStream mmInStream;
-        private final OutputStream mmOutStream;
-
-        public ConnectedThread(BluetoothSocket socket) {
-            mmSocket = socket;
-            InputStream tmpIn = null;
-            OutputStream tmpOut = null;
-
-            // Get the input and output streams, using temp objects because
-            // member streams are final
-            try {
-                tmpIn = socket.getInputStream();
-                tmpOut = socket.getOutputStream();
-            } catch (IOException e) {
-                Log.i(TAG, "Getting streams failed");
-            }
-
-            mmInStream = tmpIn;
-            mmOutStream = tmpOut;
-        }
-
-        public void run() {
-            byte[] buffer = new byte[1024];  // buffer store for the stream
-            int bytes; // bytes returned from read()
-
-            // Keep listening to the InputStream until an exception occurs
-            while (true) {
-                try {
-                    // Read from the InputStream
-                    bytes = mmInStream.read(buffer);
-                    // Send the obtained bytes to the UI activity
-                    mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer).sendToTarget();
-                } catch (IOException e) {
-                    break;
-                }
-            }
-        }
-
-        /* Call this from the main activity to send data to the remote device */
-        public void write(byte[] bytes) {
-            try {
-                Log.i(TAG, "Sending test message");
-                Log.i(TAG, "Output available: " + String.valueOf(mmOutStream != null));
-                mmOutStream.write(bytes);
-            } catch (IOException e) {
-                Log.e(TAG, "Sending test message failed");
-            }
-        }
-
-        /* Call this from the main activity to shutdown the connection */
-        public void cancel() {
-            try {
-                mmSocket.close();
-            } catch (IOException e) {
-            }
-        }
+        MyBluetoothDevice device = (MyBluetoothDevice) _parent.getAdapter().getItem(_pos);
+        service.connect(device);
     }
 }

@@ -58,6 +58,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="at.fhooe.mc.android.tetris.StartMenu" />
         </activity>
+        <activity
+            android:name=".MultiplayerActivity"
+            android:label="@string/title_activity_multiplayer"
+            android:parentActivityName=".StartMenu" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="at.fhooe.mc.android.tetris.StartMenu" />
+        </activity>
     </application>
 
 </manifest>

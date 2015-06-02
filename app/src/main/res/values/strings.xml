@@ -31,4 +31,5 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="button_refresh">Refresh</string>
+    <string name="title_activity_multiplayer">MultiplayerActivity</string>
 </resources>
