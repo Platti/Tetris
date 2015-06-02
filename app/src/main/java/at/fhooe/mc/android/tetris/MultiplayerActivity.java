@@ -22,7 +22,6 @@ public class MultiplayerActivity extends MainActivity {
         nextTetrominos = new ArrayList<Integer>();
         mHandler = new TetrisHandler(this, nextTetrominos);
         mService = BluetoothService.getInstance(this, mHandler);
-
     }
 
     @Override
@@ -51,15 +50,17 @@ public class MultiplayerActivity extends MainActivity {
     }
 
     public void fillTetrominoArray() {
-        if(isServer){
+        if (isServer) {
             int id;
-            while (nextTetrominos.size() < 5) {
+            do {
                 id = (int) (Math.random() * 7);
                 nextTetrominos.add(id);
                 mService.write(new TetrisProtocol(id));
-            }
+            } while (nextTetrominos.size() < 5);
         } else {
-            // neue tetrominos anfordern
+            if (nextTetrominos.size() < 5) {
+                mService.write(new TetrisProtocol(true));
+            }
         }
     }
 }

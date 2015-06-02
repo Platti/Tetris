@@ -70,6 +70,10 @@ public class TetrisHandler extends Handler {
                 if (data.tetromino != -1){
                     nextTetrominos.add(data.tetromino);
                 }
+
+                if (data.tetrominoRequest){
+                    ((MultiplayerActivity) (context)).fillTetrominoArray();
+                }
             }
             break;
             case Constants.MESSAGE_TOAST: {

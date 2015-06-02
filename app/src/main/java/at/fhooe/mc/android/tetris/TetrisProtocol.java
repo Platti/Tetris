@@ -20,4 +20,9 @@ public class TetrisProtocol implements Serializable {
     public TetrisProtocol(int tetromino){
         this.tetromino = tetromino;
     }
+
+    public TetrisProtocol(boolean tetrominoRequest){
+        this.tetrominoRequest = tetrominoRequest;
+        this.tetromino = -1;
+    }
 }
