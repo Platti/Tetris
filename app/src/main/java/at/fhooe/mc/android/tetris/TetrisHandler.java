@@ -73,8 +73,7 @@ public class TetrisHandler extends Handler {
             }
             break;
             case Constants.MESSAGE_TOAST: {
-                Bundle data = msg.getData();
-                Toast.makeText(context, data.getString(Constants.MESSAGE_KEY_TOAST), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, msg.obj.toString(), Toast.LENGTH_LONG).show();
             }
             break;
         }

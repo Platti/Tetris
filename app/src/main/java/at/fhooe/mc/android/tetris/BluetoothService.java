@@ -28,11 +28,12 @@ public class BluetoothService {
         if (service == null) {
             service = new BluetoothService(context, handler);
         }
+        service.mHandler = handler;
         return service;
     }
 
     private final BluetoothAdapter mBluetoothAdapter;
-    private final TetrisHandler mHandler;
+    private TetrisHandler mHandler;
 
     private AcceptThread mAcceptThread;
     private ConnectThread mConnectThread;
@@ -232,6 +233,7 @@ public class BluetoothService {
             } catch (IOException connectException) {
                 Log.e(TAG, "Error: Connection to " + mmDevice.getName());
                 state = Constants.STATE_LISTEN;
+                mHandler.obtainMessage(Constants.MESSAGE_TOAST, "Could not connect");
 //                runOnUiThread(new Runnable() {
 //                    @Override
 //                    public void run() {

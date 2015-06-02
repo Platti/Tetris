@@ -2,7 +2,10 @@ package at.fhooe.mc.android.tetris;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class MultiplayerActivity extends MainActivity {
 
@@ -13,15 +16,31 @@ public class MultiplayerActivity extends MainActivity {
     ArrayList<Integer> nextTetrominos;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         isServer = getIntent().getBooleanExtra("server", false);
+        nextTetrominos = new ArrayList<Integer>();
         mHandler = new TetrisHandler(this, nextTetrominos);
         mService = BluetoothService.getInstance(this, mHandler);
-        nextTetrominos = new ArrayList<Integer>();
+
+    }
+
+    @Override
+    public void startGame() {
+        initDisplay();
+        score = 0;
+        level = 0;
+        numberOfLinesCleared = 0;
+        initTimerTask();
+        timer = new Timer();
+        timer.schedule(timerTask, 1000, 300);
+        Log.i(TAG, "new Timer 1 (startGame)");
+        timerRunning = 1;
 
         fillTetrominoArray();
 
+        nextTetromino();
+        newTetromino();
     }
 
     @Override

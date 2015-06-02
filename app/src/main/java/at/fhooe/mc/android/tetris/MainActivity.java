@@ -30,7 +30,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends Activity implements View.OnClickListener, SurfaceHolder.Callback, View.OnTouchListener {
 
-    private static final String TAG = "Tetris";
+    protected static final String TAG = "Tetris";
     GestureDetector mDetector;
     private SurfaceHolder mHolder;
     private SurfaceHolder mHolder2;
