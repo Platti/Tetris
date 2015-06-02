@@ -22,6 +22,7 @@ public class HighscoreTable extends Activity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.highscore_layout);
 
         int score;
+        boolean highlighted = false;
         for (int i = 0; i < 10; i++) {
             score = sp.getInt("score" + i, -1);
             if (score >= 0) {
@@ -37,8 +38,9 @@ public class HighscoreTable extends Activity {
                 } else {
                     tv.setTextColor(getResources().getColor(R.color.white));
                 }
-                if(score == sp.getInt("latest score", -1)){
+                if(!highlighted && score == sp.getInt("latest score", -1)){
                     tv.setTextColor(getResources().getColor(R.color.cyan));
+                    highlighted = true;
                 }
                 tv.setText(String.valueOf(score));
                 layout.addView(tv);

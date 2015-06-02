@@ -52,6 +52,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MESSAGE_READ: {
+                    Log.i(TAG, "Reading message");
                     String data = new String((byte[]) msg.obj);
                     Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
                 }
@@ -176,16 +177,19 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
 
     public synchronized void manageConnectedSocket(BluetoothSocket socket) {
 
-        // Cancel the thread that completed the connection
-        if (mConnectThread != null) {
-            mConnectThread.cancel();
-            mConnectThread = null;
-        }
-
         // Cancel any thread currently running a connection
         if (mConnectedThread != null) {
             mConnectedThread.cancel();
             mConnectedThread = null;
+        }
+
+        Log.i("Bluetooth", "Socket available: " + String.valueOf(socket != null));
+        mConnectedThread = new ConnectedThread(socket);
+
+        // Cancel the thread that completed the connection
+        if (mConnectThread != null) {
+            mConnectThread.cancel();
+            mConnectThread = null;
         }
 
         // Cancel the accept thread because we only want to connect to one device
@@ -194,9 +198,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
             mAcceptThread = null;
         }
 
-        mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
-
         mConnectedThread.write(("Verbunden mit  " + mBluetoothAdapter.getName()).getBytes());
     }
 
@@ -316,10 +318,10 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
          * Will cancel an in-progress connection, and close the socket
          */
         public void cancel() {
-            try {
-                mmSocket.close();
-            } catch (IOException e) {
-            }
+//            try {
+//                mmSocket.close();
+//            } catch (IOException e) {
+//            }
         }
     }
 
@@ -339,6 +341,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
+                Log.i(TAG, "Getting streams failed");
             }
 
             mmInStream = tmpIn;
@@ -365,8 +368,11 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         /* Call this from the main activity to send data to the remote device */
         public void write(byte[] bytes) {
             try {
+                Log.i(TAG, "Sending test message");
+                Log.i(TAG, "Output available: " + String.valueOf(mmOutStream != null));
                 mmOutStream.write(bytes);
             } catch (IOException e) {
+                Log.e(TAG, "Sending test message failed");
             }
         }
 
