@@ -32,18 +32,11 @@ import at.fhooe.mc.android.tetris.R;
 
 public class BluetoothMenu extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
-
     private static final int REQUEST_ENABLE_BT = 1;
-    private static final String NAME = "Tetris Bluetooth";
-    private static final UUID MY_UUID = UUID.fromString("dc70349f-4084-4bf4-8573-0eb470d93270");
-    private static final int MESSAGE_READ = 2;
-    private static final int MESSAGE_TOAST = 5;
-    private static final String MESSAGE_KEY_TOAST = "Message for Toast";
-    private static final String TAG = "Tetris Log-Tag";
+
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     DeviceArrayAdapter mArrayAdapter;
     BluetoothService service;
-
 
     private final TetrisHandler mHandler = new TetrisHandler(this);
 
@@ -80,7 +73,6 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
             discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
             startActivity(discoverableIntent);
         }
-
 
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         if (pairedDevices.size() > 0) {

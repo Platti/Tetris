@@ -10,8 +10,11 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 /**
@@ -76,14 +79,35 @@ public class BluetoothService {
         }
     }
 
-    public boolean connectionEstablished() {
-        while (state == Constants.STATE_CONNECTING) {
+    public void write(TetrisProtocol data) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutput out = null;
+
+        try {
+            out = new ObjectOutputStream(bos);
+            out.writeObject(data);
+            byte[] bytes = bos.toByteArray();
+            mConnectedThread.write(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException ex) {
+                // ignore close exception
+            }
+            try {
+                bos.close();
+            } catch (IOException ex) {
+                // ignore close exception
+            }
         }
-        return state == Constants.STATE_CONNECTED;
     }
 
 
-    public synchronized void manageConnectedSocket(BluetoothSocket socket) {
+    public synchronized void manageConnectedSocket(BluetoothSocket socket, boolean isServer) {
 
         // Cancel any thread currently running a connection
         if (mConnectedThread != null) {
@@ -108,10 +132,11 @@ public class BluetoothService {
 
         state = Constants.STATE_CONNECTED;
         Intent i = new Intent(context, MultiplayerActivity.class);
+        i.putExtra("server", isServer);
         context.startActivity(i);
 
         mConnectedThread.start();
-        mConnectedThread.write(("Verbunden mit  " + mBluetoothAdapter.getName()).getBytes());
+        this.write(new TetrisProtocol("Verbunden mit  " + mBluetoothAdapter.getName()));
     }
 
     private class AcceptThread extends Thread {
@@ -148,7 +173,7 @@ public class BluetoothService {
 //                        }
 //                    });
                     // Do work to manage the connection (in a separate thread)
-                    manageConnectedSocket(socket);
+                    manageConnectedSocket(socket, true);
                     try {
                         mmServerSocket.close();
                     } catch (IOException e) {
@@ -223,7 +248,7 @@ public class BluetoothService {
             }
 
             // Do work to manage the connection (in a separate thread)
-            manageConnectedSocket(mmSocket);
+            manageConnectedSocket(mmSocket, false);
         }
 
         /**

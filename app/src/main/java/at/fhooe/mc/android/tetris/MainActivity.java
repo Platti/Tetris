@@ -189,7 +189,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 Log.i(TAG, "FLIIIIIIIINGGGGGGG ");
-                if(!pause) {
+                if (!pause) {
                     if (timerRunning == 1) {
 
                         if (timer != null) {
@@ -1135,7 +1135,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     public void nextTetromino() {
         Log.i(TAG, "surfacePreview nextTetromino....");
-        nextTetrominoID = (int) (Math.random() * 7);
+        nextTetromino((int) (Math.random() * 7));
+    }
+
+    protected void nextTetromino(int id) {
+
+        nextTetrominoID = id;
 
         for (int row = 0; row < preview.length; row++) {
             for (int col = 0; col < preview[row].length; col++) {
@@ -1436,7 +1441,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
         DialogFragment dialog = new RestartDialog();
         Bundle args = new Bundle();
-        args.putInt("score",score);
+        args.putInt("score", score);
         dialog.setArguments(args);
         dialog.show(getFragmentManager(), "restart_dialog");
     }
