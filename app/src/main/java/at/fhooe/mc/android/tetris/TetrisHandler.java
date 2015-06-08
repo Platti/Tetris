@@ -18,11 +18,11 @@ import java.util.ArrayList;
  */
 public class TetrisHandler extends Handler {
     private static final String TAG = "Tetris Log-Tag";
-    private boolean running = false;
+    private int running = 0;
     private Context context;
     ArrayList<Integer> nextTetrominos;
 
-    public TetrisHandler(Context context, ArrayList<Integer> nextTetrominos ) {
+    public TetrisHandler(Context context, ArrayList<Integer> nextTetrominos) {
         super();
         this.context = context;
         this.nextTetrominos = nextTetrominos;
@@ -66,17 +66,28 @@ public class TetrisHandler extends Handler {
                     Toast.makeText(context, data.toast, Toast.LENGTH_LONG).show();
                 }
 
-                if (data.tetromino != -1){
+                if (data.tetromino != -1) {
                     nextTetrominos.add(data.tetromino);
-                    Log.i(TAG,"received tetromino ID: " + data.tetromino);
-                    if(!running){
+                    ((MultiplayerActivity) (context)).mService.write(new TetrisProtocol(running, TetrisProtocol.ACK));
+                    Log.i(TAG, "received tetromino ID: " + data.tetromino);
+                    if (running == 4) {
                         ((MultiplayerActivity) (context)).startGameClient();
-                        running = true;
+                        running++;
+                    } else {
+                        running++;
                     }
                 }
 
-                if (data.tetrominoRequest){
-                    ((MultiplayerActivity) (context)).fillTetrominoArray();
+                if (data.tetrominoRequest) {
+                    ((MultiplayerActivity) (context)).fillTetrominoArray(true);
+                }
+
+                if (data.acknowledgement != -1) {
+                    ((MultiplayerActivity) (context)).fillTetrominoArray(false);
+                    if(data.acknowledgement == 4){
+                        ((MultiplayerActivity) (context)).nextTetromino();
+                        ((MultiplayerActivity) (context)).newTetromino();
+                    }
                 }
 
 

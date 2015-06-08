@@ -38,11 +38,10 @@ public class MultiplayerActivity extends MainActivity {
             Log.i(TAG, "new Timer 1 (startGame)");
             timerRunning = 1;
 
-            fillTetrominoArray();
+            fillTetrominoArray(false);
 
-
-            nextTetromino();
-            newTetromino();
+//            nextTetromino();
+//            newTetromino();
         } else {
             Toast.makeText(this, "Opponent has to start game!", Toast.LENGTH_LONG).show();
             mService.write(new TetrisProtocol("Please start the game!"));
@@ -68,22 +67,24 @@ public class MultiplayerActivity extends MainActivity {
     public void nextTetromino() {
         super.nextTetromino(nextTetrominos.get(0));
         nextTetrominos.remove(0);
-        fillTetrominoArray();
+        fillTetrominoArray(false);
     }
 
-    public void fillTetrominoArray() {
+    public void fillTetrominoArray(boolean force) {
         if (isServer) {
             int id;
-//            do {
-            id = (int) (Math.random() * 7);
-            nextTetrominos.add(id);
-            Log.i(TAG, "sent tetromino ID: " + id);
-            mService.write(new TetrisProtocol(id));
-//            } while (nextTetrominos.size() < 5);
+            if (nextTetrominos.size() < 5 || force) {
+                id = (int) (Math.random() * 7);
+                nextTetrominos.add(id);
+                Log.i(TAG, "sent tetromino ID: " + id);
+                mService.write(new TetrisProtocol(id));
+            }
         } else {
-//            if (nextTetrominos.size() < 5) {
-            mService.write(new TetrisProtocol(true, TetrisProtocol.REQUEST));
-//            }
+            if (nextTetrominos.size() < 3) {
+                mService.write(new TetrisProtocol(true, TetrisProtocol.REQUEST));
+            }
         }
     }
+
+
 }
