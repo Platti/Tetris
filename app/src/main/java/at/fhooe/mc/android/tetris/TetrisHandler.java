@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class TetrisHandler extends Handler {
     private static final String TAG = "Tetris Log-Tag";
+    private boolean running = false;
     private Context context;
     ArrayList<Integer> nextTetrominos;
 
@@ -68,15 +69,17 @@ public class TetrisHandler extends Handler {
                 if (data.tetromino != -1){
                     nextTetrominos.add(data.tetromino);
                     Log.i(TAG,"received tetromino ID: " + data.tetromino);
+                    if(!running){
+                        ((MultiplayerActivity) (context)).startGameClient();
+                        running = true;
+                    }
                 }
 
                 if (data.tetrominoRequest){
                     ((MultiplayerActivity) (context)).fillTetrominoArray();
                 }
 
-                if (data.startGame){
-                    ((MultiplayerActivity) (context)).startGameClient();
-                }
+
             }
             break;
             case Constants.MESSAGE_TOAST: {

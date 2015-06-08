@@ -40,7 +40,6 @@ public class MultiplayerActivity extends MainActivity {
 
             fillTetrominoArray();
 
-            mService.write(new TetrisProtocol(true, TetrisProtocol.START_GAME));
 
             nextTetromino();
             newTetromino();
@@ -60,8 +59,6 @@ public class MultiplayerActivity extends MainActivity {
         timer.schedule(timerTask, 1000, 300);
         Log.i(TAG, "new Timer 1 (startGame)");
         timerRunning = 1;
-
-        fillTetrominoArray();
 
         nextTetromino();
         newTetromino();
