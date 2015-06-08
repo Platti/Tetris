@@ -364,7 +364,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                Log.i(TAG, "TimerTask started...");
                 refreshDisplay();
                 moveDown();
             }

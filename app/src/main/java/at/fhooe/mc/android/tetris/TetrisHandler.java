@@ -69,6 +69,7 @@ public class TetrisHandler extends Handler {
 
                 if (data.tetromino != -1){
                     nextTetrominos.add(data.tetromino);
+                    Log.i(TAG,"received tetromino ID: " + data.tetromino);
                 }
 
                 if (data.tetrominoRequest){

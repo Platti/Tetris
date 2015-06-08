@@ -38,6 +38,8 @@ public class MultiplayerActivity extends MainActivity {
 
         fillTetrominoArray();
 
+
+
         nextTetromino();
         newTetromino();
     }
@@ -55,6 +57,7 @@ public class MultiplayerActivity extends MainActivity {
             do {
                 id = (int) (Math.random() * 7);
                 nextTetrominos.add(id);
+                Log.i(TAG,"sent tetromino ID: " + id);
                 mService.write(new TetrisProtocol(id));
             } while (nextTetrominos.size() < 5);
         } else {
