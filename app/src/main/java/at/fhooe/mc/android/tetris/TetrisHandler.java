@@ -36,8 +36,6 @@ public class TetrisHandler extends Handler {
     public void handleMessage(Message msg) {
         switch (msg.what) {
             case Constants.MESSAGE_READ: {
-                Log.i(TAG, "Reading message");
-
                 TetrisProtocol data = new TetrisProtocol("Error 404");
 
                 ByteArrayInputStream bis = new ByteArrayInputStream((byte[]) msg.obj);
@@ -74,6 +72,10 @@ public class TetrisHandler extends Handler {
 
                 if (data.tetrominoRequest){
                     ((MultiplayerActivity) (context)).fillTetrominoArray();
+                }
+
+                if (data.startGame){
+                    ((MultiplayerActivity) (context)).startGameClient();
                 }
             }
             break;

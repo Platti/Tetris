@@ -307,8 +307,6 @@ public class BluetoothService {
         /* Call this from the main activity to send data to the remote device */
         public void write(byte[] bytes) {
             try {
-                Log.i(TAG, "Sending test message");
-                Log.i(TAG, "Output available: " + String.valueOf(mmOutStream != null));
                 mmOutStream.write(bytes);
             } catch (IOException e) {
                 Log.e(TAG, "Sending test message failed");
