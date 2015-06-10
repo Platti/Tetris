@@ -28,11 +28,12 @@ public class BluetoothService {
         if (service == null) {
             service = new BluetoothService(context, handler);
         }
+        service.context = context;
         service.mHandler = handler;
         return service;
     }
 
-    private final BluetoothAdapter mBluetoothAdapter;
+    public final BluetoothAdapter mBluetoothAdapter;
     private TetrisHandler mHandler;
 
     private AcceptThread mAcceptThread;
@@ -68,6 +69,26 @@ public class BluetoothService {
             mAcceptThread = new AcceptThread();
             mAcceptThread.start();
             state = Constants.STATE_LISTEN;
+        }
+    }
+
+    public synchronized void stop() {
+        // Cancel any thread attempting to make a connection
+        if (mConnectThread != null) {
+            mConnectThread.cancel();
+            mConnectThread = null;
+        }
+
+        // Cancel any thread currently running a connection
+        if (mConnectedThread != null) {
+            mConnectedThread.cancel();
+            mConnectedThread = null;
+        }
+
+        // Start the thread to listen on a BluetoothServerSocket
+        if (mAcceptThread != null) {
+            mAcceptThread.cancel();
+            mAcceptThread = null;
         }
     }
 
@@ -121,7 +142,6 @@ public class BluetoothService {
 
         // Cancel the thread that completed the connection
         if (mConnectThread != null) {
-            mConnectThread.cancel();
             mConnectThread = null;
         }
 
@@ -257,10 +277,10 @@ public class BluetoothService {
          * Will cancel an in-progress connection, and close the socket
          */
         public void cancel() {
-//            try {
-//                mmSocket.close();
-//            } catch (IOException e) {
-//            }
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+            }
         }
     }
 
@@ -299,6 +319,11 @@ public class BluetoothService {
                     // Send the obtained bytes to the UI activity
                     mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
                 } catch (IOException e) {
+                    if (context instanceof MultiplayerActivity) {
+                        ((MultiplayerActivity) context).opponentGameOver = true;
+                        ((MultiplayerActivity) context).opponentScore = -1;
+                        mHandler.obtainMessage(Constants.MESSAGE_TOAST, "Connection lost!").sendToTarget();
+                    }
                     break;
                 }
             }
