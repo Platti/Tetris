@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -43,6 +44,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     TimerTask timerTask;
     Pixel[][] pixels = new Pixel[20][10];
     Pixel[][] preview = new Pixel[4][3];
+    int pixelCornerRadius;
     int timerRunning = 0;
     int tetrominoID;
     int nextTetrominoID;
@@ -154,13 +156,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
         color = new TetrisColor(this);
 
-//        COLOR_I = getResources().getColor(R.color.red);
-//        COLOR_O = getResources().getColor(R.color.yellow);
-//        COLOR_L = getResources().getColor(R.color.purple);
-//        COLOR_J = getResources().getColor(R.color.blue);
-//        COLOR_S = getResources().getColor(R.color.green);
-//        COLOR_Z = getResources().getColor(R.color.turquoise);
-//        COLOR_T = getResources().getColor(R.color.orange);
+        pixelCornerRadius = getWindowManager().getDefaultDisplay().getHeight() / 240;
 
         mDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
             @Override
@@ -1084,7 +1080,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             for (int row = pixels.length - 1; row >= 0; row--) {
                 for (int col = 0; col < pixels[row].length; col++) {
                     p.setColor(pixels[row][col].color);
-                    c.drawRoundRect(pixels[row][col].rect, 8, 8, p);
+                    c.drawRoundRect(pixels[row][col].rect, pixelCornerRadius, pixelCornerRadius, p);
                 }
             }
             mHolder.unlockCanvasAndPost(c);
@@ -1213,7 +1209,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             for (int row = preview.length - 1; row >= 0; row--) {
                 for (int col = 0; col < preview[row].length; col++) {
                     p.setColor(preview[row][col].color);
-                    canvasPre.drawRoundRect(preview[row][col].rect, 4, 4, p);
+                    canvasPre.drawRoundRect(preview[row][col].rect, (pixelCornerRadius + 1) / 2, (pixelCornerRadius + 1) / 2, p);
                 }
             }
 //            previewSurface.draw(canvasPre);
