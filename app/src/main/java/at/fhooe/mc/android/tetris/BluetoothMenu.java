@@ -1,6 +1,7 @@
 package at.fhooe.mc.android.tetris;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
@@ -37,6 +38,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     DeviceArrayAdapter mArrayAdapter;
     BluetoothService service;
+    public ProgressDialog connectingDialog;
 
     private final TetrisHandler mHandler = new TetrisHandler(this);
 
@@ -70,7 +72,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         } else {
             Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 120);
             startActivity(discoverableIntent);
         }
 
@@ -105,11 +107,18 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
             this.finish();
         } else if (requestCode == REQUEST_ENABLE_BT && resultCode == RESULT_OK) {
             if (mBluetoothAdapter.isEnabled()) {
+                Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+                if (pairedDevices.size() > 0) {
+                    for (BluetoothDevice device : pairedDevices) {
+                        mArrayAdapter.add(new MyBluetoothDevice(device.getName(), device.getAddress(), true));
+                    }
+                }
+
                 service = BluetoothService.getInstance(this, mHandler);
                 service.start();
             }
             Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 120);
             startActivity(discoverableIntent);
         }
     }
@@ -146,6 +155,10 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
     @Override
     public void onItemClick(AdapterView<?> _parent, View _view, int _pos, long _id) {
         MyBluetoothDevice device = (MyBluetoothDevice) _parent.getAdapter().getItem(_pos);
+        connectingDialog = new ProgressDialog(this);
+        connectingDialog.setTitle("Connecting...");
+        connectingDialog.setMessage("Connecting to " + device.getName());
+        connectingDialog.show();
         service.connect(device);
     }
 }

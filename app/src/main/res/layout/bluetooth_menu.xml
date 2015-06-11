@@ -7,7 +7,7 @@
     tools:context="at.fhooe.mc.android.tetris.BluetoothMenu">
 
     <ListView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listViewDevices"
         android:layout_gravity="center_horizontal|top" />

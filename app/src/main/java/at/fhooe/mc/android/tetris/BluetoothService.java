@@ -244,22 +244,11 @@ public class BluetoothService {
                 // until it succeeds or throws an exception
                 mmSocket.connect();
                 Log.i(TAG, "Connecting without Exception to " + mmDevice.getName());
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(getBaseContext(), "Connecting to " + mmDevice.getName() + "...", Toast.LENGTH_LONG).show();
-//                    }
-//                });
             } catch (IOException connectException) {
                 Log.e(TAG, "Error: Connection to " + mmDevice.getName());
                 state = Constants.STATE_LISTEN;
-                mHandler.obtainMessage(Constants.MESSAGE_TOAST, "Could not connect");
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(getBaseContext(), "Could not connect to " + mmDevice.getName(), Toast.LENGTH_LONG).show();
-//                    }
-//                });
+                ((BluetoothMenu) context).connectingDialog.dismiss();
+                mHandler.obtainMessage(Constants.MESSAGE_TOAST, "Could not connect to " + mmDevice.getName()).sendToTarget();
                 mConnectThread = null;
                 // Unable to connect; close the socket and get out
                 try {

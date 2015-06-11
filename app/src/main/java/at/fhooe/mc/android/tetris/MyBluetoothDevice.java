@@ -14,15 +14,15 @@ public class MyBluetoothDevice {
         this.paired = paired;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public String getAddress(){
+    public String getAddress() {
         return address;
     }
 
-    public boolean isPaired(){
+    public boolean isPaired() {
         return paired;
     }
 }
