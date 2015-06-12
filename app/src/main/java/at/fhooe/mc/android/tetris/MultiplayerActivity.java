@@ -11,6 +11,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Timer;
 
+/**
+ *  The main class for the game in multi player mode using the basic functions of the single player mode.
+ */
 public class MultiplayerActivity extends MainActivity {
 
     TetrisHandler mHandler;
@@ -38,6 +41,9 @@ public class MultiplayerActivity extends MainActivity {
         }
     }
 
+    /**
+     * Tasks to start a game as server.
+     */
     @Override
     public void startGame() {
         if (!myGameOver) {
@@ -66,6 +72,9 @@ public class MultiplayerActivity extends MainActivity {
         }
     }
 
+    /**
+     * Tasks to start a game as client.
+     */
     public void startGameClient() {
         initDisplay();
         score = 0;
@@ -81,6 +90,9 @@ public class MultiplayerActivity extends MainActivity {
         newTetromino();
     }
 
+    /**
+     * Get first entry of the nextTetrominos array and use it as the next tetromino.
+     */
     @Override
     public void nextTetromino() {
         super.nextTetromino(nextTetrominos.get(0));
@@ -88,6 +100,11 @@ public class MultiplayerActivity extends MainActivity {
         fillTetrominoArray(false);
     }
 
+    /**
+     * If server: fill the nextTetrominos array with a 5 random entries
+     * If client: send request to server
+     * @param force force server to generate at least one new entry
+     */
     public void fillTetrominoArray(boolean force) {
         if (isServer || opponentGameOver) {
             int id;
@@ -104,6 +121,9 @@ public class MultiplayerActivity extends MainActivity {
         }
     }
 
+    /**
+     * Stop timer, store highscore and wait for opponent or show revenge dialog.
+     */
     @Override
     public void gameOverTasks() {
         timer.cancel();
@@ -123,7 +143,7 @@ public class MultiplayerActivity extends MainActivity {
                 @Override
                 public Dialog onCreateDialog(Bundle savedInstanceState) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("Waiting for opponent to finish the game.");
+                    builder.setMessage("Waiting for opponent to finish the game.\nYour score: " + score);
                     return builder.create();
                 }
             };
@@ -135,6 +155,9 @@ public class MultiplayerActivity extends MainActivity {
         }
     }
 
+    /**
+     * Shows a revenge dialog.
+     */
     public void showRevengeDialog() {
         dialog = new RevengeDialog();
         Bundle args = new Bundle();
