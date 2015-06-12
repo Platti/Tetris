@@ -38,7 +38,7 @@ public class TetrisHandler extends Handler {
     public void handleMessage(Message msg) {
         switch (msg.what) {
             case Constants.MESSAGE_READ: {
-                TetrisProtocol data = new TetrisProtocol("Error 404");
+                TetrisProtocol data = new TetrisProtocol("Error");
 
                 ByteArrayInputStream bis = new ByteArrayInputStream((byte[]) msg.obj);
                 ObjectInput in = null;

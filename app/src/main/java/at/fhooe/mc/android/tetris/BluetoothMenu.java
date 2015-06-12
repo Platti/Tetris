@@ -63,7 +63,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         mArrayAdapter = new DeviceArrayAdapter(this);
 
         if (mBluetoothAdapter == null) {
-            Toast.makeText(this, "Bluetooth not supported", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.bluetooth_not_supported), Toast.LENGTH_LONG).show();
             this.finish();
         }
 
@@ -156,8 +156,8 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
     public void onItemClick(AdapterView<?> _parent, View _view, int _pos, long _id) {
         MyBluetoothDevice device = (MyBluetoothDevice) _parent.getAdapter().getItem(_pos);
         connectingDialog = new ProgressDialog(this);
-        connectingDialog.setTitle("Connecting...");
-        connectingDialog.setMessage("Connecting to " + device.getName());
+        connectingDialog.setTitle(getString(R.string.connecting));
+        connectingDialog.setMessage(getString(R.string.connecting_to) + " " + device.getName());
         connectingDialog.show();
         service.connect(device);
     }

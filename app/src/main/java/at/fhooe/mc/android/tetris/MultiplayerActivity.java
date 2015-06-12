@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -38,6 +37,8 @@ public class MultiplayerActivity extends MainActivity {
 
         if (!isServer) {
             mService.write(new TetrisProtocol(1, TetrisProtocol.READY));
+        } else if (!opponentReady){
+            mService.write(new TetrisProtocol(2, TetrisProtocol.READY));
         }
     }
 
@@ -47,7 +48,7 @@ public class MultiplayerActivity extends MainActivity {
     @Override
     public void startGame() {
         if (!myGameOver) {
-            if (isServer) {
+            if (isServer || opponentGameOver) {
                 if (opponentReady) {
                     initDisplay();
                     score = 0;
@@ -61,13 +62,13 @@ public class MultiplayerActivity extends MainActivity {
 
                     fillTetrominoArray(false);
                 } else {
-                    Toast.makeText(this, "Opponent not ready!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.opponent_not_ready), Toast.LENGTH_SHORT).show();
                     mService.write(new TetrisProtocol(2, TetrisProtocol.READY));
                 }
 
             } else {
-                Toast.makeText(this, "Opponent has to start game!", Toast.LENGTH_LONG).show();
-                mService.write(new TetrisProtocol("Please start the game!"));
+                Toast.makeText(this, getString(R.string.opponent_has_to_start_game), Toast.LENGTH_LONG).show();
+                mService.write(new TetrisProtocol(getString(R.string.please_start_the_game)));
             }
         }
     }
@@ -137,13 +138,13 @@ public class MultiplayerActivity extends MainActivity {
         storeHighscore();
 
         if (!opponentGameOver) {
-            mService.write(new TetrisProtocol(mService.mBluetoothAdapter.getName() + " finished with " + score + " points!", score, true));
+            mService.write(new TetrisProtocol(mService.mBluetoothAdapter.getName() + " " + getString(R.string.finished_with) + " " + score + " " + getString(R.string.points) + "!", score, true));
 
             DialogFragment waitingDialog = new DialogFragment(){
                 @Override
                 public Dialog onCreateDialog(Bundle savedInstanceState) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("Waiting for opponent to finish the game.\nYour score: " + score);
+                    builder.setMessage(getString(R.string.waiting_for_opponent) + "\n" + getString(R.string.your_score) + " " + score);
                     return builder.create();
                 }
             };
@@ -176,7 +177,7 @@ public class MultiplayerActivity extends MainActivity {
     @Override
     protected void onDestroy() {
         if(!myGameOver || waitingForOpponent) {
-            mService.write(new TetrisProtocol("Opponent backed out!", -1, true));
+            mService.write(new TetrisProtocol(getString(R.string.opponent_backed_out), -1, true));
         }
         super.onDestroy();
     }

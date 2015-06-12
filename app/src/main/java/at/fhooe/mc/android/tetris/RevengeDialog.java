@@ -23,29 +23,29 @@ public class RevengeDialog extends DialogFragment {
         opponentScore = getArguments().getInt("opponentScore");
 
         if (opponentScore == -1) {
-            builder = builder.setMessage("Connection lost!\nYour Score: " + myScore);
+            builder = builder.setMessage(getString(R.string.connection_lost) + "\n" + getString(R.string.your_score) + " " + myScore);
         } else if (myScore > opponentScore) {
-            builder = builder.setMessage("You won!\nYour Score: " + myScore + "\nOpponent Score: " + opponentScore);
+            builder = builder.setMessage(getString(R.string.you_won) + "\n" + getString(R.string.your_score) + " " + myScore + "\n" + getString(R.string.opponent_score) + " " + opponentScore);
         } else if (myScore < opponentScore) {
-            builder = builder.setMessage("You lost!\nYour Score: " + myScore + "\nOpponent Score: " + opponentScore);
+            builder = builder.setMessage(getString(R.string.you_lost) + "\n" + getString(R.string.your_score) + " " + myScore + "\n" + getString(R.string.opponent_score) + " " + opponentScore);
         } else {
-            builder = builder.setMessage("Draw!\nYour Score: " + myScore + "\nOpponent Score: " + opponentScore);
+            builder = builder.setMessage(getString(R.string.draw) + "\n" + getString(R.string.your_score) + " " + myScore + "\n" + getString(R.string.opponent_score) + " " + opponentScore);
         }
 
-        builder = builder.setPositiveButton("Revenge", new DialogInterface.OnClickListener() {
+        builder = builder.setPositiveButton(getString(R.string.revenge), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Intent i = new Intent(getActivity(), MultiplayerActivity.class);
                 i.putExtra("server", getArguments().getBoolean("server"));
                 getActivity().startActivity(i);
                 getActivity().finish();
-                ((MultiplayerActivity) getActivity()).mService.write(new TetrisProtocol("Opponent wants Revenge!", 2));
+                ((MultiplayerActivity) getActivity()).mService.write(new TetrisProtocol(getString(R.string.opponent_wants_revenge), 2));
             }
         });
-        builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.back), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 getActivity().finish();
-                ((MultiplayerActivity) getActivity()).mService.write(new TetrisProtocol("No Revenge!", 1));
+                ((MultiplayerActivity) getActivity()).mService.write(new TetrisProtocol(getString(R.string.no_revenge), 1));
                 ((MultiplayerActivity) getActivity()).mService.stop();
             }
         });

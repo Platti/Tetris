@@ -137,7 +137,6 @@ public class BluetoothService {
             mConnectedThread = null;
         }
 
-        Log.i("Bluetooth", "Socket available: " + String.valueOf(socket != null));
         mConnectedThread = new ConnectedThread(socket);
 
         // Cancel the thread that completed the connection
@@ -157,7 +156,7 @@ public class BluetoothService {
         context.startActivity(i);
 
         mConnectedThread.start();
-        this.write(new TetrisProtocol("Verbunden mit  " + mBluetoothAdapter.getName()));
+        this.write(new TetrisProtocol(context.getString(R.string.connected_with) + " " + mBluetoothAdapter.getName()));
     }
 
     private class AcceptThread extends Thread {
@@ -187,12 +186,6 @@ public class BluetoothService {
                 // If a connection was accepted
                 if (socket != null) {
                     Log.i(TAG, "Somebody is connecting to your device");
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(getBaseContext(), "Somebody is connecting to your device...", Toast.LENGTH_LONG).show();
-//                        }
-//                    });
                     // Do work to manage the connection (in a separate thread)
                     manageConnectedSocket(socket, true);
                     try {
@@ -248,7 +241,7 @@ public class BluetoothService {
                 Log.e(TAG, "Error: Connection to " + mmDevice.getName());
                 state = Constants.STATE_LISTEN;
                 ((BluetoothMenu) context).connectingDialog.dismiss();
-                mHandler.obtainMessage(Constants.MESSAGE_TOAST, "Could not connect to " + mmDevice.getName()).sendToTarget();
+                mHandler.obtainMessage(Constants.MESSAGE_TOAST, context.getString(R.string.could_not_connect_to) + " " + mmDevice.getName()).sendToTarget();
                 mConnectThread = null;
                 // Unable to connect; close the socket and get out
                 try {
@@ -311,7 +304,7 @@ public class BluetoothService {
                     if (context instanceof MultiplayerActivity) {
                         ((MultiplayerActivity) context).opponentGameOver = true;
                         ((MultiplayerActivity) context).opponentScore = -1;
-                        mHandler.obtainMessage(Constants.MESSAGE_TOAST, "Connection lost!").sendToTarget();
+                        mHandler.obtainMessage(Constants.MESSAGE_TOAST, context.getString(R.string.connection_lost)).sendToTarget();
                     }
                     break;
                 }

@@ -32,4 +32,33 @@
     <string name="hello_world">Hello world!</string>
     <string name="button_refresh">Refresh</string>
     <string name="title_activity_multiplayer">MultiplayerActivity</string>
+
+    <string name="opponent_not_ready">Opponent not ready!</string>
+    <string name="opponent_has_to_start_game">Opponent has to start game!</string>
+    <string name="please_start_the_game">Please start the game!</string>
+    <string name="waiting_for_opponent">Waiting for opponent to finish the game.</string>
+    <string name="opponent_score">Opponent score:</string>
+    <string name="your_score">Your score:</string>
+    <string name="opponent_backed_out">Opponent backed out!</string>
+    <string name="connection_lost">Connection lost!</string>
+    <string name="you_won">You won!</string>
+    <string name="you_lost">You lost!</string>
+    <string name="draw">Draw!</string>
+    <string name="revenge">Revenge</string>
+    <string name="back">Back</string>
+    <string name="opponent_wants_revenge">Opponent wants Revenge!</string>
+    <string name="no_revenge">No Revenge!</string>
+    <string name="finished_with">finished with</string>
+    <string name="points">points</string>
+    <string name="could_not_connect_to">Could not connect to</string>
+    <string name="connected_with">Connected with</string>
+    <string name="connecting_to">Connecting to</string>
+    <string name="connecting">Connecting...</string>
+    <string name="bluetooth_not_supported">Bluetooth not supported</string>
+
+
+
+
+
+
 </resources>
