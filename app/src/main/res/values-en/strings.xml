@@ -28,13 +28,9 @@
     <string name="zipferColors">Zipfer</string>
     <string name="newTheme">New theme: </string>
     <string name="button_start_multiplayer">Multiplayer</string>
-
     <string name="title_activity_bluetooth_menu">Bluetooth Menu</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="button_refresh">Refresh</string>
     <string name="title_activity_multiplayer">MultiplayerActivity</string>
-
     <string name="opponent_not_ready">Opponent not ready!</string>
     <string name="opponent_has_to_start_game">Opponent has to start game!</string>
     <string name="please_start_the_game">Please start the game!</string>

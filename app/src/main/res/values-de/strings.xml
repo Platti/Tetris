@@ -28,13 +28,9 @@
     <string name="zipferColors">Zipfer</string>
     <string name="newTheme">Neues Farbschema: </string>
     <string name="button_start_multiplayer">Mehrspieler</string>
-
     <string name="title_activity_bluetooth_menu">Bluetooth Menü</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="button_refresh">Aktualisieren</string>
     <string name="title_activity_multiplayer">MultiplayerActivity</string>
-
     <string name="opponent_not_ready">Gegner noch nicht bereit!</string>
     <string name="opponent_has_to_start_game">Gegner muss das Spiel starten!</string>
     <string name="please_start_the_game">Bitte starte das Spiel!</string>
