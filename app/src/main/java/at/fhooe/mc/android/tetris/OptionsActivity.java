@@ -18,7 +18,7 @@ import at.fhooe.mc.android.tetris.R;
 public class OptionsActivity extends Activity implements AdapterView.OnItemClickListener {
 
     TetrisColor color;
-    MediaPlayer mP;
+    TetrisMediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,21 +147,7 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
-//        mP = MediaPlayer.create(OptionsActivity.this, R.raw.menusoundtrack);
-//        mP.setLooping(true);
-//        mP.start();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        mP.stop();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-//        mP.stop();
+        mediaPlayer = TetrisMediaPlayer.getInstance(OptionsActivity.this, R.raw.menu_theme);
     }
 
     @Override
@@ -188,5 +174,17 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
         iv.setBackgroundColor(color.z);
         iv = (ImageView) findViewById(R.id.imageView7);
         iv.setBackgroundColor(color.t);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mediaPlayer.start(false);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.stop();
     }
 }

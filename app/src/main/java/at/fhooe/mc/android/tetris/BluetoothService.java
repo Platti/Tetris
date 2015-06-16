@@ -150,6 +150,10 @@ public class BluetoothService {
             mAcceptThread = null;
         }
 
+        TetrisMediaPlayer mediaPlayer;
+        mediaPlayer = TetrisMediaPlayer.getInstance(context, R.raw.menu_theme);
+        mediaPlayer.stop();
+
         state = Constants.STATE_CONNECTED;
         Intent i = new Intent(context, MultiplayerActivity.class);
         i.putExtra("server", isServer);

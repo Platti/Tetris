@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -29,7 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- *  The main class for the game in single player mode.
+ * The main class for the game in single player mode.
  */
 public class MainActivity extends Activity implements View.OnClickListener, SurfaceHolder.Callback, View.OnTouchListener {
 
@@ -65,7 +64,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     Button bSpin;
     ImageButton ib;
     boolean pause = false;
-    MediaPlayer mP;
+    TetrisMediaPlayer mediaPlayer;
 
     private static final int TETROMINO_O = 0;
     private static final int TETROMINO_I = 1;
@@ -196,15 +195,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 return true;
             }
         });
-
-//        mP = MediaPlayer.create(MainActivity.this, R.raw.gamesoundtrack);
-//        mP.setLooping(true);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        mP.start();
     }
 
     @Override
@@ -216,8 +206,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             timerRunning = 0;
         }
         Log.i(TAG, "onDestroy");
-
-//        mP.stop();
     }
 
     @Override
@@ -229,8 +217,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             timerRunning = 0;
         }
         Log.i(TAG, "onStop");
+    }
 
-//        mP.stop();
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
     }
 
     @Override
@@ -326,18 +321,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         Log.i(TAG, "new Timer 1 (startGame)");
         timerRunning = 1;
 
-//        mP.start();
+        if (mediaPlayer != null) {
+            mediaPlayer.destroy();
+        }
+        mediaPlayer = TetrisMediaPlayer.getInstance(MainActivity.this, R.raw.game_theme);
+        mediaPlayer.start(true);
 
-
-//                new TimerTask() {
-//            @Override
-//            public void run() {
-//                Log.i(TAG, "TimerTask started...");
-//                refreshDisplay();
-//                moveDown();
-//            }
-//        }, 1000, 500);
-//        nextTetromino();
         nextTetrominoID = (int) (Math.random() * 7);
         newTetromino();
     }
@@ -397,7 +386,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             bRight.setEnabled(false);
             bSpin.setEnabled(false);
             pause = true;
-//            mP.stop();
+            mediaPlayer.stop();
         } else {
             if (timerRunning == 1) {
                 initTimerTask();
@@ -428,12 +417,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             bRight.setEnabled(true);
             bSpin.setEnabled(true);
             pause = false;
-//            mP.start();
+            mediaPlayer.start(false);
         }
     }
 
     /**
      * check if move down of the new tetromino is possible
+     *
      * @return is possible
      */
     private boolean moveDownPossible() {
@@ -483,6 +473,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     /**
      * check if move left of the new tetromino is possible
+     *
      * @return is possible
      */
     private boolean moveLeftPossible() {
@@ -519,6 +510,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     /**
      * check if move right of the new tetromino is possible
+     *
      * @return is possible
      */
     private boolean moveRightPossible() {
@@ -555,6 +547,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     /**
      * find the new tetromino on the game board
+     *
      * @return position of the first pixel found of new tetromino (low / left)
      */
     private int[] getTetromino() {
@@ -571,7 +564,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     /**
      * Set color of a tetromino
-     * @param t positions of the 4 pixels
+     *
+     * @param t     positions of the 4 pixels
      * @param color new color
      */
     private void setTetromino(int[][] t, int color) {
@@ -1146,6 +1140,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     /**
      * Move down every pixel above the cleared Line
+     *
      * @param row number of the line to clear
      */
     private void clearLineNumber(int row) {
@@ -1172,6 +1167,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     /**
      * Set next tetromino and refresh the preview.
+     *
      * @param id id of the next tetromino
      */
     protected void nextTetromino(int id) {
@@ -1263,6 +1259,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     /**
      * Sets the new tetromino to the id of the next tetromino, update score, update score board, please new tetromino on the game board (if possible)
+     *
      * @return is game over
      */
     public boolean newTetromino() {
@@ -1460,6 +1457,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
 
     /**
      * Sort array (Bubble-Sort)
+     *
      * @param array Array to sort
      */
     private void sortIntArray(int[] array) {

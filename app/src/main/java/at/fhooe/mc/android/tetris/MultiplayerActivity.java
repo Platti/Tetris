@@ -60,6 +60,12 @@ public class MultiplayerActivity extends MainActivity {
                     Log.i(TAG, "new Timer 1 (startGame)");
                     timerRunning = 1;
 
+                    if (mediaPlayer != null) {
+                        mediaPlayer.destroy();
+                    }
+                    mediaPlayer = TetrisMediaPlayer.getInstance(MultiplayerActivity.this, R.raw.game_theme);
+                    mediaPlayer.start(true);
+
                     fillTetrominoArray(false);
                 } else {
                     Toast.makeText(this, getString(R.string.opponent_not_ready), Toast.LENGTH_SHORT).show();
@@ -86,6 +92,12 @@ public class MultiplayerActivity extends MainActivity {
         timer.schedule(timerTask, 1000, 300);
         Log.i(TAG, "new Timer 1 (startGame)");
         timerRunning = 1;
+
+        if (mediaPlayer != null) {
+            mediaPlayer.destroy();
+        }
+        mediaPlayer = TetrisMediaPlayer.getInstance(MultiplayerActivity.this, R.raw.game_theme);
+        mediaPlayer.start(true);
 
         nextTetromino();
         newTetromino();
@@ -172,6 +184,12 @@ public class MultiplayerActivity extends MainActivity {
         } catch (IllegalStateException ex){
             Log.e(TAG,"Activity already destroyed");
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.finish();
     }
 
     @Override

@@ -13,6 +13,8 @@ import at.fhooe.mc.android.tetris.R;
 
 public class HighscoreTable extends Activity {
 
+    TetrisMediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,5 +48,19 @@ public class HighscoreTable extends Activity {
                 layout.addView(tv);
             }
         }
+
+        mediaPlayer = TetrisMediaPlayer.getInstance(HighscoreTable.this, R.raw.menu_theme);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mediaPlayer.start(false);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.stop();
     }
 }
