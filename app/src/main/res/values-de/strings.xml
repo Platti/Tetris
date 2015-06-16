@@ -28,4 +28,30 @@
     <string name="zipferColors">Zipfer</string>
     <string name="newTheme">Neues Farbschema: </string>
     <string name="button_start_multiplayer">Mehrspieler</string>
+    <string name="title_activity_bluetooth_menu">Bluetooth Menü</string>
+    <string name="button_refresh">Aktualisieren</string>
+    <string name="title_activity_multiplayer">MultiplayerActivity</string>
+    <string name="opponent_not_ready">Gegner noch nicht bereit!</string>
+    <string name="opponent_has_to_start_game">Gegner muss das Spiel starten!</string>
+    <string name="please_start_the_game">Bitte starte das Spiel!</string>
+    <string name="waiting_for_opponent">Warten bis der Gegner das Spiel beendet hat.</string>
+    <string name="opponent_score">Gegner Punkte:</string>
+    <string name="your_score">Deine Punkte:</string>
+    <string name="opponent_backed_out">Gegner stieg aus dem Spiel aus!</string>
+    <string name="connection_lost">Verbindung verloren!</string>
+    <string name="you_won">Gewonnen!</string>
+    <string name="you_lost">Verloren!</string>
+    <string name="draw">Unentschieden!</string>
+    <string name="revenge">Revanche</string>
+    <string name="back">Zurück</string>
+    <string name="opponent_wants_revenge">Gegener will eine Revanche!</string>
+    <string name="no_revenge">Keine Revanche!</string>
+    <string name="finished_with">beendet mit</string>
+    <string name="points">Punkten</string>
+    <string name="could_not_connect_to">Keine Verbindung zu</string>
+    <string name="connected_with">Verbunden mit</string>
+    <string name="connecting_to">Verbinden mit</string>
+    <string name="connecting">Verbinden...</string>
+    <string name="bluetooth_not_supported">Bluetooth wird nicht unterstützt</string>
+
 </resources>
