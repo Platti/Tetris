@@ -52,10 +52,10 @@
     <string name="no_revenge">Keine Revanche!</string>
     <string name="finished_with">beendet mit</string>
     <string name="points">Punkten</string>
-    <string name="could_not_connect_to">Kann nicht verbinden mit</string>
+    <string name="could_not_connect_to">Keine Verbindung zu</string>
     <string name="connected_with">Verbunden mit</string>
-    <string name="connecting_to">Verbinden zu</string>
+    <string name="connecting_to">Verbinden mit</string>
     <string name="connecting">Verbinden...</string>
-    <string name="bluetooth_not_supported">Bluetooth nicht unterstützt</string>
+    <string name="bluetooth_not_supported">Bluetooth wird nicht unterstützt</string>
 
 </resources>
