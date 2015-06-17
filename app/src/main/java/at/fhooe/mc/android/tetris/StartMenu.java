@@ -9,6 +9,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Activity to show the Start-Menu of the Tetris-App
+ * Choice how to go on in the app
+ * Possible actions are
+ * 1. start the game in single mode
+ * 2. start the game in multiplayer mode
+ * 3. switch to the highscore table
+ * 4. switch to the options menu to choose an other color theme
+ */
 public class StartMenu extends Activity implements View.OnClickListener {
 
     TetrisColor color;

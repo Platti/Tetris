@@ -15,11 +15,18 @@ import java.util.List;
 
 import at.fhooe.mc.android.tetris.R;
 
+/**
+ * Activity to choose a color theme for the Tetrominos.
+ * Shows the current color theme and lists the whole color themes, which are selectable.
+ */
 public class OptionsActivity extends Activity implements AdapterView.OnItemClickListener {
 
     TetrisColor color;
     TetrisMediaPlayer mediaPlayer;
 
+    /**
+     * Define the different colors for one color theme and list it as an ArrayAdapter
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,6 +157,9 @@ public class OptionsActivity extends Activity implements AdapterView.OnItemClick
         mediaPlayer = TetrisMediaPlayer.getInstance(OptionsActivity.this, R.raw.menu_theme);
     }
 
+    /**
+     * set the colors for the Tetrominos of the selected olor theme
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 

@@ -3,7 +3,7 @@ package at.fhooe.mc.android.tetris;
 import java.util.UUID;
 
 /**
- * Created by Platti on 02.06.2015.
+ * Class to store all constants which are needed for the Tetris-App
  */
 public class Constants {
     public static final int REQUEST_ENABLE_BT = 1;

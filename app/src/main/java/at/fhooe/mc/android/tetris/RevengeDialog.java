@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 /**
- * Created by Platti on 08.06.2015.
+ * Dialog which appears after a Multiplayer-Game (with bluetooth connection)
+ * Decide between revenge to start a new Multiplayer-Game
+ * or go back to menu and stop game and connection
  */
 public class RevengeDialog extends DialogFragment {
 

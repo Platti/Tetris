@@ -11,10 +11,17 @@ import android.widget.TextView;
 
 import at.fhooe.mc.android.tetris.R;
 
+/**
+ * Activity to list the 10 best highscores
+ */
 public class HighscoreTable extends Activity {
 
     TetrisMediaPlayer mediaPlayer;
 
+    /**
+     * views the 10 best highscores getting with shared preferences
+     * The first 3 and the last highscore are marked with different colors
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

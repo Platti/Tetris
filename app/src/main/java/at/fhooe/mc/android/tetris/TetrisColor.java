@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 
 /**
- * Created by Platti on 02.04.2015.
+ * Class to assign the colors of one color them to the individual Tetronimos
  */
 public class TetrisColor {
     private Context context;
@@ -52,6 +52,5 @@ public class TetrisColor {
         edit.putInt("color_z", z);
         edit.putInt("color_t", t);
         edit.commit();
-
     }
 }

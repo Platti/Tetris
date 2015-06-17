@@ -31,6 +31,12 @@ import java.util.UUID;
 
 import at.fhooe.mc.android.tetris.R;
 
+/**
+ * Activity to establish a bluetooth connection with an other device.
+ * Activates bluetooth on own device and makes it discoverable for others
+ * Searches all devices, which are accessible via bluetooth.
+ * Lists the devices, to choose one for a bluetooth connection.
+ */
 public class BluetoothMenu extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -43,6 +49,10 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
     private final TetrisHandler mHandler = new TetrisHandler(this);
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        /**
+         * System looks for all devices, which are receivable via bluetooth
+         * and stores the name and address of the device in an ArrayAdapter
+         */
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -55,6 +65,9 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         }
     };
 
+    /**
+     * in onCreate bluetooth gets activated and all devices, which are able to connect will be shown in a list
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +148,10 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         super.onDestroy();
     }
 
+    /**
+     * refreshes the list of devices, which are able to connect
+     * (after pressing 'synchronize' button)
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -152,6 +169,9 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         }
     }
 
+    /**
+     * tries to setup connection with selected device
+     */
     @Override
     public void onItemClick(AdapterView<?> _parent, View _view, int _pos, long _id) {
         MyBluetoothDevice device = (MyBluetoothDevice) _parent.getAdapter().getItem(_pos);

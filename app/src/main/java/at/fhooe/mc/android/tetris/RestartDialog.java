@@ -9,7 +9,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 /**
- * Created by Platti on 28.03.2015.
+ * Dialog to decide, if a new Game should start
+ * or the Game should be stopped and get back to the menu
  */
 public class RestartDialog extends DialogFragment {
     private int score;

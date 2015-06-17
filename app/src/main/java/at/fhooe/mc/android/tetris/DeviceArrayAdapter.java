@@ -9,9 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * Created by Platti on 19.05.2015.
- */
 public class DeviceArrayAdapter extends ArrayAdapter<MyBluetoothDevice> {
 
     public DeviceArrayAdapter(Context _context) {

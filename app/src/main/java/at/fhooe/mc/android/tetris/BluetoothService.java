@@ -18,12 +18,21 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 /**
- * Created by Platti on 02.06.2015.
+ * This class does all the work for setting up and managing Bluetooth
+ * connections with other devices. It has a thread that listens for
+ * incoming connections, a thread for connecting with a device, and a
+ * thread for performing data transmissions when connected.
  */
 public class BluetoothService {
     private static final String TAG = "Tetris Log-Tag";
     private static BluetoothService service;
 
+    /**
+     * creates or returns a Singelton-Object of these class
+     * @param context The UI Activity Context
+     * @param handler A Handler to send messages back to the UI Activity
+     * @return the singelton-Object of these class
+     */
     public static BluetoothService getInstance(Context context, TetrisHandler handler) {
         if (service == null) {
             service = new BluetoothService(context, handler);
@@ -43,6 +52,11 @@ public class BluetoothService {
     private Context context;
     private int state;
 
+    /**
+     * Constructor to initialize a new instance of BluetoothService
+     * @param context The UI Activity Context
+     * @param handler A Handler to send messages back to the UI Activity
+     */
     public BluetoothService(Context context, TetrisHandler handler) {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         mHandler = handler;
@@ -50,7 +64,10 @@ public class BluetoothService {
         state = Constants.STATE_NONE;
     }
 
-
+    /**
+     * Start the chat service. Specifically start AcceptThread to begin a
+     * session in listening (server) mode. Called by the Activity onResume()
+     */
     public synchronized void start() {
         // Cancel any thread attempting to make a connection
         if (mConnectThread != null) {
@@ -72,6 +89,9 @@ public class BluetoothService {
         }
     }
 
+    /**
+     * Stop all threads
+     */
     public synchronized void stop() {
         // Cancel any thread attempting to make a connection
         if (mConnectThread != null) {
@@ -92,6 +112,11 @@ public class BluetoothService {
         }
     }
 
+    /**
+     * Start the ConnectThread to initiate a connection to a remote device.
+     *
+     * @param device The BluetoothDevice to connect
+     */
     public synchronized void connect(MyBluetoothDevice device) {
         if (mConnectThread == null && mConnectedThread == null) {
             mConnectThread = new ConnectThread(mBluetoothAdapter.getRemoteDevice(device.getAddress()));
@@ -101,6 +126,11 @@ public class BluetoothService {
         }
     }
 
+    /**
+     * Write to the ConnectedThread in an unsynchronized manner
+     *
+     * @param data contains all information which is needed for the UI Activity
+     */
     public void write(TetrisProtocol data) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutput out = null;
@@ -129,6 +159,12 @@ public class BluetoothService {
     }
 
 
+    /**
+     * Start the ConnectedThread to begin managing a Bluetooth connection
+     *
+     * @param socket The BluetoothSocket on which the connection was made
+     * @param isServer to differentiate which device is Server(true) and Client(false)
+     */
     public synchronized void manageConnectedSocket(BluetoothSocket socket, boolean isServer) {
 
         // Cancel any thread currently running a connection
@@ -163,6 +199,11 @@ public class BluetoothService {
         this.write(new TetrisProtocol(context.getString(R.string.connected_with) + " " + mBluetoothAdapter.getName()));
     }
 
+    /**
+     * This thread runs while listening for incoming connections. It behaves
+     * like a server-side client. It runs until a connection is accepted
+     * (or until cancelled).
+     */
     private class AcceptThread extends Thread {
         private final BluetoothServerSocket mmServerSocket;
 
@@ -213,6 +254,11 @@ public class BluetoothService {
         }
     }
 
+    /**
+     * This thread runs while attempting to make an outgoing connection
+     * with a device. It runs straight through; the connection either
+     * succeeds or fails.
+     */
     private class ConnectThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
@@ -270,6 +316,10 @@ public class BluetoothService {
         }
     }
 
+    /**
+     * This thread runs during a connection with a remote device.
+     * It handles all incoming and outgoing transmissions.
+     */
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;

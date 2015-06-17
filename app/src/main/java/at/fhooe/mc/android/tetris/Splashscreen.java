@@ -9,6 +9,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
+/**
+ * First Activity of Tetris-App, which loads the Start-Menu
+ */
 public class Splashscreen extends Activity {
     private Handler mHandler = new Handler();
 
