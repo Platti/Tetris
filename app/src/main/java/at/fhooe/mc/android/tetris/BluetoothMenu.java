@@ -39,6 +39,7 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
     DeviceArrayAdapter mArrayAdapter;
     BluetoothService service;
     public ProgressDialog connectingDialog;
+    TetrisMediaPlayer mediaPlayer;
 
     private final TetrisHandler mHandler = new TetrisHandler(this);
 
@@ -99,6 +100,8 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
             service = BluetoothService.getInstance(this, mHandler);
             service.start();
         }
+
+        mediaPlayer = TetrisMediaPlayer.getInstance(BluetoothMenu.this, R.raw.menu_theme);
     }
 
     @Override
@@ -160,5 +163,17 @@ public class BluetoothMenu extends Activity implements View.OnClickListener, Ada
         connectingDialog.setMessage(getString(R.string.connecting_to) + " " + device.getName());
         connectingDialog.show();
         service.connect(device);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mediaPlayer.start(false);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.stop();
     }
 }

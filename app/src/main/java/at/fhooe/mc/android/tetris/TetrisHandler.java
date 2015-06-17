@@ -64,7 +64,7 @@ public class TetrisHandler extends Handler {
                 }
 
                 if (data.toast != null) {
-                    Toast.makeText(context, data.toast, Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, data.toast, Toast.LENGTH_SHORT).show();
                 }
 
                 if (context instanceof MultiplayerActivity) {
@@ -120,7 +120,7 @@ public class TetrisHandler extends Handler {
             }
             break;
             case Constants.MESSAGE_TOAST: {
-                Toast.makeText(context, msg.obj.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, msg.obj.toString(), Toast.LENGTH_SHORT).show();
             }
             break;
         }
