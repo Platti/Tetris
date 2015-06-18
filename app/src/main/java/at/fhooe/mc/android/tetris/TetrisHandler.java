@@ -15,7 +15,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 /**
- * Created by Platti on 02.06.2015.
+ * Handler to send data for the Tetris-App between devices via bluetooth connection
  */
 public class TetrisHandler extends Handler {
     private static final String TAG = "Tetris Log-Tag";
@@ -23,17 +23,30 @@ public class TetrisHandler extends Handler {
     private Context context;
     ArrayList<Integer> nextTetrominos;
 
+    /**
+     * Constructor to initialize new instance
+     * @param context The UI Activity Context
+     * @param nextTetrominos ArrayList with the Tetrominos, which appear in same order at each device
+     */
     public TetrisHandler(Context context, ArrayList<Integer> nextTetrominos) {
         super();
         this.context = context;
         this.nextTetrominos = nextTetrominos;
     }
 
+    /**
+     * Constructor to initialize new instance
+     * @param context The UI Activity Context
+     */
     public TetrisHandler(Context context) {
         super();
         this.context = context;
     }
 
+    /**
+     * Define what will be done, after receive a message from other device
+     * @param msg contains all information, which is need for transmission
+     */
     @Override
     public void handleMessage(Message msg) {
         switch (msg.what) {

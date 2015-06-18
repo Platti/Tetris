@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 
 /**
- * Class to assign the colors of one color them to the individual Tetronimos
+ * Class to assign the colors of one color theme to the individual Tetronimos
  */
 public class TetrisColor {
     private Context context;
@@ -19,6 +19,12 @@ public class TetrisColor {
     public int clear;
     public int background;
 
+    /**
+     * Constructor to define the standard colors.
+     * Or if already stored in shared preferences, take them.
+     *
+     * @param context The UI Activity Context
+     */
     public TetrisColor(Context context) {
         this.context = context;
         SharedPreferences sp = context.getSharedPreferences(MainActivity.PREF_NAME, context.MODE_PRIVATE);
@@ -33,6 +39,10 @@ public class TetrisColor {
         background = Color.LTGRAY;
     }
 
+    /**
+     * change color of the Tetrominos and store it in shared preferences
+     * @param colors array with color value for the individual Tetrominos
+     */
     public void chooseNewColors(int[] colors) {
         SharedPreferences sp = context.getSharedPreferences(MainActivity.PREF_NAME, context.MODE_PRIVATE);
         o = colors[0];
