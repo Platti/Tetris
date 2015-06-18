@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -1144,6 +1145,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
      * @param row number of the line to clear
      */
     private void clearLineNumber(int row) {
+
+        MediaPlayer fullLineSound = MediaPlayer.create(this, R.raw.full_line);
+        fullLineSound.start();
+
         // move down lines above
         for (; row > 0; row--) {
             for (int col = 0; col < pixels[row].length; col++) {
@@ -1484,6 +1489,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         timer.cancel();
         timer.purge();
         timerRunning = 0;
+
+        mediaPlayer.stop();
+        MediaPlayer gameOverSound = MediaPlayer.create(this, R.raw.game_over);
+        gameOverSound.start();
 
         Log.i(TAG, "save score in highscore table...");
         storeHighscore();

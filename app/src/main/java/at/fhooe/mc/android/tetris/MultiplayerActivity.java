@@ -3,6 +3,7 @@ package at.fhooe.mc.android.tetris;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -145,6 +146,10 @@ public class MultiplayerActivity extends MainActivity {
 
         myGameOver = true;
         waitingForOpponent = true;
+
+        mediaPlayer.stop();
+        MediaPlayer gameOverSound = MediaPlayer.create(this, R.raw.game_over);
+        gameOverSound.start();
 
         Log.i(TAG, "save score in highscore table...");
         storeHighscore();
