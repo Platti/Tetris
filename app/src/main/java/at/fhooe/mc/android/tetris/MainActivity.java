@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -122,12 +123,30 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
             }
         });
 
+        ViewGroup.LayoutParams params;
         bLeft = (Button) findViewById(R.id.button_left);
         bLeft.setOnClickListener(this);
         bRight = (Button) findViewById(R.id.button_right);
         bRight.setOnClickListener(this);
         bSpin = (Button) findViewById(R.id.button_spin);
         bSpin.setOnClickListener(this);
+
+        params = bLeft.getLayoutParams();
+        params.width = getWindowManager().getDefaultDisplay().getWidth() / 4;
+        params.height = getWindowManager().getDefaultDisplay().getHeight() / 3 * 2;
+        bLeft.setLayoutParams(params);
+
+        params = bRight.getLayoutParams();
+        params.width = getWindowManager().getDefaultDisplay().getWidth() / 4;
+        params.height = getWindowManager().getDefaultDisplay().getHeight() / 3 * 2;
+        bRight.setLayoutParams(params);
+
+        params = bSpin.getLayoutParams();
+        params.width = getWindowManager().getDefaultDisplay().getWidth() / 3;
+        params.height = getWindowManager().getDefaultDisplay().getHeight() / 3;
+        bSpin.setLayoutParams(params);
+
+
         ib = (ImageButton) findViewById(R.id.button_pause);
         ib.setOnClickListener(this);
 
@@ -1140,7 +1159,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     }
 
     /**
-     * Move down every pixel above the cleared Line
+     * Move down every pixel above the cleared Line and make a sound.
      *
      * @param row number of the line to clear
      */
@@ -1483,7 +1502,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     }
 
     /**
-     * Stop timer, store highscore, show restart dialog.
+     * Stop timer, game over sound, store highscore, show restart dialog.
      */
     public void gameOverTasks() {
         timer.cancel();

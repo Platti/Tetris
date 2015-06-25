@@ -42,10 +42,10 @@
 
             <Button
                 android:id="@+id/button_spin"
-                style="@android:style/Widget.DeviceDefault.Button.Borderless"
                 android:layout_width="180dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless"
                 android:background="@drawable/button_background" />
 
         </FrameLayout>
