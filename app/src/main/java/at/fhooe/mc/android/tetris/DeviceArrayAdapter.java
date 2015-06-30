@@ -9,6 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
+ /**
+ * This class is necessary for the List-View in Bluetooth-Menu
+ */
 public class DeviceArrayAdapter extends ArrayAdapter<MyBluetoothDevice> {
 
     public DeviceArrayAdapter(Context _context) {
@@ -48,6 +52,10 @@ public class DeviceArrayAdapter extends ArrayAdapter<MyBluetoothDevice> {
 //        }
 //    }
 
+    /**
+     * adds a new BluetoothDevice to the List-View
+     * @param object of type MyBluetoothDevice, will be added to the List-View
+     */
     @Override
     public void add(MyBluetoothDevice object) {
         for (int i = 0; i < this.getCount(); i++) {

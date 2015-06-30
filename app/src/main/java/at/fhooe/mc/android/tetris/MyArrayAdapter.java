@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by Platti on 02.04.2015.
+ * This class is necessary for the List-View in Options-Menu
  */
 public class MyArrayAdapter extends ArrayAdapter<ColorTheme> {
 
