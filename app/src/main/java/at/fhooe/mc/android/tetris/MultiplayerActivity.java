@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 /**
- *  The main class for the game in multi player mode using the basic functions of the single player mode.
+ * The main class for the game in multi player mode using the basic functions of the single player mode.
  */
 public class MultiplayerActivity extends MainActivity {
 
@@ -38,7 +38,7 @@ public class MultiplayerActivity extends MainActivity {
 
         if (!isServer) {
             mService.write(new TetrisProtocol(1, TetrisProtocol.READY));
-        } else if (!opponentReady){
+        } else if (!opponentReady) {
             mService.write(new TetrisProtocol(2, TetrisProtocol.READY));
         }
     }
@@ -117,6 +117,7 @@ public class MultiplayerActivity extends MainActivity {
     /**
      * If server: fill the nextTetrominos array with a 5 random entries
      * If client: send request to server
+     *
      * @param force force server to generate at least one new entry
      */
     public void fillTetrominoArray(boolean force) {
@@ -125,8 +126,10 @@ public class MultiplayerActivity extends MainActivity {
             if (nextTetrominos.size() < 5 || force) {
                 id = (int) (Math.random() * 7);
                 nextTetrominos.add(id);
-                Log.i(TAG, "sent tetromino ID: " + id);
-                mService.write(new TetrisProtocol(id));
+                if (isServer) {
+                    Log.i(TAG, "sent tetromino ID: " + id);
+                    mService.write(new TetrisProtocol(id));
+                }
             }
         } else {
             if (nextTetrominos.size() < 3) {
@@ -157,7 +160,7 @@ public class MultiplayerActivity extends MainActivity {
         if (!opponentGameOver) {
             mService.write(new TetrisProtocol(mService.mBluetoothAdapter.getName() + " " + getString(R.string.finished_with) + " " + score + " " + getString(R.string.points) + "!", score, true));
 
-            DialogFragment waitingDialog = new DialogFragment(){
+            DialogFragment waitingDialog = new DialogFragment() {
                 @Override
                 public Dialog onCreateDialog(Bundle savedInstanceState) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -184,10 +187,10 @@ public class MultiplayerActivity extends MainActivity {
         args.putBoolean("server", isServer);
         dialog.setArguments(args);
         waitingForOpponent = false;
-        try{
+        try {
             dialog.show(getFragmentManager(), "revenge_dialog");
-        } catch (IllegalStateException ex){
-            Log.e(TAG,"Activity already destroyed");
+        } catch (IllegalStateException ex) {
+            Log.e(TAG, "Activity already destroyed");
         }
     }
 
@@ -199,7 +202,7 @@ public class MultiplayerActivity extends MainActivity {
 
     @Override
     protected void onDestroy() {
-        if(!myGameOver || waitingForOpponent) {
+        if (!myGameOver || waitingForOpponent) {
             mService.write(new TetrisProtocol(getString(R.string.opponent_backed_out), -1, true));
         }
         super.onDestroy();

@@ -65,6 +65,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     Button bRight;
     Button bSpin;
     ImageButton ib;
+    boolean gameOver = false;
     boolean pause = false;
     TetrisMediaPlayer mediaPlayer;
 
@@ -331,24 +332,26 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
      * Tasks to start a game.
      */
     public void startGame() {
-        initDisplay();
-        score = 0;
-        level = 0;
-        numberOfLinesCleared = 0;
-        initTimerTask();
-        timer = new Timer();
-        timer.schedule(timerTask, 1000, 300);
-        Log.i(TAG, "new Timer 1 (startGame)");
-        timerRunning = 1;
+        if (!gameOver) {
+            initDisplay();
+            score = 0;
+            level = 0;
+            numberOfLinesCleared = 0;
+            initTimerTask();
+            timer = new Timer();
+            timer.schedule(timerTask, 1000, 300);
+            Log.i(TAG, "new Timer 1 (startGame)");
+            timerRunning = 1;
 
-        if (mediaPlayer != null) {
-            mediaPlayer.destroy();
+            if (mediaPlayer != null) {
+                mediaPlayer.destroy();
+            }
+            mediaPlayer = TetrisMediaPlayer.getInstance(MainActivity.this, R.raw.game_theme);
+            mediaPlayer.start(true);
+
+            nextTetrominoID = (int) (Math.random() * 7);
+            newTetromino();
         }
-        mediaPlayer = TetrisMediaPlayer.getInstance(MainActivity.this, R.raw.game_theme);
-        mediaPlayer.start(true);
-
-        nextTetrominoID = (int) (Math.random() * 7);
-        newTetromino();
     }
 
     /**
@@ -1505,6 +1508,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
      * Stop timer, game over sound, store highscore, show restart dialog.
      */
     public void gameOverTasks() {
+        gameOver = true;
+
         timer.cancel();
         timer.purge();
         timerRunning = 0;
