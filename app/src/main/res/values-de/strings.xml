@@ -53,5 +53,8 @@
     <string name="connecting_to">Verbinden mit</string>
     <string name="connecting">Verbinden...</string>
     <string name="bluetooth_not_supported">Bluetooth wird nicht unterstützt</string>
+    <string name="title_activity_highscore">Highscore-Tabelle</string>
+    <string name="local_highscores">Lokale Highscores</string>
+    <string name="global_highscores">Globale Highscores</string>
 
 </resources>

@@ -108,7 +108,8 @@ public class StartMenu extends Activity implements View.OnClickListener {
             case R.id.button_highscores: {
                 v.setBackground(gdPressed);
                 mediaPlayer.setStop(false);
-                Intent i = new Intent(StartMenu.this, HighscoreTable.class);
+//                Intent i = new Intent(StartMenu.this, HighscoreTable.class);
+                Intent i = new Intent(StartMenu.this, HighscoreActivity.class);
                 startActivity(i);
             }
             break;
