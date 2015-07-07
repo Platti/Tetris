@@ -85,6 +85,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.i(TAG, "onCreate");
+
         // set Fullscreen
         Window win = getWindow();
         win.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
@@ -232,21 +234,31 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     @Override
     protected void onStop() {
         super.onStop();
-        if (timerRunning != 0) {
-            timer.cancel();
-            timer.purge();
-            timerRunning = 0;
-        }
+//        if (timerRunning != 0) {
+//            timer.cancel();
+//            timer.purge();
+//            timerRunning = 0;
+//        }
         Log.i(TAG, "onStop");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
+        Log.i(TAG, "onPause");
         if (mediaPlayer != null) {
             mediaPlayer.stop();
         }
+
+        if (timerRunning != 0 && !pause) {
+            pause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshDisplay();
     }
 
     @Override
