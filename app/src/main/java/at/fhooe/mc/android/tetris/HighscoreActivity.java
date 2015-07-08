@@ -9,6 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 import at.fhooe.mc.android.tetris.R;
 
 public class HighscoreActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -24,6 +27,13 @@ public class HighscoreActivity extends FragmentActivity implements ActionBar.Tab
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscore);
+
+        // Enable Local Datastore.
+
+//        ParseObject testObject = new ParseObject("TestObject");
+//        testObject.put("foo", "bar");
+//        testObject.saveInBackground();
+
 
         // Initilization
         tabs[0] = getString(R.string.local_highscores);

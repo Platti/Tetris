@@ -22,7 +22,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
                 return new LocalHighscores();
             case 1:
                 // Games fragment activity
-                return new LocalHighscores();
+                return new GlobalHighscores();
         }
 
         return null;

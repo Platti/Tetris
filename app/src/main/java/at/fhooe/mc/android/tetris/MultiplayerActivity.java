@@ -155,7 +155,8 @@ public class MultiplayerActivity extends MainActivity {
         gameOverSound.start();
 
         Log.i(TAG, "save score in highscore table...");
-        storeHighscore();
+        storeLocalHighscore();
+        storeGlobalHighscore();
 
         if (!opponentGameOver) {
             mService.write(new TetrisProtocol(mService.mBluetoothAdapter.getName() + " " + getString(R.string.finished_with) + " " + score + " " + getString(R.string.points) + "!", score, true));

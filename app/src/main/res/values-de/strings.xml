@@ -56,5 +56,6 @@
     <string name="title_activity_highscore">Highscore-Tabelle</string>
     <string name="local_highscores">Lokale Highscores</string>
     <string name="global_highscores">Globale Highscores</string>
+    <string name="your_highscore">Dein Highscore:</string>
 
 </resources>

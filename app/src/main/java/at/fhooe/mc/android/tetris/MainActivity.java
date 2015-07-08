@@ -2,13 +2,17 @@ package at.fhooe.mc.android.tetris;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -20,11 +24,16 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.os.Handler;
+import android.widget.Toast;
+
+import com.parse.Parse;
+import com.parse.ParseObject;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -1473,7 +1482,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     /**
      * store the new score in shared preferences
      */
-    public void storeHighscore() {
+    public void storeLocalHighscore() {
         SharedPreferences sp = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         int[] highscores = new int[11];
         // get old highscore table
@@ -1516,6 +1525,28 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         }
     }
 
+    public void storeGlobalHighscore() {
+        SharedPreferences sp = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+
+        String name = sp.getString("name", "unknown");
+        if (name.equals("unknown")) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getBaseContext(), "You need a nickname to store your score in the global highscore table.", Toast.LENGTH_LONG).show();
+                }
+            });
+        } else {
+            if (score >= 10000) { // only scores above 10000 get stored
+                ParseObject testObject = new ParseObject("TetrisHighscore");
+                testObject.put("name", name);
+                testObject.put("score", score);
+                testObject.put("country", "AUT");
+                testObject.saveInBackground();
+            }
+        }
+    }
+
     /**
      * Stop timer, game over sound, store highscore, show restart dialog.
      */
@@ -1531,12 +1562,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         gameOverSound.start();
 
         Log.i(TAG, "save score in highscore table...");
-        storeHighscore();
+        storeLocalHighscore();
+        storeGlobalHighscore();
 
         DialogFragment dialog = new RestartDialog();
         Bundle args = new Bundle();
         args.putInt("score", score);
         dialog.setArguments(args);
         dialog.show(getFragmentManager(), "restart_dialog");
+
+
     }
 }

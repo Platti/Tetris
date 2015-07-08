@@ -1,13 +1,23 @@
 package at.fhooe.mc.android.tetris;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.parse.Parse;
 
 /**
  * Activity to show the Start-Menu of the Tetris-App
@@ -28,6 +38,41 @@ public class StartMenu extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_menu);
         color = new TetrisColor(this);
+
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "1PaxayessSb1r1M2IFSmrWNveeM39vcKi8drsrKg", "1t0O9bGHymohSRpJGffsbLVNNeS7EFMTGo195W6c");
+
+        final SharedPreferences sp = getSharedPreferences(MainActivity.PREF_NAME, MODE_PRIVATE);
+        String name = sp.getString("name", "unknown");
+        if (name.equals("unknown")) {
+            DialogFragment nameDialog = new DialogFragment() {
+                @Override
+                public Dialog onCreateDialog(Bundle savedInstanceState) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Choose a nickname.");
+
+                    final EditText input = new EditText(getActivity());
+                    input.setInputType(InputType.TYPE_CLASS_TEXT);
+                    builder.setView(input);
+
+                    builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (!input.getText().toString().equals("unknown") && !input.getText().toString().equals("")) {
+                                SharedPreferences.Editor edit = sp.edit();
+                                edit.putString("name", input.getText().toString());
+                                edit.commit();
+                            }
+                        }
+                    });
+
+                    return builder.create();
+                }
+            };
+            nameDialog.show(getFragmentManager(), "name_dialog");
+        } else {
+            Toast.makeText(this, "Your Nickname: " + name, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
