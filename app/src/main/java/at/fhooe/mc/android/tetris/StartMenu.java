@@ -1,22 +1,18 @@
 package at.fhooe.mc.android.tetris;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import com.countrypicker.CountryPicker;
+import com.countrypicker.CountryPickerListener;
 import com.parse.Parse;
 
 /**
@@ -28,10 +24,11 @@ import com.parse.Parse;
  * 3. switch to the highscore table
  * 4. switch to the options menu to choose an other color theme
  */
-public class StartMenu extends Activity implements View.OnClickListener {
+public class StartMenu extends Activity implements View.OnClickListener, CountryPickerListener {
 
     TetrisColor color;
     TetrisMediaPlayer mediaPlayer;
+    boolean buttonsEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,40 +36,31 @@ public class StartMenu extends Activity implements View.OnClickListener {
         setContentView(R.layout.start_menu);
         color = new TetrisColor(this);
 
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "1PaxayessSb1r1M2IFSmrWNveeM39vcKi8drsrKg", "1t0O9bGHymohSRpJGffsbLVNNeS7EFMTGo195W6c");
-
         final SharedPreferences sp = getSharedPreferences(MainActivity.PREF_NAME, MODE_PRIVATE);
         String name = sp.getString("name", "unknown");
+        String country = sp.getString("country", "");
         if (name.equals("unknown")) {
-            DialogFragment nameDialog = new DialogFragment() {
-                @Override
-                public Dialog onCreateDialog(Bundle savedInstanceState) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("Choose a nickname.");
-
-                    final EditText input = new EditText(getActivity());
-                    input.setInputType(InputType.TYPE_CLASS_TEXT);
-                    builder.setView(input);
-
-                    builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (!input.getText().toString().equals("unknown") && !input.getText().toString().equals("")) {
-                                SharedPreferences.Editor edit = sp.edit();
-                                edit.putString("name", input.getText().toString());
-                                edit.commit();
-                            }
-                        }
-                    });
-
-                    return builder.create();
-                }
-            };
+            buttonsEnabled = false;
+            DialogFragment nameDialog = new nicknameDialog();
             nameDialog.show(getFragmentManager(), "name_dialog");
+        } else if (country.length() != 2) {
+            buttonsEnabled = false;
+            CountryPicker picker = CountryPicker.newInstance(getString(R.string.select_your_country));
+            picker.setListener(this);
+            picker.show(getFragmentManager(), "color_picker");
         } else {
-            Toast.makeText(this, "Your Nickname: " + name, Toast.LENGTH_SHORT).show();
+            buttonsEnabled = true;
+            Toast.makeText(this, getString(R.string.hello) + " " + name + "!", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onSelectCountry(String name, String code) {
+        SharedPreferences sp = getSharedPreferences(MainActivity.PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString("country", code);
+        edit.commit();
+        buttonsEnabled = true;
     }
 
     @Override
@@ -133,38 +121,39 @@ public class StartMenu extends Activity implements View.OnClickListener {
         GradientDrawable gdPressed = new GradientDrawable();
         gdPressed.setCornerRadius(10);
         gdPressed.setColor(Color.WHITE);
-
-        switch (v.getId()) {
-            case R.id.button_start: {
-                v.setBackground(gdPressed);
-                mediaPlayer.stop();
-                mediaPlayer.destroy(R.raw.menu_theme);
-                Intent i = new Intent(StartMenu.this, MainActivity.class);
-                startActivity(i);
+        if (buttonsEnabled) {
+            switch (v.getId()) {
+                case R.id.button_start: {
+                    v.setBackground(gdPressed);
+                    mediaPlayer.stop();
+                    mediaPlayer.destroy(R.raw.menu_theme);
+                    Intent i = new Intent(StartMenu.this, MainActivity.class);
+                    startActivity(i);
+                }
+                break;
+                case R.id.button_multiplayer: {
+                    v.setBackground(gdPressed);
+                    mediaPlayer.setStop(false);
+                    Intent i = new Intent(StartMenu.this, BluetoothMenu.class);
+                    startActivity(i);
+                }
+                break;
+                case R.id.button_highscores: {
+                    v.setBackground(gdPressed);
+                    mediaPlayer.setStop(false);
+//                    Intent i = new Intent(StartMenu.this, HighscoreTable.class);
+                    Intent i = new Intent(StartMenu.this, HighscoreActivity.class);
+                    startActivity(i);
+                }
+                break;
+                case R.id.button_options: {
+                    v.setBackground(gdPressed);
+                    mediaPlayer.setStop(false);
+                    Intent i = new Intent(StartMenu.this, OptionsActivity.class);
+                    startActivity(i);
+                }
+                break;
             }
-            break;
-            case R.id.button_multiplayer: {
-                v.setBackground(gdPressed);
-                mediaPlayer.setStop(false);
-                Intent i = new Intent(StartMenu.this, BluetoothMenu.class);
-                startActivity(i);
-            }
-            break;
-            case R.id.button_highscores: {
-                v.setBackground(gdPressed);
-                mediaPlayer.setStop(false);
-//                Intent i = new Intent(StartMenu.this, HighscoreTable.class);
-                Intent i = new Intent(StartMenu.this, HighscoreActivity.class);
-                startActivity(i);
-            }
-            break;
-            case R.id.button_options: {
-                v.setBackground(gdPressed);
-                mediaPlayer.setStop(false);
-                Intent i = new Intent(StartMenu.this, OptionsActivity.class);
-                startActivity(i);
-            }
-            break;
         }
     }
 }

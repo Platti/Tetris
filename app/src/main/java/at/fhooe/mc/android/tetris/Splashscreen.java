@@ -9,6 +9,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
+import com.parse.Parse;
+
 /**
  * First Activity of Tetris-App, which loads the Start-Menu
  */
@@ -27,6 +29,13 @@ public class Splashscreen extends Activity {
         bar.hide();
 
         setContentView(R.layout.splashscreen);
+
+        try {
+            Parse.enableLocalDatastore(this);
+            Parse.initialize(this, "1PaxayessSb1r1M2IFSmrWNveeM39vcKi8drsrKg", "1t0O9bGHymohSRpJGffsbLVNNeS7EFMTGo195W6c");
+        } catch (IllegalStateException e){
+            // already initialized
+        }
 
         Runnable r1 = new Runnable() {
             @Override

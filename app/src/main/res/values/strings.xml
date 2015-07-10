@@ -9,7 +9,7 @@
 
     <string name="title_activity_start_menu">Start Menu</string>
     <string name="button_start_game">Singleplayer</string>
-    <string name="button_highscores">My Highscores</string>
+    <string name="button_highscores">Highscore Table</string>
     <string name="button_options">Options</string>
     <string name="title_activity_highscore_table">Highscore Table</string>
     <string name="title_activity_options">Options</string>
@@ -56,6 +56,12 @@
     <string name="local_highscores">Local Highscores</string>
     <string name="global_highscores">Global Highscores</string>
     <string name="your_highscore">Your Highscore:</string>
+	<string name="search">Search&#8230;</string>
+    <string name="select_your_country">Select your country</string>
+    <string name="hello">Hello</string>
+    <string name="choose_a_nickname">Choose a Nickname.</string>
+    <string name="nickname_taken">Nickname already taken.</string>
+    <string name="save">Save</string>
 
 
 </resources>

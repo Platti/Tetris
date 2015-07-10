@@ -1529,20 +1529,21 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
         SharedPreferences sp = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 
         String name = sp.getString("name", "unknown");
-        if (name.equals("unknown")) {
+        String country = sp.getString("country", "");
+        if (name.equals("unknown") || country.length() != 2) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getBaseContext(), "You need a nickname to store your score in the global highscore table.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "You need a nickname and a country to store your score in the global highscore table.", Toast.LENGTH_LONG).show();
                 }
             });
         } else {
             if (score >= 10000) { // only scores above 10000 get stored
-                ParseObject testObject = new ParseObject("TetrisHighscore");
-                testObject.put("name", name);
-                testObject.put("score", score);
-                testObject.put("country", "AUT");
-                testObject.saveInBackground();
+                ParseObject scoreObject = new ParseObject("TetrisHighscore");
+                scoreObject.put("name", name);
+                scoreObject.put("score", score);
+                scoreObject.put("country", country);
+                scoreObject.saveInBackground();
             }
         }
     }

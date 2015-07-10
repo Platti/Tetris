@@ -38,6 +38,7 @@ public class GlobalHighscores extends Fragment {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("TetrisHighscore");
         query.orderByDescending("score");
+        query.setLimit(100);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> scoreList, ParseException e) {
                 if (e == null) {

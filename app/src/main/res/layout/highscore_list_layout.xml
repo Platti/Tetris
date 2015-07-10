@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="AUT"
         android:id="@+id/country"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1.5" />
+        android:layout_weight="1.5"
+        android:src="@drawable/flag_at" />
 
     <TextView
         android:layout_width="match_parent"
@@ -19,7 +18,8 @@
         android:text="Nickname"
         android:id="@+id/nickname"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:lines="1" />
 
     <TextView
         android:layout_width="match_parent"
@@ -29,4 +29,5 @@
         android:id="@+id/score"
         android:layout_gravity="center_vertical"
         android:layout_weight="1.3" />
+
 </LinearLayout>
