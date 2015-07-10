@@ -198,7 +198,17 @@ public class MultiplayerActivity extends MainActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        this.finish();
+        if (!myGameOver) {
+            this.finish();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (myGameOver && opponentGameOver) {
+            showRevengeDialog();
+        }
     }
 
     @Override

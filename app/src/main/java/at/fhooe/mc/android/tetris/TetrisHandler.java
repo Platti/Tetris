@@ -25,7 +25,8 @@ public class TetrisHandler extends Handler {
 
     /**
      * Constructor to initialize new instance
-     * @param context The UI Activity Context
+     *
+     * @param context        The UI Activity Context
      * @param nextTetrominos ArrayList with the Tetrominos, which appear in same order at each device
      */
     public TetrisHandler(Context context, ArrayList<Integer> nextTetrominos) {
@@ -36,6 +37,7 @@ public class TetrisHandler extends Handler {
 
     /**
      * Constructor to initialize new instance
+     *
      * @param context The UI Activity Context
      */
     public TetrisHandler(Context context) {
@@ -45,6 +47,7 @@ public class TetrisHandler extends Handler {
 
     /**
      * Define what will be done, after receive a message from other device
+     *
      * @param msg contains all information, which is need for transmission
      */
     @Override
@@ -85,7 +88,7 @@ public class TetrisHandler extends Handler {
                         nextTetrominos.add(data.tetromino);
                         ((MultiplayerActivity) (context)).mService.write(new TetrisProtocol(running, TetrisProtocol.ACK));
                         Log.i(TAG, "received tetromino ID: " + data.tetromino);
-                        if (running == 4) {
+                        if (running == 5) {
                             ((MultiplayerActivity) (context)).startGameClient();
                             running++;
                         } else {
@@ -98,8 +101,9 @@ public class TetrisHandler extends Handler {
                     }
 
                     if (data.acknowledgement != -1) {
-                        ((MultiplayerActivity) (context)).fillTetrominoArray(false);
-                        if (data.acknowledgement == 4) {
+                        if (data.acknowledgement < 5) {
+                            ((MultiplayerActivity) (context)).fillTetrominoArray(true);
+                        } else if (data.acknowledgement == 5) {
                             ((MultiplayerActivity) (context)).nextTetromino();
                             ((MultiplayerActivity) (context)).newTetromino();
                         }
