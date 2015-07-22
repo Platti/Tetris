@@ -63,5 +63,12 @@
     <string name="choose_a_nickname">Wähle einen Nickname.</string>
     <string name="nickname_taken">Nickname bereits vergeben.</string>
     <string name="save">Speichern</string>
+    <string name="manual">Anleitung</string>
+    <string name="gaming_manual">Spielanleitung</string>
+    <string name="handling">Steuerung:</string>
+    <string name="general">Spielprinzip:</string>
+    <string name="general_text">Hier findest du eine ausführliche Beschreibung des Spiels.</string>
+    <string name="about">Über:</string>
+    <string name="about_text">Diese App wurde von drei Studenten der FH Oberösterreich in Hagenberg im Rahmen eines Semesterprojekts entwickelt.</string>
 
 </resources>

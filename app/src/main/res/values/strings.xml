@@ -62,6 +62,13 @@
     <string name="choose_a_nickname">Choose a Nickname.</string>
     <string name="nickname_taken">Nickname already taken.</string>
     <string name="save">Save</string>
+    <string name="manual">Manual</string>
+    <string name="gaming_manual">Gaming Manual</string>
+    <string name="handling">Handling:</string>
+    <string name="general">General:</string>
+    <string name="general_text">Find a general description of the game here!</string>
+    <string name="about">About:</string>
+    <string name="about_text">This app was developed by three students of the University of Applied Sciences Upper Austria in Hagenberg.</string>
 
 
 </resources>

@@ -54,5 +54,16 @@
             android:textColor="#ff000000"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/manual"
+            android:id="@+id/button_manual"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:textColor="#ff000000"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
     </LinearLayout>
 </FrameLayout>

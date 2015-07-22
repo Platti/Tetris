@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.countrypicker.CountryPicker;
 import com.countrypicker.CountryPickerListener;
-import com.parse.Parse;
 
 /**
  * Activity to show the Start-Menu of the Tetris-App
@@ -84,11 +83,13 @@ public class StartMenu extends Activity implements View.OnClickListener, Country
         GradientDrawable gd2 = new GradientDrawable();
         GradientDrawable gd3 = new GradientDrawable();
         GradientDrawable gd4 = new GradientDrawable();
+        GradientDrawable gd5 = new GradientDrawable();
 
         gd1.setCornerRadius(10);
         gd2.setCornerRadius(10);
         gd3.setCornerRadius(10);
         gd4.setCornerRadius(10);
+        gd5.setCornerRadius(10);
 
         Button b = null;
         b = (Button) findViewById(R.id.button_start);
@@ -109,6 +110,11 @@ public class StartMenu extends Activity implements View.OnClickListener, Country
         b = (Button) findViewById(R.id.button_options);
         gd4.setColors(new int[]{color.j | Color.LTGRAY, color.j});
         b.setBackground(gd4);
+        b.setOnClickListener(this);
+
+        b = (Button) findViewById(R.id.button_manual);
+        gd5.setColors(new int[]{color.s | Color.LTGRAY, color.s});
+        b.setBackground(gd5);
         b.setOnClickListener(this);
 
 
@@ -151,6 +157,11 @@ public class StartMenu extends Activity implements View.OnClickListener, Country
                     mediaPlayer.setStop(false);
                     Intent i = new Intent(StartMenu.this, OptionsActivity.class);
                     startActivity(i);
+                }
+                break;
+                case R.id.button_manual: {
+                    DialogFragment manualDialog = new ManualDialog();
+                    manualDialog.show(getFragmentManager(), "manual_dialog");
                 }
                 break;
             }
