@@ -62,12 +62,12 @@ public class ManualDialog extends DialogFragment {
         linearLayout.addView(headlineHandling);
 
         final ImageView imageHandling = new ImageView(getActivity());
-        imageHandling.setImageDrawable(getResources().getDrawable(R.drawable.handling));
+        imageHandling.setImageDrawable(getResources().getDrawable(R.drawable.handling2));
         linearLayout.addView(imageHandling);
 
         final TextView headlineAbout = new TextView(getActivity());
         headlineAbout.setText(getString(R.string.about));
-        headlineAbout.setPadding(0,50,0,5);
+        headlineAbout.setPadding(0,0,0,5);
         headlineAbout.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         linearLayout.addView(headlineAbout);
 
