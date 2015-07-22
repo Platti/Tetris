@@ -13,6 +13,8 @@ import at.fhooe.mc.android.tetris.R;
 
 /**
  * Activity to list the 10 best highscores
+ *
+ * @deprecated
  */
 public class HighscoreTable extends Activity {
 
