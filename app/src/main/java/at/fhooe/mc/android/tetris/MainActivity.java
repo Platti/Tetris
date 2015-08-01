@@ -2,17 +2,13 @@ package at.fhooe.mc.android.tetris;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -24,17 +20,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.os.Handler;
 import android.widget.Toast;
-
-import com.parse.Parse;
 import com.parse.ParseObject;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -300,7 +292,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     }
 
     @Override
-    public void onClick(View v) {
+    synchronized public void onClick(View v) {
         switch (v.getId()) {
             case R.id.background: {
                 if (timerRunning == 0) {
@@ -1538,7 +1530,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
                 }
             });
         } else {
-            if (score >= 10000) { // only scores above 10000 get stored
+            if (score >= 1000) { // only scores above 1000 get stored
                 ParseObject scoreObject = new ParseObject("TetrisHighscore");
                 scoreObject.put("name", name);
                 scoreObject.put("score", score);

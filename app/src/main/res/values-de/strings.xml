@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Tetris</string>
+    <string name="app_name">Tipord</string>
     <string name="action_settings">Optionen</string>
 
     <string name="restart_dialog1">Game Over!\nDeine Punkte: </string>
