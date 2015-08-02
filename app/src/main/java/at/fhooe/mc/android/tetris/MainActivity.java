@@ -292,7 +292,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Surf
     }
 
     @Override
-    synchronized public void onClick(View v) {
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.background: {
                 if (timerRunning == 0) {
